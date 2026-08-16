@@ -1,14 +1,5 @@
 .gradle/
 build/
-*.iml
 .idea/
+*.iml
 run/
-backup/
-__pycache__/
-*.pyc
-
-CLAUDE.md
-TRAIN-IDEAS.md
-docs/ideas.md
-docs/tracking-todo.md
-docs/modrinth-release.md

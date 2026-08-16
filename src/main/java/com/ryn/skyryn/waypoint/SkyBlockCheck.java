@@ -149,10 +149,26 @@ public class SkyBlockCheck {
 	private static int readSkyblockLevel() {
 		Minecraft mc = Minecraft.getInstance();
 		if (mc.player == null || mc.getConnection() == null || !onSkyBlock()) return -1;
+
 		var info = mc.getConnection().getPlayerInfo(mc.player.getUUID());
-		if (info == null || info.getTabListDisplayName() == null) return -1;
-		String s = info.getTabListDisplayName().getString().replaceAll("§.", "");
-		java.util.regex.Matcher m = java.util.regex.Pattern.compile("\\[(\\d{1,4})]").matcher(s);
+		if (info != null && info.getTabListDisplayName() != null) {
+			int lvl = levelIn(info.getTabListDisplayName().getString());
+			if (lvl > 0) return lvl;
+		}
+		if (mc.level != null) {
+			var team = mc.level.getScoreboard().getPlayersTeam(mc.player.getScoreboardName());
+			if (team != null) {
+				int lvl = levelIn(team.getPlayerPrefix().getString() + team.getPlayerSuffix().getString());
+				if (lvl > 0) return lvl;
+			}
+		}
+		return levelIn(mc.player.getDisplayName().getString());
+	}
+
+	private static int levelIn(String raw) {
+		if (raw == null) return -1;
+		java.util.regex.Matcher m = java.util.regex.Pattern.compile("\\[(\\d{1,4})]")
+				.matcher(raw.replaceAll("§.", ""));
 		if (!m.find()) return -1;
 		try { return Integer.parseInt(m.group(1)); } catch (NumberFormatException e) { return -1; }
 	}

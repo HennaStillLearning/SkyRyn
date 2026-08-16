@@ -61,7 +61,6 @@ public class RynMenuScreen extends Screen {
 				0xFF7A92B0, "🖥", "hud", false));
 		cards.add(new Card("Settings", Lang.tr("Language, HUD, Ironman", "Язык, HUD, Ironman"),
 				FAINT, "⚙", "settings", false));
-		cards.add(new Card("Hunting Methods", "Coming soon..", 0xFFE0A040, "🎯", "", true));
 	}
 
 	private int panelX() { return (this.width - PANEL_W) / 2; }
@@ -94,8 +93,6 @@ public class RynMenuScreen extends Screen {
 		ctx.fill(x, y, x + w, y + psH, PANEL);
 		ctx.fill(x, y, x + w, y + 1, BORDER);
 		ctx.fill(x, y + psH, x + w, y + psH + 1, BORDER);
-		String left = "Hunting §7—§r   " + Lang.tr("Fortune ", "Fortune ") + (int) RynConfig.hunterFortune;
-		ctx.text(this.font, left, x + 9, y + 7, DIM, true);
 		Component nick = playerName();
 		int lvl = com.ryn.skyryn.waypoint.SkyBlockCheck.skyblockLevel();
 		String sb = "  ✦ " + (lvl >= 0 ? String.valueOf(lvl) : "—");
