@@ -47,4 +47,4 @@ Hypixel's public bazaar endpoint, with no API key and no account data.
 Special thanks to the author of [SkyShards](https://github.com/Campionnn/SkyShards)
 for the fusion recipe data.
 
-Licence: MIT, see [LICENSE](LICENSE).
+Licence: GPL-3.0-or-later, see [LICENSE](LICENSE).

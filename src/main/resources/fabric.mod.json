@@ -16,7 +16,7 @@
 		"sources": "https://github.com/HennaStillLearning/SkyRyn",
 		"issues": "https://github.com/HennaStillLearning/SkyRyn/issues"
 	},
-	"license": "MIT",
+	"license": "GPL-3.0-or-later",
 	"environment": "client",
 	"entrypoints": {
 		"client": [
