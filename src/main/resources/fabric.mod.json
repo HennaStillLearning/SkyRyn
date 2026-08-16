@@ -11,7 +11,11 @@
 	"contributors": [
 		"Campionnn (SkyShards — данные о рецептах)"
 	],
-	"contact": {},
+	"contact": {
+		"homepage": "https://modrinth.com/mod/skyryn",
+		"sources": "https://github.com/HennaStillLearning/SkyRyn",
+		"issues": "https://github.com/HennaStillLearning/SkyRyn/issues"
+	},
 	"license": "MIT",
 	"environment": "client",
 	"entrypoints": {
