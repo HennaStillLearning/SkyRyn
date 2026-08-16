@@ -9,4 +9,6 @@ __pycache__/
 
 CLAUDE.md
 TRAIN-IDEAS.md
-docs/
+docs/ideas.md
+docs/tracking-todo.md
+docs/modrinth-release.md

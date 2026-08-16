@@ -34,6 +34,11 @@ mode that keeps the custom items readable.
 2. Download SkyRyn from [Modrinth](https://modrinth.com/mod/skyryn).
 3. Put the jar into your `mods` folder.
 
+## Documentation
+
+- [Commands](docs/COMMANDS.md) — every command, key binding and party command.
+- [Changelog](docs/CHANGELOG.md)
+
 ## Notes
 
 Client-side only, nothing is needed on the server. The only outgoing request is
