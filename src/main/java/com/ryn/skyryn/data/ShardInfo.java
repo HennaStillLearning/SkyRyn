@@ -14,36 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Гайд по шардам: что даёт шард, как работает, где добыть.
- *
- * Читается в два слоя:
- *   1. jar — гайд, который едет вместе с модом. Обновляется с каждой версией.
- *   2. config/skyryn-shards.json — правки игрока. Перекрывают то, что в jar,
- *      но только там, где игрок реально что-то написал.
- *
- * Почему именно так. Если гайд держать ТОЛЬКО в конфиге, он не доедет до тех,
- * кто ставит мод: файл создаётся пустым. Если ТОЛЬКО в jar — игрок не сможет
- * ничего дописать под себя. А если копировать jar в конфиг один раз, как было
- * сначала, то у всех, кто уже играл, файл уже есть, и новые описания к ним не
- * придут никогда — самая противная из трёх, потому что молча.
- *
- * Держим отдельно от ShardDb: shards.json генерится импортом из SkyShards и
- * перезаписывается после каждого патча.
- */
 public class ShardInfo {
-
-	/**
-	 * Способ добычи. Задаётся автором, а НЕ выводится из данных.
-	 *
-	 * Пробовали выводить: в fusion-properties есть признак "нет входов =
-	 * ловится напрямую". На известных случаях он сходился, а на Alligator
-	 * соврал — тот ловится рыбалкой, хотя признак говорит "только фьюз".
-	 * Значит признак не про добычу, и гадать по нему больше не будем.
-	 *
-	 * type: hunting | fusing | trap | chest | purchase | tuning. У fusing текста нет — мод сам
-	 * показывает кнопку в калькулятор.
-	 */
 	public static class Method {
 		public final String type;
 		public final String text;
@@ -51,21 +22,8 @@ public class ShardInfo {
 		public final String coords;
 		public final List<String> images;
 		public final String video;
-		/** true — луч ведёт по спотам в заданном порядке, а не по ближайшему. */
 		public final boolean ordered;
-		/**
-		 * true — метод берётся Pocket Black Hole на 10% HP, шард также падает с
-		 * Charm/Naga Shard/Salts. Общая фраза одна на ~60 методов — незачем
-		 * копировать её текст в каждый, рисуем один раз в коде (см.
-		 * ShardPageScreen.methodBody).
-		 */
 		public final boolean blackHole;
-		/**
-		 * Оружие, которым ТОЛЬКО и можно опускать HP моба (напр. "Axes" —
-		 * Stridersurfer). Пусто — опускается чем угодно. Подставляется в фразу
-		 * blackHole (см. ShardPageScreen.blackHoleText), чтобы уточнение жило в
-		 * данных метода, а не копипастой в тексте.
-		 */
 		public final String weapon;
 
 		Method(String type, String text, String warp, String coords,
@@ -81,16 +39,10 @@ public class ShardInfo {
 			this.weapon = weapon;
 		}
 
-		/**
-		 * Синтетический фьюз-метод: мод добавляет его в /sr shards для ironman у
-		 * фьюзабельных шардов, где автор не расписал фьюз руками (кроме Chameleon/
-		 * Cocoaleech). Для ironman базара нет, но собрать шард фьюзом — реальный путь.
-		 */
 		public static Method fusing() {
 			return new Method("fusing", "", "", "", null, null, false, false, "");
 		}
 
-		/** Заголовок метода. Незнакомый тип показываем как есть, а не молчим. */
 		public String title() {
 			return switch (type) {
 				case "hunting" -> com.ryn.skyryn.config.Lang.tr("Hunting", "Охота");
@@ -108,9 +60,7 @@ public class ShardInfo {
 	}
 
 	public static class Info {
-		/** "Подробнее": что шард даёт и как работает. */
 		public final String details;
-		/** Способы добычи в том порядке, в котором их задал автор. */
 		public final List<Method> methods;
 
 		Info(String details, List<Method> methods) {
@@ -128,17 +78,11 @@ public class ShardInfo {
 		return s != null && !s.isBlank();
 	}
 
-	/**
-	 * Файлы по языку. База — англ.; русский лежит рядом с суффиксом -ru.
-	 * jar: /skyryn/shard-info.json | shard-info-ru.json
-	 * config: skyryn-shards.json | skyryn-shards-ru.json
-	 */
 	private static String jarResource() {
 		return com.ryn.skyryn.config.RynConfig.isRu()
 				? "/skyryn/shard-info-ru.json" : "/skyryn/shard-info.json";
 	}
 
-	/** config/skyryn-shards[-ru].json — рядом с настройками, а не внутри мода. */
 	private static Path path() {
 		String name = com.ryn.skyryn.config.RynConfig.isRu()
 				? "skyryn-shards-ru.json" : "skyryn-shards.json";
@@ -175,18 +119,15 @@ public class ShardInfo {
 				+ (overridden > 0 ? ", " + overridden + " своих правок" : ""));
 	}
 
-	/** @return сколько записей реально что-то принесли (пустые поля не в счёт). */
 	private static int parse(JsonObject root) {
 		int touched = 0;
 		for (String key : root.keySet()) {
-			if (key.startsWith("_")) continue; // _comment
+			if (key.startsWith("_")) continue;
 			if (!root.get(key).isJsonObject()) continue;
 			JsonObject o = root.getAsJsonObject(key);
 			String k = key.toLowerCase();
 			Info old = INFO.getOrDefault(k, EMPTY);
 
-			// Пустое поле НЕ затирает то, что уже есть: болванка конфига полна
-			// пустых строк, и иначе она бы стёрла весь гайд из мода.
 			String details = pick(str(o, "details"), old.details);
 
 			List<Method> methods = old.methods;
@@ -233,22 +174,18 @@ public class ShardInfo {
 		return o.get(field).getAsString();
 	}
 
-	/** Описание шарда. Никогда не null — просто пустое, если не написано. */
 	public static Info get(String shard) {
 		if (shard == null) return EMPTY;
 		return INFO.getOrDefault(shard.toLowerCase(), EMPTY);
 	}
 
-	/** Сколько шардов уже описано — для прогресса в интерфейсе. */
 	public static int described() { return INFO.size(); }
 
-	/** Покупается ли шард у NPC — в гайде есть метод типа "purchase" (Kirara/Agatha и пр.). */
 	public static boolean hasPurchase(String shard) {
 		for (Method m : get(shard).methods) if ("purchase".equals(m.type)) return true;
 		return false;
 	}
 
-	/** Добывается только в ивент мэра Diana — гайд упоминает Diana/Mythological. */
 	public static boolean isDianaOnly(String shard) {
 		Info info = get(shard);
 		if (mentionsDiana(info.details)) return true;

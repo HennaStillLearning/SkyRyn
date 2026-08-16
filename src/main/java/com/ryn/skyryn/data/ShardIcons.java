@@ -18,21 +18,9 @@ import java.util.Map;
 
 import com.ryn.skyryn.waypoint.SkyBlockCheck;
 
-/**
- * Кэш настоящих иконок шардов (ItemStack). Шарды — кастомные головы Hypixel, из
- * наших данных их не собрать, зато из открытого меню — легко.
- *
- * Снимаем со ВСЕХ контейнер-экранов на скайблоке (Hunting Box, Fusion Box, базар,
- * инвентарь — по имени) и из Attribute Menu (по ключу из лора — там ВСЕ шарды).
- *
- * СОХРАНЯЮТСЯ между сессиями: при захвате предмет сериализуется в SNBT-строку и
- * пишется в config/skyryn-icons.json при выходе; при старте строки читаются, а в
- * ItemStack разворачиваются лениво (нужен registryAccess живого мира).
- */
 public class ShardIcons {
-
-	private static final Map<String, ItemStack> ICONS = new HashMap<>();     // рантайм
-	private static final Map<String, JsonElement> RAW = new HashMap<>();     // для сохранения (JSON предмета)
+	private static final Map<String, ItemStack> ICONS = new HashMap<>();
+	private static final Map<String, JsonElement> RAW = new HashMap<>();
 	private static boolean dirty = false;
 
 	private static RegistryOps<JsonElement> ops() {
@@ -60,11 +48,8 @@ public class ShardIcons {
 	public static void put(String key, ItemStack stack) {
 		if (key == null || stack == null || stack.isEmpty()) return;
 		String k = key.toLowerCase();
-		// Рантайм-иконку обновляем ВСЕГДА свежим стаком: кастомные головы Hypixel
-		// подгружают текстуру асинхронно, и первый пойманный стак мог быть «пустым»
-		// (тёмный квадрат). Свежий из открытого контейнера — уже с текстурой.
 		ICONS.put(k, stack.copy());
-		if (!RAW.containsKey(k)) {                       // на диск — первый увиденный
+		if (!RAW.containsKey(k)) {
 			RegistryOps<JsonElement> ops = ops();
 			if (ops != null) {
 				ItemStack.CODEC.encodeStart(ops, stack).result().ifPresent(json -> {
@@ -75,7 +60,6 @@ public class ShardIcons {
 		}
 	}
 
-	/** Иконка шарда либо null. Лениво разворачивает сохранённый JSON. */
 	public static ItemStack get(String key) {
 		if (key == null) return null;
 		String k = key.toLowerCase();
@@ -92,8 +76,6 @@ public class ShardIcons {
 
 	public static boolean has(String key) { return get(key) != null; }
 	public static int count() { return Math.max(ICONS.size(), RAW.size()); }
-
-	// ===== Персист =====
 
 	private static Path file() {
 		return FabricLoader.getInstance().getConfigDir().resolve("skyryn-icons.json");
@@ -122,8 +104,6 @@ public class ShardIcons {
 			com.ryn.skyryn.config.SkyLog.d("skyryn-icons.json не сохранён: " + e);
 		}
 	}
-
-	// ===== Разбор имени → ключ шарда =====
 
 	static String resolveKey(String rawName) {
 		if (rawName == null) return null;

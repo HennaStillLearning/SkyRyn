@@ -27,51 +27,28 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Границы биомов Critter Safari как ПОЛИГОНЫ (X/Z). Игрок внутри полигона —
- * в этом биоме; вне всех — на «площади» (нейтрал, видит контент всех биомов).
- *
- * Зачем: чтобы контент/сообщения биома (Wumpa/Doom/Gate/Birdfeeder) показывались
- * и слались в пати ТОЛЬКО игроку, который физически в этом биоме. Так один моб на
- * заход не даёт 4 одинаковых сообщения от всей пати.
- *
- * Границы сняты один раз обходом по контуру и лежат в
- * config/skyryn-safari-biomes.json (оверрайд-конфиг, как споты/пути). Команда записи
- * убрана — файл только читается.
- */
 public class SafariBiomes {
-
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private static final String PREFIX = "§5§l[§dSkyRyn§5§l]§r ";
 
-	/** имя биома -> список вершин [x,z] по контуру. */
 	private static final Map<String, List<double[]>> POLYS = new LinkedHashMap<>();
 
 	private static Path file() {
 		return FabricLoader.getInstance().getConfigDir().resolve("skyryn-safari-biomes.json");
 	}
 
-	/**
-	 * Команды записи нет: границы всех биомов уже сняты, лежат в
-	 * skyryn-safari-biomes.json и дальше только читаются. Понадобится переснять —
-	 * запись достаётся из истории git.
-	 */
 	public static void register() {
 		load();
 		HudElementRegistry.addLast(Identifier.fromNamespaceAndPath("skyryn", "safari-biomes"),
 				(ctx, tick) -> renderHud(ctx));
 	}
 
-	// ===== определение биома =====
-
-	/** Биом под игроком сейчас, либо "" (площадь/нейтрал). */
 	public static String currentBiome() {
 		Minecraft mc = Minecraft.getInstance();
 		if (mc.player == null) return "";
 		return biomeAt(mc.player.getX(), mc.player.getZ());
 	}
 
-	/** Биом в точке (X,Z), либо "" если ни в один полигон не попал. */
 	public static String biomeAt(double x, double z) {
 		for (var e : POLYS.entrySet()) {
 			List<double[]> poly = e.getValue();
@@ -80,10 +57,8 @@ public class SafariBiomes {
 		return "";
 	}
 
-	/** Есть ли записанные полигоны (иначе биом-логику не применяем — считаем «площадью»). */
 	public static boolean any() { return !POLYS.isEmpty(); }
 
-	/** Точка в полигоне — ray casting по X/Z. */
 	private static boolean inPoly(double x, double z, List<double[]> poly) {
 		boolean in = false;
 		int n = poly.size();
@@ -97,10 +72,6 @@ public class SafariBiomes {
 		return in;
 	}
 
-
-
-	// ===== визуализация области =====
-	/** Контур-стены биомов: были нужны при разметке, теперь просто наглядная граница. */
 	private static final Matrix4f VP = new Matrix4f();
 	private static Vec3 camPos = Vec3.ZERO;
 	private static boolean haveFrame = false;
@@ -118,17 +89,12 @@ public class SafariBiomes {
 		};
 	}
 
-	/** Снимок матрицы кадра — для подписей биомов на HUD. Зовётся из миксина. */
 	public static void captureFrame(Vec3 cam) {
 		Minecraft.getInstance().gameRenderer.getMainCamera().getViewRotationProjectionMatrix(VP);
 		camPos = cam;
 		haveFrame = true;
 	}
 
-	/**
-	 * 3D: в центре каждого биома — высокий столб-маркер (виден отовсюду) + подпись с числом
-	 * игроков в биоме. Зовётся из миксина.
-	 */
 	public static void renderWorld(PoseStack ps, MultiBufferSource.BufferSource buf, Vec3 cam) {
 		labels.clear();
 		if (POLYS.isEmpty()) return;
@@ -149,10 +115,6 @@ public class SafariBiomes {
 			boolean isCur = en.getKey().equals(cur);
 			int n = poly.size();
 
-			// Контур-стены биомов убраны вместе с /srbiome: они были нужны, только пока
-			// границы размечались. Осталось то, что полезно в игре — столб в центре биома.
-
-			// Центр биома: столб-маркер. Тумблер bm.<биом>; скрыт, если игрок УЖЕ в этом биоме.
 			if (isCur || !com.ryn.skyryn.config.RynConfig.flag("bm." + en.getKey(), true)) continue;
 			double cx = 0, cz = 0;
 			for (double[] v : poly) { cx += v[0]; cz += v[1]; }
@@ -167,24 +129,20 @@ public class SafariBiomes {
 		buf.endBatch();
 	}
 
-	/** Ники РЕАЛЬНЫХ игроков (не NPC) в этом биоме, через запятую. NPC у Hypixel = UUID версии 2. */
 	private static String playersIn(Minecraft mc, String biome) {
 		return String.join(", ", playersInList(biome));
 	}
 
-	// Биом дальних пати-игроков — из их анонсов «Entered X» в чат (клиент их позиции не знает).
 	private static final Map<String, String> PARTY_BIOME = new java.util.HashMap<>();
 	private static final Map<String, Long> PARTY_AT = new java.util.HashMap<>();
-	private static final long PARTY_TTL = 5 * 60 * 1000L;   // 5 мин без обновления — устарело
+	private static final long PARTY_TTL = 5 * 60 * 1000L;
 
-	/** Записать биом пати-игрока по его анонсу (зовётся из SafariTracker при разборе пати-чата). */
 	public static void recordPartyBiome(String name, String biome) {
 		if (name == null || name.isBlank() || biome == null || biome.isBlank()) return;
 		PARTY_BIOME.put(name, biome);
 		PARTY_AT.put(name, System.currentTimeMillis());
 	}
 
-	/** Список ников реальных игроков (UUID v4) в биоме — для dupe-предупреждения и маркеров. */
 	public static java.util.List<String> playersInList(String biome) {
 		java.util.List<String> names = new java.util.ArrayList<>();
 		Minecraft mc = Minecraft.getInstance();
@@ -195,7 +153,6 @@ public class SafariBiomes {
 				if (!names.contains(nm)) names.add(nm);
 			}
 		}
-		// Дальние пати-игроки — по их анонсам (клиент их не грузит, позиции нет).
 		long now = System.currentTimeMillis();
 		for (var e : PARTY_BIOME.entrySet()) {
 			if (!biome.equals(e.getValue())) continue;
@@ -214,7 +171,6 @@ public class SafariBiomes {
 
 	private static String capName(String n) { return n.isEmpty() ? n : Character.toUpperCase(n.charAt(0)) + n.substring(1); }
 
-	/** Текущий биом цветной для плашки (напр. «§bIcy»), либо "" если игрок на площади. */
 	public static String currentColored() {
 		String b = currentBiome();
 		return b.isEmpty() ? "" : colorCode(b) + capName(b);
@@ -245,8 +201,6 @@ public class SafariBiomes {
 		vc.addVertex(e, x2, y2, z2).setNormal(e, nx, ny, nz).setColor(r, g, b, 255).setLineWidth(width);
 	}
 
-	// ===== файл =====
-
 	private static void load() {
 		POLYS.clear();
 		try {
@@ -267,7 +221,6 @@ public class SafariBiomes {
 			com.ryn.skyryn.config.SkyLog.d("skyryn-safari-biomes.json не прочитан: " + e);
 		}
 	}
-
 
 	private static double round(double v) { return Math.round(v * 10.0) / 10.0; }
 

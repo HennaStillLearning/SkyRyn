@@ -16,14 +16,7 @@ import com.ryn.skyryn.fusion.BazaarPrices;
 import com.ryn.skyryn.fusion.FusionState;
 import com.ryn.skyryn.fusion.FusionTop;
 
-/**
- * /rftop — рейтинг шардов по выгодности фьюжена.
- *
- * Отвечает на «что фьюзить», калькулятор — на «как». Клик по строке
- * подставляет шард в калькулятор и закрывает экран.
- */
 public class FusionTopScreen extends Screen {
-
 	private static final int BG          = 0xF0141419;
 	private static final int CARD        = 0xFF1A1A24;
 	private static final int CARD_HOVER  = 0xFF23232F;
@@ -35,12 +28,10 @@ public class FusionTopScreen extends Screen {
 	private static final int TEXT_FAINT  = 0xFF5E606E;
 	private static final int GREEN       = 0xFF5FD68A;
 	private static final int RED         = 0xFFE06C6C;
-	/** Цвета флажков по серьёзности: цифре нельзя верить / хрупко / нет данных. */
 	private static final int WARN_BAD    = 0xFFE06C6C;
 	private static final int WARN_SOFT   = 0xFFD9A441;
 	private static final int WARN_INFO   = 0xFF7E8496;
 
-	/** С какой просадки предупреждаем. */
 	private static final double SLIPPAGE_WARN = 0.05;
 
 	private static final int SEARCH_W = 110;
@@ -49,17 +40,13 @@ public class FusionTopScreen extends Screen {
 	private static final int ROW_H = 18;
 	private static final int WIDTH = 560;
 
-	// Правый край каждой колонки, отсчёт от правого края таблицы.
-	// Одни и те же числа используют и заголовок, и строка — иначе разъезжается.
-	private static final int C_UNIT   = 268;  // профит/шт
-	private static final int C_DEMAND = 196;  // купят/д
-	private static final int C_INVEST = 124;  // вложить
-	private static final int C_BATCH  = 120;  // Lang.tr("per N", "за N") — левее правого края, сразу за вложить
-	private static final int C_DAY    = 8;    // профит/д
+	private static final int C_UNIT   = 268;
+	private static final int C_DEMAND = 196;
+	private static final int C_INVEST = 124;
+	private static final int C_BATCH  = 120;
+	private static final int C_DAY    = 8;
 
-	/** Вкладка: false — топ по деньгам, true — XP top. Не мешаем их в одну кучу. */
 	private boolean xpTab = false;
-	/** В XP top: продавать мгновенно (быстро, дешевле) или через sell offer (дороже, ждать). */
 	private boolean xpInstaSell = true;
 	private int xpModeX = 0, xpModeW = 0;
 	private FusionTop.Sort sort = FusionTop.Sort.PER_DAY;
@@ -68,16 +55,12 @@ public class FusionTopScreen extends Screen {
 	private boolean showHelp = false;
 	private int scroll = 0;
 
-	/** Какой шард сейчас редактируем по размеру партии, и что набрано. */
 	private String editingBatch = null;
 	private String batchBuffer = "";
-	/** Правим ли Hunting Wisdom. */
 	private boolean editingWisdom = false;
 	private String wisdomBuffer = "";
-	/** Поиск по имени шарда. */
 	private String search = "";
 	private boolean searchFocused = false;
-	/** Ctrl+A выделил всё: следующий ввод/вставка заменяет строку целиком. */
 	private boolean searchAllSelected = false;
 
 	private static String trimNum(float v) {
@@ -86,7 +69,6 @@ public class FusionTopScreen extends Screen {
 
 	private List<FusionTop.Entry> entries = List.of();
 
-	// Тултип рисуем последним, поверх всего
 	private String[] tooltip = null;
 	private int tooltipX, tooltipY;
 
@@ -132,7 +114,6 @@ public class FusionTopScreen extends Screen {
 		int x = listX();
 		int right = x + WIDTH;
 
-		// ===== Вкладки верхнего уровня =====
 		int t1w = this.font.width(Lang.tr("FUSION TOP", "ТОП ФЬЮЗОВ"));
 		ctx.text(this.font, Lang.tr("FUSION TOP", "ТОП ФЬЮЗОВ"), x, 18, xpTab ? TEXT_FAINT : TEXT, true);
 		if (!xpTab) ctx.fill(x, 28, x + t1w, 29, ACCENT);
@@ -146,7 +127,6 @@ public class FusionTopScreen extends Screen {
 		String age = Lang.tr("prices: ", "цены: ") + BazaarPrices.ageText();
 		ctx.text(this.font, age, right - this.font.width(age), 18, TEXT_FAINT, true);
 
-		// Сортировки — только те, что относятся к текущей вкладке
 		int y = 34;
 		int bx = x;
 		for (FusionTop.Sort s : FusionTop.Sort.values()) {
@@ -173,8 +153,6 @@ public class FusionTopScreen extends Screen {
 		String f2 = (hideWarned ? "☑" : "☐") + Lang.tr(" hide questionable", " скрыть спорные");
 		int f2w = this.font.width(f2), f1w = this.font.width(f1);
 		ctx.text(this.font, f2, right - f2w, y + 3, hideWarned ? TEXT : TEXT_FAINT, true);
-		// Lang.tr("positive only", "только плюсовые") в XP top не применяется: там весь смысл — увидеть,
-		// где потери минимальны, включая убыточные.
 		if (!xpTab) {
 			ctx.text(this.font, f1, right - f2w - f1w - 12, y + 3, profitableOnly ? TEXT : TEXT_FAINT, true);
 		}
@@ -184,7 +162,6 @@ public class FusionTopScreen extends Screen {
 		ctx.text(this.font, help, x, 54,
 				in(mouseX, mouseY, x, 52, x + helpW, 62) ? ACCENT : TEXT_FAINT, true);
 
-		// Поиск по имени
 		searchX = x + helpW + 16;
 		ctx.fill(searchX, 52, searchX + SEARCH_W, 64, searchFocused ? ACCENT_SOFT : CARD);
 		String sv = search.isEmpty() && !searchFocused ? Lang.tr("search...", "поиск...") : search;
@@ -195,7 +172,6 @@ public class FusionTopScreen extends Screen {
 			ctx.fill(cx, 54, cx + 1, 62, ACCENT);
 		}
 
-		// Hunting Wisdom — множитель XP, у каждого свой; термин игровой, не переводится
 		String wl = "hunting wisdom";
 		int wlw = this.font.width(wl);
 		int wfx = right - 46;
@@ -217,7 +193,6 @@ public class FusionTopScreen extends Screen {
 			return;
 		}
 
-		// ===== Заголовки колонок =====
 		int hy = listTop() - 11;
 		ctx.text(this.font, Lang.tr("shard", "шард"), x + 30, hy, TEXT_FAINT, true);
 		if (xpTab) {
@@ -233,7 +208,6 @@ public class FusionTopScreen extends Screen {
 		}
 		ctx.fill(x, listTop() - 2, right, listTop() - 1, BORDER);
 
-		// ===== Список =====
 		int top = listTop();
 		int shown = Math.min(visibleRows(), entries.size() - scroll);
 		for (int i = 0; i < shown; i++) {
@@ -248,7 +222,6 @@ public class FusionTopScreen extends Screen {
 			ctx.text(this.font, String.valueOf(scroll + i + 1), x + 8, ty, TEXT_FAINT, true);
 			ctx.text(this.font, ShardDb.displayName(e.shard), x + 30, ty, TEXT, true);
 
-			// Reptile-метка: цифры зависят от уровня Crocodile (настройка калькулятора).
 			if (e.reptile) {
 				int rx = x + 30 + this.font.width(ShardDb.displayName(e.shard)) + 3;
 				ctx.text(this.font, "🐊", rx, ty, 0xFFFFC24A, true);
@@ -259,9 +232,6 @@ public class FusionTopScreen extends Screen {
 							Lang.tr("(set it at the bottom of the fusion calculator).", "(задаётся внизу калькулятора фьюза).") };
 			}
 
-			// Флажок: цвет по серьёзности + пояснение при наведении.
-			// В XP top при мгновенной продаже флажки про sell offer не показываем:
-			// они про другую сторону стакана и к insta-sell отношения не имеют.
 			int wx = x + 148;
 			boolean showOfferWarning = !xpTab || !xpInstaSell;
 			if (showOfferWarning && e.warning.isBad()) {
@@ -274,8 +244,6 @@ public class FusionTopScreen extends Screen {
 				}
 				wx += ww + 8;
 			}
-			// Просадка: заявок по верхней цене мало, партия съедет вниз по стакану.
-			// Без этого Mimic выглядит прибыльным, хотя топит на 6.6M.
 			if (xpTab && e.batchSlippage >= SLIPPAGE_WARN) {
 				String tag = Lang.tr("price will drop ", "цена просядет ") + String.format("%.0f%%", e.batchSlippage * 100);
 				int ww = this.font.width(tag);
@@ -292,7 +260,6 @@ public class FusionTopScreen extends Screen {
 				}
 			}
 
-			// Вложить: партия настраивается кликом по числу
 			int batch = RynConfig.batchOf(e.shard);
 			boolean editing = e.shard.equals(editingBatch);
 			String batchStr = editing ? (batchBuffer.isEmpty() ? "_" : batchBuffer + "_")
@@ -318,12 +285,10 @@ public class FusionTopScreen extends Screen {
 				rightText(ctx, (e.batchNet >= 0 ? "+" : "") + fmt(e.batchNet), right - C_DAY, ty,
 						e.batchNet >= 0 ? GREEN : RED);
 			} else {
-				// «return» — выручка за ту же партию, что и invest (цветом profit/loss).
 				rightText(ctx, fmt(e.unitRevenue * effBatch), right - C_DAY, ty,
 						e.unitProfit >= 0 ? GREEN : RED);
 			}
 
-			// Подсказка по действиям — только если не навели на флажок
 			if (hover && tooltip == null) {
 				tooltip = new String[]{
 						Lang.tr("click — open in calculator", "клик — открыть в калькуляторе"),
@@ -466,7 +431,6 @@ public class FusionTopScreen extends Screen {
 	@Override
 	public boolean charTyped(net.minecraft.client.input.CharacterEvent event) {
 		if (!searchFocused) return super.charTyped(event);
-		// codepoint() — int, и "строка += int" дописывает ЧИСЛО, а не букву.
 		if (searchAllSelected) { search = ""; searchAllSelected = false; }
 		search += Character.toString(event.codepoint());
 		rebuild();
@@ -509,7 +473,6 @@ public class FusionTopScreen extends Screen {
 				wisdomBuffer += (char) ('0' + (k - GLFW.GLFW_KEY_0));
 				return true;
 			}
-			// точка для дробных: 39.5
 			if ((k == GLFW.GLFW_KEY_PERIOD || k == GLFW.GLFW_KEY_KP_DECIMAL)
 					&& !wisdomBuffer.contains(".") && !wisdomBuffer.isEmpty()) {
 				wisdomBuffer += ".";
@@ -529,7 +492,7 @@ public class FusionTopScreen extends Screen {
 				batchBuffer += (char) ('0' + (k - GLFW.GLFW_KEY_0));
 				return true;
 			}
-			return true; // пока редактируем — клавиши наши
+			return true;
 		}
 		return super.keyPressed(event);
 	}
@@ -541,7 +504,7 @@ public class FusionTopScreen extends Screen {
 		} catch (Exception ignored) { }
 		ConfigManager.save();
 		editingWisdom = false;
-		rebuild(); // XP пересчитать
+		rebuild();
 	}
 
 	private void commitBatch() {
@@ -550,7 +513,7 @@ public class FusionTopScreen extends Screen {
 		RynConfig.setBatch(editingBatch, v);
 		ConfigManager.save();
 		editingBatch = null;
-		if (xpTab) rebuild(); // XP считается от партии
+		if (xpTab) rebuild();
 	}
 
 	private static int parseOr(String s, int fallback) {
@@ -587,7 +550,6 @@ public class FusionTopScreen extends Screen {
 		if (editingWisdom) { commitWisdom(); return true; }
 		if (editingBatch != null) { commitBatch(); return true; }
 
-		// Вкладки верхнего уровня
 		int t1w = this.font.width(Lang.tr("FUSION TOP", "ТОП ФЬЮЗОВ"));
 		if (in(mouseX, mouseY, x, 16, x + t1w, 29)) {
 			if (xpTab) { xpTab = false; sort = FusionTop.Sort.PER_DAY; rebuild(); }
@@ -608,7 +570,6 @@ public class FusionTopScreen extends Screen {
 			bx += w + 4;
 		}
 
-		// Тумблер способа продажи в XP top
 		if (xpTab && in(mouseX, mouseY, xpModeX, 34, xpModeX + xpModeW, 48)) {
 			xpInstaSell = !xpInstaSell;
 			rebuild();
@@ -630,15 +591,12 @@ public class FusionTopScreen extends Screen {
 			if (!in(mouseX, mouseY, x, ry, right, ry + ROW_H - 2)) continue;
 			FusionTop.Entry e = entries.get(scroll + i);
 
-			// Клик по «за N» — редактируем партию, а не открываем калькулятор
 			int bxx = right - C_BATCH;
 			if (in(mouseX, mouseY, bxx, ry + 3, bxx + 40, ry + 14)) {
 				editingBatch = e.shard;
 				batchBuffer = "";
 				return true;
 			}
-			// ПКМ — открыть шард на базаре, чтобы глазами проверить цену.
-			// /bz сам вбивает имя в поиск, отдельно подставлять ничего не надо.
 			if (event.button() == 1) {
 				Minecraft mc = Minecraft.getInstance();
 				if (mc.player != null) {

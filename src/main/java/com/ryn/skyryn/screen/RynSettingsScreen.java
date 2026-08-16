@@ -26,16 +26,7 @@ import com.ryn.skyryn.data.LocationDb;
 import com.ryn.skyryn.hud.Announce;
 import com.ryn.skyryn.data.ShardInfo;
 
-/**
- * Кастомный экран настроек мода в стиле SkyOcean: слева — список категорий,
- * сверху — кнопка закрытия и поиск, справа — опции с описанием и контролами
- * (сегментные тумблеры Выкл/Вкл, слайдеры, кнопки). Тёмная скруглённая тема.
- *
- * Значения биндятся прямо на поля {@link RynConfig}, сохраняются сразу.
- */
 public class RynSettingsScreen extends Screen {
-
-	// Тёмная палитра «как SkyOcean»: почти чёрный фон, серые панели, минимум акцента.
 	static final int SCREEN_BG = 0xF00A0A0C;
 	static final int PANEL     = 0xFF151519;
 	static final int PANEL_HI  = 0xFF1C1C22;
@@ -51,42 +42,33 @@ public class RynSettingsScreen extends Screen {
 	static final int FAINT     = 0xFF6C6F79;
 
 	private static final int OUTER = 12, GAP = 8, SIDEBAR_W = 214, TOP_H = 54, CONTROL_W = 170;
-	/** Высота строки функции. Одна на всех: описание ушло в подсказку, тексту место не нужно. */
 	private static final int ROW_H = 26;
 
 	private final Screen parent;
 	private final List<Category> cats = new ArrayList<>();
 	private int catSel = 0;
-	private int subSel = -1;   // -1 = опции самой категории, ≥0 — индекс подкатегории (для Critter Safari)
-	private final List<int[]> subRects = new ArrayList<>();   // {subIndex, x1,y1,x2,y2}
+	private int subSel = -1;
+	private final List<int[]> subRects = new ArrayList<>();
 
-	// Рассчитанные геометрии кадра.
 	private int contentX, contentW, bodyY, bodyBottom;
 	private int scrollY = 0, contentH = 0;
 
-	private final List<Hit> hits = new ArrayList<>();     // клик-зоны опций/контролов
+	private final List<Hit> hits = new ArrayList<>();
 	private final List<int[]> catRects = new ArrayList<>();
 	private int[] closeRect, searchRect;
 
-	/** Подсказка наведённой строки: текст и место курсора на этом кадре. */
 	private String tipText = null;
 	private int tipX, tipY;
 
-	/** Строка клавиши, ждущая нажатия. */
 	private KeyOpt listening = null;
 	private String search = "";
 	private boolean searchFocused = false;
 	private Hit activeSlider = null;
 	private boolean rebuild = false;
-	/**
-	 * Развёрнутые секции. Изначально не развёрнута ни одна: заходишь в раздел —
-	 * видишь только заголовки, разворачиваешь то, что нужно.
-	 */
 	private final java.util.Set<String> expanded = new java.util.HashSet<>();
 	private String sectionKey(String title) { return catSel + "/" + subSel + "/" + title; }
 	private boolean isCollapsed(String title) { return !expanded.contains(sectionKey(title)); }
 
-	/** Раздел, на котором открыться (/sr hunting и т.п.). Пусто — первый по списку. */
 	private final String openAt;
 
 	public RynSettingsScreen(Screen parent) { this(parent, ""); }
@@ -97,22 +79,14 @@ public class RynSettingsScreen extends Screen {
 		this.openAt = category == null ? "" : category.trim().toLowerCase();
 	}
 
-	/** Разделы для /sr &lt;раздел&gt;: команда → как раздел называется по-английски. */
 	public static final String[] CATEGORY_COMMANDS = {
 			"fusion", "calculator", "hunting", "warps", "highlight", "foraging", "interface", "keys" };
 
-	// ===== Модель =====
 	private sealed interface Opt permits Header, Note, Toggle, Slider, Btn, ColorOpt, Cycle, MobOpt, AnnOpt, KeyOpt { }
-	/** Строка клавиши: показывает текущую и ждёт нажатия после клика. */
 	private record KeyOpt(String title, net.minecraft.client.KeyMapping key) implements Opt { }
-	/** Строка-справка без контрола: команда, подсказка. Кликать нечего. */
 	private record Note(String title, String desc) implements Opt { }
 	private record Header(String title, String desc) implements Opt { }
 	private record Toggle(String title, String desc, BooleanSupplier get, Consumer<Boolean> set) implements Opt { }
-	/**
-	 * Тумблер функции с надписью на экране + шестерёнка: она открывает правку места,
-	 * размера и цвета этой надписи ({@link AnnounceEditScreen}).
-	 */
 	private record AnnOpt(String title, String desc, BooleanSupplier get, Consumer<Boolean> set, String annId) implements Opt { }
 	private static AnnOpt ann(String t, String d, BooleanSupplier g, Consumer<Boolean> s, String annId) {
 		return new AnnOpt(t, d, g, s, annId);
@@ -121,26 +95,22 @@ public class RynSettingsScreen extends Screen {
 						  DoubleSupplier get, DoubleConsumer set) implements Opt { }
 	private record Btn(String title, String desc, String text, Runnable action) implements Opt { }
 	private record ColorOpt(String title, String desc, IntSupplier get, IntConsumer set) implements Opt { }
-	/** Выпадающий выбор (клик — следующий вариант): show/hide, off/off-after/on и т.п. */
 	private record Cycle(String title, String desc, String[] options, IntSupplier get, IntConsumer set) implements Opt { }
 	private static Cycle cycle(String t, String d, String[] opts, IntSupplier g, IntConsumer s) { return new Cycle(t, d, opts, g, s); }
-	/** Строка моба: имя + свотч цвета + тумблер Off/On на ОДНОЙ строке. */
 	private record MobOpt(String name, String mobKey, String colorKey, int defColor) implements Opt { }
 	private static MobOpt mobOpt(String name, String mobKey, int defColor) { return new MobOpt(name, mobKey, "mob." + mobKey, defColor); }
 
-	/** Палитра для цвет-контрола (клик — следующий, ПКМ — предыдущий). ARGB, непрозрачные. */
 	static final int[] PALETTE = {
 			0xFFFFFFFF, 0xFFAAAAAA, 0xFF555555, 0xFFFF5555, 0xFFFF8020, 0xFFFFAA00, 0xFFFFFF55,
 			0xFF80FF40, 0xFF50E070, 0xFF00AAAA, 0xFF55FFFF, 0xFF5B8DEF, 0xFF5555FF, 0xFFC050FF, 0xFFFF55FF };
 	private record SubCat(String name, List<Opt> opts) { }
 	private record Category(String name, List<Opt> opts, List<SubCat> subs) { }
 
-	/** Клик-зона нарисованной опции/контрола: тип по контролу внутри. */
 	private static final class Hit {
-		final Opt opt; final int x1, y1, x2, y2;   // строка целиком
-		int offX1, offX2, onX1, onX2;              // сегменты тумблера
-		int trackX1, trackX2;                      // трек слайдера
-		int btnX1, btnX2;                          // кнопка
+		final Opt opt; final int x1, y1, x2, y2;
+		int offX1, offX2, onX1, onX2;
+		int trackX1, trackX2;
+		int btnX1, btnX2;
 		Hit(Opt o, int x1, int y1, int x2, int y2) { this.opt = o; this.x1 = x1; this.y1 = y1; this.x2 = x2; this.y2 = y2; }
 	}
 
@@ -149,9 +119,8 @@ public class RynSettingsScreen extends Screen {
 
 	private void buildCats() {
 		cats.clear();
-		safariSubs.clear();   // имена локализованы: при смене языка список пересобирается
+		safariSubs.clear();
 
-		// ===== Фьюжен =====
 		cats.add(cat(Lang.tr("Fusion", "Фьюжен"),
 				new Header(Lang.tr("Fusion box window", "Окно фьюза"), ""),
 				toggle(Lang.tr("Calculator", "Калькулятор"),
@@ -169,7 +138,6 @@ public class RynSettingsScreen extends Screen {
 								"Считает, сколько фьюзов, шардов и монет ты сделал за сессию."),
 						() -> RynConfig.fusionTrackerEnabled, v -> RynConfig.fusionTrackerEnabled = v)));
 
-		// ===== Калькулятор =====
 		cats.add(cat(Lang.tr("Calculator", "Калькулятор"),
 				new Header(Lang.tr("Prices and math", "Цены и расчёт"), ""),
 				slider("Bazaar Flipper",
@@ -187,7 +155,6 @@ public class RynSettingsScreen extends Screen {
 						0, 250, 1, false,
 						() -> RynConfig.hunterFortune, v -> RynConfig.hunterFortune = (float) v)));
 
-		// ===== Хантинг =====
 		List<Opt> hunt = new ArrayList<>(List.of(
 				new Header(Lang.tr("Hunting tracker", "Трекер охоты"), ""),
 				ann(Lang.tr("Hunting tracker", "Трекер охоты"),
@@ -198,8 +165,6 @@ public class RynSettingsScreen extends Screen {
 						Lang.tr("Which price the loot is valued at.", "По какой цене оценивается добыча."),
 						new String[]{ "Insta sell", "Sell offer" },
 						() -> RynConfig.huntInstaSell ? 0 : 1, i -> RynConfig.huntInstaSell = (i == 0)),
-				// После обновы шарды идут только с поимок, лутшейра и чарма — источников
-				// Naga и Salts больше нет, поэтому и разбивки по ним больше нет.
 				new Header(Lang.tr("Count Lootshare, Charm", "Учитывать Lootshare, Charm"), ""),
 				toggle("Lootshare", "", () -> RynConfig.huntCountLootShare, v -> RynConfig.huntCountLootShare = v),
 				toggle("Charm", "", () -> RynConfig.huntCountCharm, v -> RynConfig.huntCountCharm = v),
@@ -224,7 +189,6 @@ public class RynSettingsScreen extends Screen {
 						() -> RynConfig.seaGuideHints, v -> RynConfig.seaGuideHints = v)));
 		cats.add(new Category(Lang.tr("Hunting", "Охота"), hunt, List.of()));
 
-		// ===== Варпы =====
 		List<Opt> warps = new ArrayList<>();
 		warps.add(new Header(Lang.tr("Warps", "Варпы"), ""));
 		warps.add(toggle("MVP+",
@@ -237,7 +201,6 @@ public class RynSettingsScreen extends Screen {
 				Lang.tr("Draws a line from you to the spot you are tracking.",
 						"Рисует линию от тебя к споту, который ты отслеживаешь."),
 				() -> RynConfig.routeBeam, v -> RynConfig.routeBeam = v));
-		// Свитки — выпадающим списком: их много, и заголовок сворачивается.
 		warps.add(new Header("Warp", ""));
 		for (var e : LocationDb.scrolls().entrySet()) {
 			final String scroll = e.getKey();
@@ -245,30 +208,23 @@ public class RynSettingsScreen extends Screen {
 		}
 		cats.add(new Category(Lang.tr("Warps", "Варпы"), warps, List.of()));
 
-		// ===== Подсветка: только мобы =====
 		List<Opt> highlight = new ArrayList<>();
 		highlight.add(new Header(Lang.tr("Mobs", "Мобы"), ""));
 		highlight.add(toggle(Lang.tr("Highlight mobs", "Подсветка мобов"),
 				Lang.tr("Traces an outline around the mobs you pick below, so you can spot them in the leaves and in the dark. Only mobs you can actually see: a mob behind a wall is not shown.",
 						"Обводит контуром выбранных ниже мобов, чтобы их было видно в листве и в темноте. Только тех, кого реально видно: моба за стеной не показывает."),
 				() -> RynConfig.mobHighlightEnabled, v -> RynConfig.mobHighlightEnabled = v));
-		// Часть мобов Hypixel рисует не сущностью, а предметом на невидимой стойке
-		// (Driftling, Gazer). Контур ложится по мобу, но игра обводит заодно и скелет
-		// стойки — при свечении он становится виден. Бокс грубее, зато без сюрпризов.
 		highlight.add(cycle(Lang.tr("Mobs drawn by an armor stand", "Мобы-стойки"),
 				Lang.tr("Some mobs are an item on an invisible armor stand, not a creature. The outline hugs the mob but the game draws the stand itself along with it; the box is coarser but shows nothing extra.",
 						"Часть мобов — это предмет на невидимой стойке, а не существо. Контур ложится по мобу, но игра обводит вместе с ним и саму стойку; бокс грубее, зато лишнего не показывает."),
 				new String[]{ Lang.tr("Box", "Бокс"), Lang.tr("Outline", "Контур") },
 				() -> RynConfig.getInt("hl.stand", 0), i -> RynConfig.setInt("hl.stand", i)));
-		// Списки мобов живут в разделах своих мест — отсюда даём прямые переходы,
-		// чтобы не искать их в дереве слева.
 		highlight.add(new Header(Lang.tr("Mobs by place", "Мобы по местам"), ""));
 		for (String sub : new String[]{ "Torrhus Canyon", "Galatea", "Critter Safari" })
 			highlight.add(button(sub, "", Lang.tr("Open", "Открыть"), () -> goToSub(sub)));
 		addHighlight(highlight, com.ryn.skyryn.waypoint.MobHighlight.OTHER);
 		cats.add(new Category(Lang.tr("Highlight", "Подсветка"), highlight, List.of()));
 
-		// ===== Форагинг: Torrhus Canyon, Galatea и Critter Safari — подпунктами слева =====
 		List<Opt> forTop = new ArrayList<>(List.of(
 				new Header("Tree falls announce",
 						Lang.tr("Announces when the perks go off — a big caption in the middle of the screen so you do not have to watch the chat.",
@@ -308,7 +264,6 @@ public class RynSettingsScreen extends Screen {
 
 		List<SubCat> forSubs = new ArrayList<>();
 
-		// ===== Torrhus Canyon =====
 		List<Opt> torrhus = new ArrayList<>();
 		torrhus.add(new Header(Lang.tr("Announces", "Оповещения"), ""));
 		torrhus.add(ann("Beeheemoth",
@@ -328,15 +283,11 @@ public class RynSettingsScreen extends Screen {
 		addHighlight(torrhus, com.ryn.skyryn.waypoint.MobHighlight.TORRHUS);
 		forSubs.add(new SubCat("Torrhus Canyon", torrhus));
 
-		// ===== Galatea =====
 		List<Opt> galatea = new ArrayList<>();
 		addHighlight(galatea, com.ryn.skyryn.waypoint.MobHighlight.GALATEA);
 		forSubs.add(new SubCat("Galatea", galatea));
 
-		// ===== Critter Safari: вложенная навигация (слева подпункты) =====
 		List<Opt> safTop = new ArrayList<>();
-		// Соло и пати — два разных способа получать одни и те же сообщения, поэтому
-		// каждый живёт своей секцией: развернул нужную и видишь всё, что в неё входит.
 		safTop.add(new Header("Solo mode",
 				Lang.tr("Single-player announces and local mod commands.",
 						"Одиночные анонсы и локальные мод-команды.")));
@@ -352,17 +303,12 @@ public class RynSettingsScreen extends Screen {
 				Lang.tr("Answers with your stats when someone types a # command in party chat.",
 						"Отвечает статистикой, когда кто-то пишет команду с решёткой в пати-чат."),
 				() -> RynConfig.safariParty, v -> RynConfig.safariParty = v));
-		// Те же сообщения, что и в соло, но со своими тумблерами: себе на экран можно
-		// писать всё подряд, а пати этим же спамить — нет.
 		addMessageOpts(safTop, "pmsg.", false);
-		// Раньше тут висел весь список команд строками — два десятка Note, через которые
-		// приходилось листать. Теперь по кнопке он печатается в чат, где его и читают.
 		safTop.add(button(Lang.tr("Party commands", "Команды пати"),
 				Lang.tr("Prints every command and what it answers into your chat.",
 						"Печатает в твой чат все команды и что они отвечают."),
 				Lang.tr("Show the commands", "Посмотреть команды"),
 				() -> com.ryn.skyryn.hud.SafariTracker.printCommands()));
-		// Dupe alarm — под пати-функцией: предупреждение уходит именно в пати.
 		safTop.add(new Header("Dupe alarm",
 				Lang.tr("Warns about doubling up in biomes.", "Предупреждает о дюпе в биомах.")));
 		safTop.add(toggle(Lang.tr("Dupe announce", "Dupe анонс"),
@@ -373,8 +319,6 @@ public class RynSettingsScreen extends Screen {
 		safTop.add(toggle("Icy", "", () -> RynConfig.flag("dupe.icy", true), v -> RynConfig.setFlag("dupe.icy", v)));
 		safTop.add(toggle("Cavern", "", () -> RynConfig.flag("dupe.cavern", true), v -> RynConfig.setFlag("dupe.cavern", v)));
 		safTop.add(toggle("Forest", "", () -> RynConfig.flag("dupe.forest", false), v -> RynConfig.setFlag("dupe.forest", v)));
-		// Sparkling — один криттер на 4096. Пропустить его обиднее всего, поэтому и
-		// подсветка, и крупный анонс идут отдельно от тумблеров обычных мобов.
 		safTop.add(new Header("Sparkling", ""));
 		safTop.add(toggle("Highlight Sparkling",
 				Lang.tr("Highlights sparkling mobs.", "Подсвечивать Спарклинг мобов."),
@@ -384,7 +328,6 @@ public class RynSettingsScreen extends Screen {
 				() -> RynConfig.flag("sparkling.ann", true), v -> RynConfig.setFlag("sparkling.ann", v),
 				Announce.SPARKLING));
 
-		// Колокола: разовый сбор за профиль, поэтому найденные гасятся вручную.
 		safTop.add(new Header("Bells",
 				Lang.tr("Seven bells are hidden around the safari. Find all seven, come back to «Hunter» Tobias — a cutscene and Miracle Chance levels.",
 						"По сафари спрятаны семь колоколов. Найдёшь все семь и вернёшься к «Hunter» Tobias — катсцена и уровни Miracle Chance.")));
@@ -408,14 +351,10 @@ public class RynSettingsScreen extends Screen {
 					() -> RynConfig.flag("bell." + n, false), v -> RynConfig.setFlag("bell." + n, v)));
 		}
 
-		// Hunter-NPC переехал сюда из «Подсветки»: он стоит в сафари.
 		addHighlight(safTop, com.ryn.skyryn.waypoint.MobHighlight.SAFARI_NPC);
 
-		// Подкатегория: плашка захода и её строки
 		List<Opt> trk = new ArrayList<>();
 		trk.add(new Header(Lang.tr("Overlay", "Плашка"), ""));
-		// Шестерёнка у плашки открывает режим правки HUD: её таскают мышкой, а не
-		// вводят координаты. Тот же жест, что у анонсов, — поэтому и тот же значок.
 		trk.add(ann(Lang.tr("Safari tracker", "Трекер сафари"),
 				Lang.tr("Overlay with the stats of the current run. The gear opens HUD editing — drag it where you want it.",
 						"Плашка со статистикой текущего захода. Шестерёнка открывает правку HUD — перетащи её куда нужно."),
@@ -428,8 +367,6 @@ public class RynSettingsScreen extends Screen {
 				Lang.tr("Wipes the tracker AND the all-time totals: profit, essence, shards, catches, exp, time. Click twice to confirm — there is no undo.",
 						"Стирает и трекер, и итоги за всё время: профит, эссенцию, шарды, поимки, опыт, время. Нажми дважды для подтверждения — отката нет."),
 				Lang.tr("Reset all", "Сбросить всё"), () -> { com.ryn.skyryn.hud.SafariTracker.resetEverythingConfirm(); }));
-		// Строки плашки живут прямо под её тумблером: отдельный заголовок «что показывать»
-		// был лишним уровнем — это и так настройки той же самой плашки.
 		trk.add(toggle(Lang.tr("Ticket", "Билет"), "", () -> RynConfig.flag("tr.ticket", true), v -> RynConfig.setFlag("tr.ticket", v)));
 		trk.add(toggle(Lang.tr("Capsules", "Капсулы"), "", () -> RynConfig.flag("tr.capsules", true), v -> RynConfig.setFlag("tr.capsules", v)));
 		trk.add(toggle(Lang.tr("Coins per hour", "Коины в час"), "", () -> RynConfig.flag("tr.profit", true), v -> RynConfig.setFlag("tr.profit", v)));
@@ -534,15 +471,11 @@ public class RynSettingsScreen extends Screen {
 		addHighlight(fo, "Forest");
 		safSubs.add(new SubCat("Forest", fo));
 
-		// Critter Safari и его внутренности — подпунктами того же Форагинга: уровень
-		// вложенности в списке слева один, поэтому трекер и биомы идут следом за ним
-		// и показываются, только когда он открыт.
 		forSubs.add(new SubCat(SAFARI, safTop));
 		forSubs.addAll(safSubs);
 		for (SubCat s : safSubs) safariSubs.add(s.name());
 		cats.add(new Category(Lang.tr("Foraging", "Форагинг"), forTop, forSubs));
 
-		// ===== Интерфейс =====
 		cats.add(cat(Lang.tr("Interface", "Интерфейс"),
 				new Header(Lang.tr("General", "Общее"), ""),
 				cycle("Language", "",
@@ -554,19 +487,12 @@ public class RynSettingsScreen extends Screen {
 								"Off — полностью отключает кастомные текстуры предметов, но так же отключает и серверные текстуры кастомных предметов, наложенных на ванильные предметы, например на бумагу. Вместо привычной текстуры Sublime Milk и других предметов, вышедших в обновлении Torrhus Canyon и позже, вы будете видеть бумагу.\n"
 										+ "Hybrid — отключает кастомные текстуры предметов, но оставляет наложенные на них серверные текстуры."),
 						new String[]{ "Off", "Hybrid" },
-						// В тумблере два положения, а во внутреннем режиме они разнесены
-						// по своим номерам — сводим их здесь, чтобы старые конфиги читались.
 						() -> RynConfig.packMode == RynConfig.PACK_OFF ? 0 : 1,
 						i -> {
 							RynConfig.packMode = i == 0 ? RynConfig.PACK_OFF : RynConfig.PACK_HYBRID;
 							if (i == 0) com.ryn.skyryn.config.ServerPack.dropNow();
 						})));
 
-		// Клавиш всего три — /sr top, /sr shards и «прекратить отслеживание»;
-		// назначаются на обычном экране управления Minecraft.
-		// Клавиши назначаются прямо здесь: клик по строке — и следующая нажатая
-		// клавиша становится биндом. Пишем в тот же KeyMapping, что и ванильный
-		// экран управления, поэтому там бинд тоже виден.
 		List<Opt> keys = new ArrayList<>();
 		keys.add(new Header(Lang.tr("Keys", "Клавиши"),
 				Lang.tr("Click a row and press the key. Esc clears the bind.",
@@ -576,9 +502,6 @@ public class RynSettingsScreen extends Screen {
 		cats.add(new Category(Lang.tr("Keys", "Клавиши"), keys, List.of()));
 
 		if (catSel >= cats.size()) catSel = 0;
-		// /sr hunting — сразу нужный раздел. По имени искать нельзя: при русском языке
-		// названия в списке переведены, а команда всегда английская. Поэтому берём
-		// позицию из CATEGORY_COMMANDS — порядок там тот же, в котором разделы заведены.
 		if (!openAt.isBlank()) {
 			for (int i = 0; i < CATEGORY_COMMANDS.length && i < cats.size(); i++) {
 				if (CATEGORY_COMMANDS[i].equals(openAt)) { catSel = i; subSel = -1; break; }
@@ -586,7 +509,6 @@ public class RynSettingsScreen extends Screen {
 		}
 	}
 
-	// ===== Строители подкатегорий биомов =====
 	private static Cycle locMarker(String key) {
 		return cycle(Lang.tr("Marker of this biome", "Метка этого биома"),
 				Lang.tr("Hidden while you are inside it.", "Прячется, пока ты внутри него."),
@@ -597,11 +519,6 @@ public class RynSettingsScreen extends Screen {
 		final String fk = "qh." + key;
 		return toggle(label, "", () -> RynConfig.flag(fk, def), v -> RynConfig.setFlag(fk, v));
 	}
-	/**
-	 * Набор сообщений захода — один и тот же в соло и в пати, но тумблеры разные:
-	 * префикс msg. для соло, pmsg. для пати. Описания тоже свои — в соло строка идёт
-	 * тебе на экран, в пати уходит в чат всей группе.
-	 */
 	private static void addMessageOpts(List<Opt> o, String p, boolean solo) {
 		String to = solo ? Lang.tr("Shows you", "Показывает тебе") : Lang.tr("Sends to the party", "Отправляет в пати");
 		o.add(toggle(Lang.tr("Message at the start", "Сообщение на входе"),
@@ -642,7 +559,6 @@ public class RynSettingsScreen extends Screen {
 		return toggle(label, "", () -> RynConfig.flag(fk, true), v -> RynConfig.setFlag(fk, v));
 	}
 
-	/** Следующий/предыдущий цвет палитры от текущего. */
 	private static int cyclePalette(int cur, int dir) {
 		int cur24 = cur & 0xFFFFFF, idx = 0;
 		for (int i = 0; i < PALETTE.length; i++) if ((PALETTE[i] & 0xFFFFFF) == cur24) { idx = i; break; }
@@ -654,7 +570,6 @@ public class RynSettingsScreen extends Screen {
 	private static Slider slider(String t, String d, double mn, double mx, double st, boolean f, DoubleSupplier g, DoubleConsumer s) { return new Slider(t, d, mn, mx, st, f, g, s); }
 	private static Btn button(String t, String d, String bt, Runnable a) { return new Btn(t, d, bt, a); }
 
-	// ===== Отрисовка =====
 	@Override
 	public void extractRenderState(GuiGraphicsExtractor ctx, int mouseX, int mouseY, float delta) {
 		if (rebuild) { rebuild = false; buildCats(); }
@@ -668,7 +583,6 @@ public class RynSettingsScreen extends Screen {
 		bodyY = topY + TOP_H + GAP;
 		bodyBottom = this.height - OUTER;
 
-		// ===== Верхняя панель: слева X + поиск, справа заголовок =====
 		panel(ctx, sideX, topY, sideX + SIDEBAR_W, topY + TOP_H, PANEL);
 		int cbs = 40, cbx = sideX + 7, cby = topY + (TOP_H - cbs) / 2;
 		boolean closeHover = in(mouseX, mouseY, cbx, cby, cbx + cbs, cby + cbs);
@@ -687,7 +601,6 @@ public class RynSettingsScreen extends Screen {
 		ctx.text(this.font, "Ryn", contentX + 14 + this.font.width("Sky"), topY + 12, ACCENT, true);
 		ctx.text(this.font, Lang.tr("Settings v1.0", "Настройки v1.0"), contentX + 14, topY + 30, DESC, true);
 
-		// ===== Сайдбар категорий =====
 		panel(ctx, sideX, bodyY, sideX + SIDEBAR_W, bodyBottom, PANEL);
 		int cy = bodyY + 8;
 		for (int i = 0; i < cats.size(); i++) {
@@ -700,12 +613,9 @@ public class RynSettingsScreen extends Screen {
 			ctx.text(this.font, nm, sideX + (SIDEBAR_W - this.font.width(nm)) / 2, cy + 8, sel ? TITLE : CAT, true);
 			catRects.add(new int[]{sideX + 6, cy, sideX + SIDEBAR_W - 6, cy + rh});
 			cy += rh + 2;
-			// Подпункты выбранной категории — с отступом, серые (не по центру).
 			if (sel && !cats.get(i).subs().isEmpty()) {
 				List<SubCat> subs = cats.get(i).subs();
 				for (int j = 0; j < subs.size(); j++) {
-					// Трекер и биомы прячем, пока не открыт сам Critter Safari:
-					// иначе список слева вываливается пятью пунктами сразу.
 					if (isSafariSub(subs.get(j).name()) && !safariOpen(subs)) continue;
 					int srh = 20;
 					boolean ssel = j == subSel;
@@ -718,7 +628,6 @@ public class RynSettingsScreen extends Screen {
 			}
 		}
 
-		// ===== Контент =====
 		panel(ctx, contentX, bodyY, contentX + contentW, bodyBottom, PANEL);
 		List<Opt> list = visibleOpts();
 		int innerX = contentX + 14, innerR = contentX + contentW - 14;
@@ -741,20 +650,15 @@ public class RynSettingsScreen extends Screen {
 			ctx.fill(sx, ty, sx + 2, ty + th, SEG_ON);
 		}
 
-		// Тяга слайдера — опрос кнопки (без mouseDragged).
 		boolean down = GLFW.glfwGetMouseButton(Minecraft.getInstance().getWindow().handle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS;
 		if (activeSlider != null) {
 			if (down) applySlider(activeSlider, mouseX);
 			else { activeSlider = null; save(); }
 		}
 
-		drawTip(ctx);   // последним — подсказка должна лежать поверх всего
+		drawTip(ctx);
 	}
 
-	/**
-	 * Подсказка под курсором: то, что раньше было мелким текстом под названием.
-	 * Рисуется в самом конце кадра, поэтому ложится поверх строк и полосы прокрутки.
-	 */
 	private void drawTip(GuiGraphicsExtractor ctx) {
 		if (tipText == null || tipText.isEmpty()) return;
 		int maxW = Math.min(260, this.width - 24);
@@ -763,7 +667,6 @@ public class RynSettingsScreen extends Screen {
 		for (String ln : lines) w = Math.max(w, this.font.width(ln));
 		int h = lines.size() * 10 + 8;
 		w += 12;
-		// Держим целиком на экране: у нижнего края разворачиваем вверх, у правого — влево.
 		int x = tipX + 12, y = tipY + 14;
 		if (x + w > this.width - 4) x = Math.max(4, tipX - 12 - w);
 		if (y + h > this.height - 4) y = Math.max(4, tipY - 14 - h);
@@ -785,7 +688,6 @@ public class RynSettingsScreen extends Screen {
 			}
 			return out;
 		}
-		// Поиск идёт и по подпунктам: разделы свёрнуты, и найти опцию проще поиском.
 		String q = search.toLowerCase();
 		List<Opt> out = new ArrayList<>();
 		for (Category c : cats) {
@@ -802,27 +704,11 @@ public class RynSettingsScreen extends Screen {
 		}
 	}
 
-	/**
-	 * Все строки функций одной высоты. Описание под заголовком больше не рисуем —
-	 * оно всплывает подсказкой при наведении, и от этого список стал ровным:
-	 * раньше высота прыгала от длины текста и глазу не за что было зацепиться.
-	 */
-
-	/**
-	 * Внутренности Critter Safari (трекер и биомы): в списке слева они появляются,
-	 * только когда открыт сам Critter Safari или один из них. Имена локализованы,
-	 * поэтому список собираем при сборке разделов, а не сравниваем строки на глаз.
-	 */
 	private final java.util.Set<String> safariSubs = new java.util.LinkedHashSet<>();
 	private static final String SAFARI = "Critter Safari";
 
 	private boolean isSafariSub(String name) { return safariSubs.contains(name); }
 
-	/**
-	 * Раскрыт ли Critter Safari. Держим отдельным флагом, а не выводим из выбранного
-	 * пункта: иначе повторный клик по самому Critter Safari просто выбирал бы его же
-	 * заново и свернуть список было нечем.
-	 */
 	private boolean safariExpanded = false;
 
 	private boolean safariOpen(List<SubCat> subs) {
@@ -830,14 +716,12 @@ public class RynSettingsScreen extends Screen {
 		return safariExpanded;
 	}
 
-	/** Перейти к подпункту по имени — для кнопок-ссылок из «Подсветки». */
 	private void goToSub(String subName) {
 		for (int i = 0; i < cats.size(); i++) {
 			List<SubCat> subs = cats.get(i).subs();
 			for (int j = 0; j < subs.size(); j++) {
 				if (!subs.get(j).name().equals(subName)) continue;
 				catSel = i; subSel = j; scrollY = 0; search = "";
-				// Ссылка ведёт внутрь сафари — раскрываем его, иначе пункт выбран, а в списке не виден.
 				if (subs.get(j).name().equals(SAFARI) || isSafariSub(subName)) safariExpanded = true;
 				return;
 			}
@@ -854,17 +738,14 @@ public class RynSettingsScreen extends Screen {
 			boolean col = isCollapsed(h.title());
 			boolean hov = in(mouseX, mouseY, x1 - 6, y, x2 + 6, y + rh) && mouseY >= bodyY && mouseY <= bodyBottom;
 			ctx.text(this.font, (col ? "▸ " : "▾ ") + h.title().toUpperCase(), x1, y + 4, TITLE, true);
-			// Описание секции — тоже подсказкой под курсором, как у функций: иначе одни
-			// строки объясняют себя на месте, другие при наведении, и список рябит.
 			if (hov && !h.desc().isEmpty()) { tipText = h.desc(); tipX = mouseX; tipY = mouseY; }
 			ctx.fill(x1, y + rh - 4, x2, y + rh - 3, BORDER);
-			hits.add(new Hit(o, x1 - 6, y, x2 + 6, y + rh));   // клик по заголовку — свернуть/развернуть
+			hits.add(new Hit(o, x1 - 6, y, x2 + 6, y + rh));
 			return;
 		}
 		boolean hover = in(mouseX, mouseY, x1 - 6, y, x2 + 6, y + rh) && mouseY >= bodyY && mouseY <= bodyBottom;
 		if (hover) ctx.fill(x1 - 6, y, x2 + 6, y + rh - 1, ROW_HOVER);
 
-		// Заголовок по центру строки — описание уходит в подсказку под курсором.
 		ctx.text(this.font, title(o), x1, y + (rh - 8) / 2, TITLE, true);
 		if (hover && !desc(o).isEmpty()) { tipText = desc(o); tipX = mouseX; tipY = mouseY; }
 
@@ -893,7 +774,6 @@ public class RynSettingsScreen extends Screen {
 				panel(ctx, onx1, gy1, onx1 + onW, gy1 + h, on ? SEG_ON : SEG_OFF);
 				ctx.text(this.font, off, offx1 + 7, gy1 + 4, !on ? TITLE : FAINT, true);
 				ctx.text(this.font, onL, onx1 + 7, gy1 + 4, on ? TITLE : FAINT, true);
-				// Шестерёнка слева от тумблера — правка надписи на экране.
 				String gear = "⚙";
 				int gw = Math.max(18, this.font.width(gear) + 10), gx = offx1 - 8 - gw;
 				boolean ghov = in(mouseX, mouseY, gx, gy1, gx + gw, gy1 + h);
@@ -938,7 +818,7 @@ public class RynSettingsScreen extends Screen {
 				panel(ctx, onx1, gy1, onx1 + onW, gy1 + h, on ? SEG_ON : SEG_OFF);
 				ctx.text(this.font, off, offx1 + 7, gy1 + 4, !on ? TITLE : FAINT, true);
 				ctx.text(this.font, onL, onx1 + 7, gy1 + 4, on ? TITLE : FAINT, true);
-				int swc = 26, sx = offx1 - 8 - swc;   // свотч слева от тумблера, на той же строке
+				int swc = 26, sx = offx1 - 8 - swc;
 				ctx.fill(sx - 1, gy1 - 1, sx + swc + 1, gy1 + h + 1, BORDER);
 				ctx.fill(sx, gy1, sx + swc, gy1 + h, 0xFF000000 | (RynConfig.color(m.colorKey(), m.defColor()) & 0xFFFFFF));
 				hit.offX1 = offx1; hit.offX2 = offx1 + offW; hit.onX1 = onx1; hit.onX2 = onx1 + onW;
@@ -978,7 +858,6 @@ public class RynSettingsScreen extends Screen {
 	private List<String> wrap(String s, int maxW) {
 		List<String> out = new ArrayList<>();
 		if (s == null || s.isEmpty() || maxW < 20) { if (s != null && !s.isEmpty()) out.add(s); return out; }
-		// Абзацы разносим сами: в подсказке из двух режимов их надо видеть по отдельности.
 		if (s.indexOf('\n') >= 0) {
 			for (String part : s.split("\n")) out.addAll(wrap(part, maxW));
 			return out;
@@ -1001,7 +880,6 @@ public class RynSettingsScreen extends Screen {
 		s.set().accept(Math.max(s.min(), Math.min(s.max(), stepped)));
 	}
 
-	// ===== Ввод =====
 	@Override
 	public boolean mouseClicked(MouseButtonEvent event, boolean doubled) {
 		int mx = (int) event.x(), my = (int) event.y();
@@ -1012,8 +890,6 @@ public class RynSettingsScreen extends Screen {
 
 		for (int[] r : subRects) {
 			if (!in(mx, my, r[1], r[2], r[3], r[4])) continue;
-			// Клик по самому Critter Safari работает как раскладушка: выбран и раскрыт —
-			// сворачиваем, иначе выбираем и раскрываем.
 			List<SubCat> subs = cats.get(catSel).subs();
 			if (r[0] < subs.size() && subs.get(r[0]).name().equals(SAFARI))
 				safariExpanded = !(subSel == r[0] && safariExpanded);
@@ -1032,13 +908,11 @@ public class RynSettingsScreen extends Screen {
 					case Toggle t -> {
 						if (in(mx, my, h.offX1, h.y1, h.offX2, h.y2)) { t.set().accept(false); save(); }
 						else if (in(mx, my, h.onX1, h.y1, h.onX2, h.y2)) { t.set().accept(true); save(); }
-						else { t.set().accept(!t.get().getAsBoolean()); save(); }   // клик по строке — переключить
+						else { t.set().accept(!t.get().getAsBoolean()); save(); }
 					}
 					case AnnOpt t -> {
 						if (in(mx, my, h.btnX1, h.y1, h.btnX2, h.y2)) {
 							save();
-							// id вида «hud:*» — это не надпись-анонс, а плашка: её правят
-							// перетаскиванием в режиме правки HUD.
 							this.minecraft.setScreen(t.annId().startsWith("hud:")
 									? new HudEditScreen()
 									: new AnnounceEditScreen(this, t.annId()));
@@ -1090,8 +964,6 @@ public class RynSettingsScreen extends Screen {
 			return true;
 		}
 		if (listening != null) {
-			// Пишем прямо в KeyMapping — тот же объект, что правит ванильный экран
-			// управления, поэтому бинд виден и там. Esc снимает привязку.
 			var k = event.key() == GLFW.GLFW_KEY_ESCAPE
 					? com.mojang.blaze3d.platform.InputConstants.UNKNOWN
 					: com.mojang.blaze3d.platform.InputConstants.Type.KEYSYM.getOrCreate(event.key());
@@ -1113,8 +985,6 @@ public class RynSettingsScreen extends Screen {
 	@Override
 	public boolean isPauseScreen() { return false; }
 
-	// ===== Примитивы =====
-	/** Скруглённый прямоугольник (2px срезы). */
 	private static void panel(GuiGraphicsExtractor ctx, int x1, int y1, int x2, int y2, int col) {
 		ctx.fill(x1 + 2, y1, x2 - 2, y2, col);
 		ctx.fill(x1, y1 + 2, x2, y2 - 2, col);

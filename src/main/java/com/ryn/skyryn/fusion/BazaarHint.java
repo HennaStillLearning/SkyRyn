@@ -9,36 +9,19 @@ import net.minecraft.client.gui.screens.inventory.AbstractSignEditScreen;
 import com.ryn.skyryn.config.Lang;
 import com.ryn.skyryn.config.RynConfig;
 
-/**
- * Подсказка с количеством при заказе на базаре.
- *
- * Сценарий: кликнул шард в калькуляторе -> открылся базар -> Buy Instantly ->
- * Custom Amount -> Hypixel открывает табличку для ввода числа. Рядом показываем,
- * сколько нужно по рецепту, чтобы не считать в уме.
- *
- * ТОЛЬКО показываем — число игрок вводит сам. Автоподстановка убрана осознанно:
- * правила Hypixel запрещают "mapping chat or commands to buttons" и всё, что
- * "automates any player gameplay action". Ввод текста за игрока попадает под это,
- * а рисование цифры на экране — нет.
- */
 public class BazaarHint {
-
-	/** Сколько живёт запомненное количество — потом подсказка неактуальна. */
 	private static final long TTL_MS = 10 * 60 * 1000;
 
 	private static String pendingShard = null;
 	private static int pendingAmount = 0;
 	private static long pendingAt = 0;
 
-	// Границы плашки текущего кадра
 	private static int boxX, boxY, boxW, boxH;
 
-	// ===== Палитра (в тон панели) =====
 	private static final int TEXT       = 0xFFE6E8F5;
 	private static final int TEXT_MUTED = 0xFF8B90AC;
 	private static final int GOLD       = 0xFFFFD24A;
 
-	/** Запоминает, сколько чего мы собрались покупать. Зовётся при клике в панели. */
 	public static void remember(String shardDisplayName, int amount) {
 		pendingShard = shardDisplayName;
 		pendingAmount = amount;
@@ -75,10 +58,9 @@ public class BazaarHint {
 
 		boxW = Math.max(font.width(title), Math.max(font.width(shard), (int) (font.width(amount) * 1.6f))) + 16;
 		boxH = 40;
-		// Встаём ЧУТЬ ПРАВЕЕ серверной таблички (она по центру, графика — вверху экрана).
 		boxX = screen.width / 2 + 70;
 		boxY = Math.max(6, screen.height / 2 - 120);
-		if (boxX + boxW > screen.width - 6) boxX = screen.width / 2 - 70 - boxW;   // не влезло — слева
+		if (boxX + boxW > screen.width - 6) boxX = screen.width / 2 - 70 - boxW;
 
 		vanillaBox(ctx, boxX, boxY, boxW, boxH);
 
@@ -89,7 +71,6 @@ public class BazaarHint {
 		ctx.text(font, shard, cx - font.width(shard) / 2, ty, TEXT, true);
 		ty += 13;
 
-		// Само число — крупно, по центру.
 		ctx.pose().pushMatrix();
 		ctx.pose().translate(cx, ty);
 		ctx.pose().scale(1.6f, 1.6f);
@@ -97,7 +78,6 @@ public class BazaarHint {
 		ctx.pose().popMatrix();
 	}
 
-	/** Ванильный тултип майнкрафта: тёмный фон + фиолетовая градиентная рамка. */
 	private static void vanillaBox(GuiGraphicsExtractor ctx, int x, int y, int w, int h) {
 		int bg = 0xF0100010, b1 = 0x505000FF, b2 = 0x5028007F;
 		ctx.fill(x - 1, y, x + w + 1, y + h, bg);

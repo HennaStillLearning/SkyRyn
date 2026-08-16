@@ -46,18 +46,7 @@ import com.ryn.skyryn.waypoint.PathRecorder;
 import com.ryn.skyryn.waypoint.SpotRecorder;
 import com.ryn.skyryn.waypoint.Waypoints;
 
-/**
- * Shard Fusion Calculator — считает материалы для фьюжена шардов.
- *
- * Этап 1: команда /fusion <шард> <количество> выводит дерево фьюжена
- * и список базовых шардов. Клик по базовому шарду открывает базар (/bz).
- *
- * Команды:
- *   /fusion <шард> <кол-во>  — рассчитать (например /fusion firefly 160)
- *   /bztest <шард>           — проверить открытие базара по шарду
- */
 public class SkyRynClient implements ClientModInitializer {
-
 	@Override
 	public void onInitializeClient() {
 		ShardDb.load();
@@ -67,7 +56,6 @@ public class SkyRynClient implements ClientModInitializer {
 		SeaGuideDb.loadBundle();
 		SkyBlockCheck.loadAreas();
 		ConfigManager.load();
-		// Сохраняем конфиг при выходе из игры (а не на каждый фьюз — иначе меню закрывается)
 		com.ryn.skyryn.data.ShardIcons.load();
 		ClientLifecycleEvents.CLIENT_STOPPING.register(client -> {
 			ConfigManager.save();
@@ -77,18 +65,10 @@ public class SkyRynClient implements ClientModInitializer {
 		FusionPanel.register();
 		com.ryn.skyryn.screen.BoxGuideOverlay.register();
 		com.ryn.skyryn.data.ShardIcons.register();
-		// ВАЖНО: HuntingTracker — ДО FusionTracker. Оба слушают одно и то же
-		// "+X Hunting" сообщение в экшн-баре; HuntingTracker пропускает его, если
-		// FusionTracker.isAwaitingFusionXp() ещё true. Fabric зовёт обработчики
-		// в порядке регистрации — зарегистрируй FusionTracker первым, и он успеет
-		// сбросить свой флаг ДО того, как Hunting его проверит: XP фьюза задвоится
-		// в трекер охоты.
 		HuntingTracker.register();
 		FusionTracker.register();
 		HuntingHud.register();
 		Waypoints.register();
-		// Служебные команды записи (/srspot, /srpath, /srmob) — только при включённом
-		// флаге debug: игроку они не нужны, а список команд ими засоряется.
 		if (RynConfig.flag("debug", false)) {
 			SpotRecorder.register();
 			PathRecorder.register();
@@ -102,7 +82,6 @@ public class SkyRynClient implements ClientModInitializer {
 		BestiaryReader.register();
 		BazaarHint.register();
 		Keybinds.register();
-		// Снимок картин для проверки видимости: собирать их в фазе отрисовки нельзя.
 		net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.END_CLIENT_TICK
 				.register(com.ryn.skyryn.waypoint.MobHighlight::tick);
 		com.ryn.skyryn.hud.TikiHelper.register();
@@ -112,27 +91,17 @@ public class SkyRynClient implements ClientModInitializer {
 		com.ryn.skyryn.hud.SafariTracker.register();
 
 		ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
-
-			// /srhighlight <моб> — вкл/выкл подсветку; без аргумента — список.
-			// Имя берём целиком (greedyString): у части криттеров оно из двух слов
-			// («mountain goat», «water snake»), и word() их обрубал.
 			for (String cmd : new String[]{ "srhighlight" })
 				dispatcher.register(ClientCommands.literal(cmd)
 						.executes(ctx -> { highlightList(ctx.getSource()); return 1; })
 						.then(ClientCommands.argument("mob", StringArgumentType.greedyString())
 								.executes(ctx -> { highlightToggle(ctx.getSource(), StringArgumentType.getString(ctx, "mob")); return 1; })));
 
-			// Всё под одной командой /sr — чтобы не засорять список команд.
-			// Разделы настроек добавляются сами (/sr hunting, /sr foraging…):
-			// список берётся из самого экрана, поэтому новый раздел команду получит
-			// автоматически, а не потеряется здесь.
 			var sr = ClientCommands.literal("sr")
-					.executes(ctx -> open(new RynMenuScreen()));              // /sr — главное меню
+					.executes(ctx -> open(new RynMenuScreen()));
 			for (String c : com.ryn.skyryn.screen.RynSettingsScreen.CATEGORY_COMMANDS)
 				sr.then(ClientCommands.literal(c).executes(
 						ctx -> open(new com.ryn.skyryn.screen.RynSettingsScreen(null, c))));
-			// Админские команды: правка гайда и работа с метками. Обычному игроку
-			// они не нужны — регистрируем только при включённом флаге debug.
 			if (RynConfig.flag("debug", false)) sr
 					.then(ClientCommands.literal("reload").executes(ctx -> {
 						ShardInfo.load();
@@ -155,7 +124,6 @@ public class SkyRynClient implements ClientModInitializer {
 								}
 								return 1;
 							})
-							// /sr wp x y z — метка на заданных координатах, не сходя с места
 							.then(ClientCommands.argument("x", IntegerArgumentType.integer())
 									.then(ClientCommands.argument("y", IntegerArgumentType.integer())
 											.then(ClientCommands.argument("z", IntegerArgumentType.integer())
@@ -192,11 +160,6 @@ public class SkyRynClient implements ClientModInitializer {
 					.then(ClientCommands.literal("top").executes(ctx -> open(new FusionTopScreen())))
 					.then(ClientCommands.literal("shards").executes(ctx -> open(new ShardListScreen())))
 					.then(ClientCommands.literal("hud").executes(ctx -> open(new HudEditScreen())))
-					// Перечитать гайд из config/skyryn-shards.json без перезахода:
-					// описаний 189, и перезапускать игру после каждого — не жизнь.
-					// Фортуну ввести руками. Автоподхват из Stats Breakdown остаётся,
-					// но он врёт при смене шмота, а поймать её мы не можем: плащи
-					// лежат в SkyBlock-меню, которого клиент не видит.
 					.then(ClientCommands.literal("setfortune")
 							.then(ClientCommands.argument("value", IntegerArgumentType.integer(0, 10000))
 									.executes(ctx -> {
@@ -209,9 +172,8 @@ public class SkyRynClient implements ClientModInitializer {
 												+ Lang.tr(" shards per catch)", " шардов за поимку)")).withStyle(ChatFormatting.GREEN));
 										return 1;
 									})))
-					// Снять метки. Пригодится, когда дошёл и они больше не нужны.
 					.then(ClientCommands.literal("calc")
-							.executes(ctx -> openHb())   // без аргументов — открыть /hb с гайдом «что сфьюзить»
+							.executes(ctx -> openHb())
 							.then(ClientCommands.argument("shard", StringArgumentType.word())
 									.then(ClientCommands.argument("amount", IntegerArgumentType.integer(1))
 											.executes(ctx -> {
@@ -224,7 +186,6 @@ public class SkyRynClient implements ClientModInitializer {
 		});
 	}
 
-	/** Открывает Hunting Box (/hb) — там гайд «что сфьюзить» рисуется поверх (BoxGuideOverlay). */
 	private static int openHb() {
 		Minecraft client = Minecraft.getInstance();
 		if (client.getConnection() != null) {
@@ -233,17 +194,12 @@ public class SkyRynClient implements ClientModInitializer {
 		return 1;
 	}
 
-	/** Экран нельзя ставить прямо в обработчике: игра закроет чат и затрёт его. */
 	private static int open(net.minecraft.client.gui.screens.Screen screen) {
 		Minecraft client = Minecraft.getInstance();
 		client.schedule(() -> client.setScreen(screen));
 		return 1;
 	}
 
-	/**
-	 * Открывает настройки. Экран нельзя ставить прямо в обработчике команды:
-	 * игра после неё сама закроет чат и затрёт наш экран. Откладываем на тик.
-	 */
 	private static int openSettings(com.mojang.brigadier.context.CommandContext<FabricClientCommandSource> ctx) {
 		Minecraft client = Minecraft.getInstance();
 		client.schedule(() -> client.setScreen(new com.ryn.skyryn.screen.RynSettingsScreen(null)));
@@ -269,7 +225,7 @@ public class SkyRynClient implements ClientModInitializer {
 		}
 		boolean on = !RynConfig.hasHighlightMob(d.key());
 		RynConfig.setHighlightMob(d.key(), on);
-		if (on) RynConfig.mobHighlightEnabled = true;   // включил моба — включаем и мастер-тумблер
+		if (on) RynConfig.mobHighlightEnabled = true;
 		com.ryn.skyryn.config.ConfigManager.save();
 		src.sendFeedback(Component.literal(PREFIX + d.label() + " §7— "
 				+ (on ? Lang.tr("§ahighlight ON", "§aподсветка ВКЛ") : Lang.tr("§chighlight OFF", "§cподсветка ВЫКЛ"))));
@@ -321,7 +277,6 @@ public class SkyRynClient implements ClientModInitializer {
 		return String.format("%.0f", v);
 	}
 
-	/** Строка "Nx Shard" кликабельная — клик открывает базар. */
 	private MutableComponent clickableBuy(String shard, int amount) {
 		String bz = ShardDb.bazaarName(shard);
 		return Component.literal(amount + "x " + ShardDb.displayName(shard))

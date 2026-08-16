@@ -12,31 +12,8 @@ import com.ryn.skyryn.config.ConfigManager;
 import com.ryn.skyryn.config.Lang;
 import com.ryn.skyryn.config.RynConfig;
 
-/**
- * Сканер мобов — как сканер floor drop, только по существам.
- *
- * Наводишься на моба (или просто стоишь рядом) и пишешь {@code /srmob <имя>}: мод
- * смотрит, что там за существо, запоминает его приметы (имя над мобом и тип) и
- * сразу включает ему подсветку контуром. Так можно добавить моба, которого в списке
- * ещё нет, не трогая код.
- *
- * Кастомный моб сервера — это обычно НЕ одна сущность. Ванильное тело (у Flitter это
- * летучая мышь) часто невидимо и служит только хитбоксом, картинку рисует отдельный
- * display, имя висит стойкой. Поэтому сканер печатает всю связку разом, помечая, кто
- * невидим и кто на ком едет: по этому списку видно, что именно обводить контуром.
- *
- * Команды:
- *   /srmob auto           — автосбор: ходишь, каждый НОВЫЙ моб сам пишется в
- *                           config/skyryn-scan.txt
- *   /srmob                — что за моб под прицелом (ничего не сохраняет)
- *   /srmob &lt;имя&gt;    — запомнить моба под прицелом и подсветить его
- *   /srmob list           — список своих мобов
- *   /srmob remove &lt;имя&gt; — убрать своего моба
- */
 public class MobScanner {
-
 	private static final String PREFIX = "§5§l[§dSkyRyn§5§l]§r ";
-	/** Дальность прицела и радиус поиска ближайшего моба. */
 	private static final double REACH = 24.0, NEAR = 8.0;
 
 	public static void register() {
@@ -75,7 +52,6 @@ public class MobScanner {
 		String near = nearbyName(target);
 		String name = !own.isBlank() ? own : near;
 
-		// Отчёт — всегда, даже без сохранения: видно, по чему моба вообще можно узнать.
 		say(mc, Lang.tr("Scanned: ", "Отсканирован: ") + "§f" + (name.isBlank() ? Lang.tr("(no name)", "(без имени)") : name));
 		say(mc, "§7  " + Lang.tr("type: ", "тип: ") + "§f" + type
 				+ (target.isInvisible() ? " §8(" + Lang.tr("invisible", "невидим") + ")" : ""));
@@ -91,8 +67,6 @@ public class MobScanner {
 		}
 
 		String key = arg.toLowerCase().replace(' ', '_');
-		// Основная примета — тип существа: у серверных мобов имени часто нет вовсе.
-		// Имя, если оно есть, уточняет. По зонам не привязываемся.
 		String namePart = pickNamePart(name);
 		int color = RynConfig.color("mob." + key, 0xFFFFD24A);
 		RynConfig.putCustomMob(new RynConfig.CustomMob(key, "§f" + cap(arg), type, namePart, color));
@@ -107,14 +81,8 @@ public class MobScanner {
 					"Имени нет, так что обведётся любой моб этого типа."));
 	}
 
-	// ===== Автосбор в файл =====
-	// Разбирать мобов по одному через чат неудобно, их десятки. С автосбором
-	// достаточно пройтись по биомам: каждый НОВЫЙ моб сам ложится строкой в
-	// config/skyryn-scan.txt, и дальше файл читается целиком.
-
 	private static boolean auto = false;
 	private static long lastAuto = 0;
-	/** Уже записанные приметы «тип|имя» — чтобы файл не рос от одних и тех же мобов. */
 	private static final java.util.Set<String> seen = new java.util.LinkedHashSet<>();
 
 	private static java.nio.file.Path scanFile() {
@@ -134,7 +102,6 @@ public class MobScanner {
 		}
 	}
 
-	/** Раз в секунду смотрим мобов вокруг и дописываем в файл тех, кого ещё не видели. */
 	private static void autoTick(Minecraft mc) {
 		if (!auto || mc.level == null || mc.player == null) return;
 		if (System.currentTimeMillis() - lastAuto < 1000) return;
@@ -146,8 +113,6 @@ public class MobScanner {
 			String own = e.getCustomName() != null ? strip(e.getCustomName().getString()) : "";
 			String near = nearbyName(e);
 			String name = !own.isBlank() ? own : near;
-			// Имя с уровнем и хп у каждого моба своё — для приметы чистим цифры,
-			// иначе один и тот же вид писался бы десятками строк.
 			String sig = type + "|" + name.replaceAll("[0-9,/]+", "").trim();
 			if (!seen.add(sig)) continue;
 			append(describe(e, type, own, near));
@@ -155,7 +120,6 @@ public class MobScanner {
 		}
 	}
 
-	/** Одна строка файла: всё, по чему моба можно опознать и решить, что обводить. */
 	private static String describe(Entity e, String type, String own, String near) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(String.format(java.util.Locale.US, "%-28s", type));
@@ -185,16 +149,11 @@ public class MobScanner {
 		}
 	}
 
-	/** Размер хитбокса одной строкой: «0.50×1.98». */
 	private static String box(Entity e) {
 		var bb = e.getBoundingBox();
 		return String.format(java.util.Locale.US, "%.2f×%.2f", bb.getXsize(), bb.getYsize());
 	}
 
-	/**
-	 * Вся связка вокруг цели: кто на ком едет, кто невидим, кто дисплей. Именно
-	 * отсюда видно, что обводить: у невидимого тела картинку несёт display.
-	 */
 	private static void cluster(Minecraft mc, Entity target) {
 		java.util.LinkedHashSet<Entity> set = new java.util.LinkedHashSet<>();
 		if (target.getVehicle() != null) set.add(target.getVehicle());
@@ -206,8 +165,6 @@ public class MobScanner {
 			return;
 		}
 		say(mc, "§7  " + Lang.tr("cluster (", "связка (") + set.size() + "):");
-		// Носители картинки — вперёд. У Shyworm в связке 14 сущностей, и обрезание
-		// списка по восьмой съедало ровно то, ради чего скан и делается.
 		java.util.List<Entity> order = new java.util.ArrayList<>(set);
 		order.sort((a, b) -> Integer.compare(rank(b), rank(a)));
 		int shown = 0;
@@ -223,9 +180,6 @@ public class MobScanner {
 				sb.append(" §e← ").append(Lang.tr("the picture", "картинка"));
 			else if (MobHighlight.isModelStand(o))
 				sb.append(" §e← ").append(Lang.tr("stand with an item", "стойка с предметом"));
-			// Хитбокс и высота относительно моба: по ним считается, куда рисовать бокс.
-			// Предмет на стойке сидит на голове, то есть ВЫШЕ её точки, и насколько
-			// выше — зависит от того, обычная стойка, маленькая или маркер.
 			sb.append(" §8").append(box(o))
 					.append(" Δy ").append(String.format(java.util.Locale.US, "%+.2f",
 							o.getBoundingBox().minY - target.getBoundingBox().minY));
@@ -237,12 +191,6 @@ public class MobScanner {
 		}
 	}
 
-
-	/**
-	 * Что надето на стойке-модели. Именно предмет — точная примета такого моба:
-	 * безымянных невидимых стоек с предметом на Hypixel полно, а вот конкретная
-	 * голова или предмет принадлежит одному мобу (нужно для Invisibug и подобных).
-	 */
 	private static String wornItem(Entity e) {
 		if (!(e instanceof net.minecraft.world.entity.LivingEntity le)) return "item";
 		for (net.minecraft.world.entity.EquipmentSlot sl : net.minecraft.world.entity.EquipmentSlot.values()) {
@@ -253,7 +201,6 @@ public class MobScanner {
 		return "item";
 	}
 
-	/** Насколько сущность интересна в связке: сначала картинки, потом всё остальное. */
 	private static int rank(Entity e) {
 		if (e instanceof net.minecraft.world.entity.Display) return 3;
 		if (MobHighlight.isModelStand(e)) return 2;
@@ -261,10 +208,6 @@ public class MobScanner {
 		return 0;
 	}
 
-	/**
-	 * Ключевое слово имени: берём самое длинное слово (уровни, редкости и значки
-	 * отсекаются сами — они короткие или из цифр).
-	 */
 	private static String pickNamePart(String name) {
 		String best = "";
 		for (String w : strip(name).toLowerCase().split("[^a-zа-я]+"))
@@ -272,7 +215,6 @@ public class MobScanner {
 		return best.length() >= 4 ? best : "";
 	}
 
-	/** Моб под прицелом; если прицел пуст — ближайший к игроку. */
 	private static Entity target(Minecraft mc) {
 		if (mc.player == null || mc.level == null) return null;
 		Vec3 eye = mc.player.getEyePosition();
@@ -289,7 +231,6 @@ public class MobScanner {
 			if (t < bestT) { bestT = t; best = e; }
 		}
 		if (best != null) return best;
-		// Прицел мимо — берём ближайшего.
 		double bd = NEAR * NEAR;
 		for (Entity e : mc.level.getEntities(mc.player, mc.player.getBoundingBox().inflate(NEAR))) {
 			if (!scannable(e)) continue;
@@ -299,22 +240,11 @@ public class MobScanner {
 		return best;
 	}
 
-
-	/**
-	 * Что вообще может попасть под ручной /srmob. Фильтр нарочно шире, чем у
-	 * автосбора: ручной скан — это диагностика, и отбрасывать пустые стойки нельзя.
-	 * Invisibug как раз ими и оказался — команда его «не видела», хотя он был рядом.
-	 */
 	private static boolean scannable(Entity e) {
 		return !(e instanceof net.minecraft.world.entity.player.Player)
 				&& !(e instanceof net.minecraft.world.entity.item.ItemEntity);
 	}
 
-	/**
-	 * Пустые стойки и дисплеи — это подписи, а не мобы. НО стойка с надетым предметом
-	 * — это модель моба (перекати-поле Driftling и подобное): её пропускать нельзя,
-	 * иначе такой моб в скан вообще не попадёт.
-	 */
 	private static boolean interesting(Entity e) {
 		if (e instanceof net.minecraft.world.entity.decoration.ArmorStand) return MobHighlight.isModelStand(e);
 		return !(e instanceof net.minecraft.world.entity.Display)
@@ -322,7 +252,6 @@ public class MobScanner {
 				&& !(e instanceof net.minecraft.world.entity.item.ItemEntity);
 	}
 
-	/** Имя с ближайшей стойки-нейтмега над мобом. */
 	private static String nearbyName(Entity target) {
 		AABB area = target.getBoundingBox().inflate(2.0, 3.0, 2.0);
 		String best = "";

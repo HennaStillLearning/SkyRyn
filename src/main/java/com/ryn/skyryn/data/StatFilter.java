@@ -5,22 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-/**
- * Статы SkyBlock для фильтра в /sr shards.
- *
- * Категории и ключевые слова выведены из реальных описаний (attrDesc), а не
- * выдуманы: проверяем по английскому оригиналу attrDescEn — там стабильные
- * названия статов, которые Hypixel и пишет в тултипах.
- *
- * Один шард может попасть в несколько статов (Galaxy Fish даёт три Fortune) —
- * это нормально, фильтр покажет его в каждом.
- *
- * Ярлык двуязычный (Lang.tr), а матчим и храним выбор по стабильному id —
- * иначе смена языка на лету ломала бы уже выбранный фильтр.
- */
 public class StatFilter {
-
-	/** Стат: стабильный id, двуязычный ярлык, регэксп по английскому описанию. */
 	public record Stat(String id, String en, String ru, Pattern pattern) {
 		public String label() { return Lang.tr(en, ru); }
 	}
@@ -52,19 +37,16 @@ public class StatFilter {
 		STATS.add(new Stat(id, en, ru, Pattern.compile(regex, Pattern.CASE_INSENSITIVE)));
 	}
 
-	/** Все статы в порядке добавления — для выпадающего меню. */
 	public static List<Stat> stats() {
 		return STATS;
 	}
 
-	/** Стат по стабильному id, null — нет такого. */
 	public static Stat byId(String id) {
 		if (id == null) return null;
 		for (Stat s : STATS) if (s.id().equals(id)) return s;
 		return null;
 	}
 
-	/** Даёт ли шард стат с этим id. Смотрим по английскому описанию. */
 	public static boolean matches(ShardDb.Shard s, String id) {
 		Stat st = byId(id);
 		if (s == null || st == null) return false;

@@ -27,8 +27,6 @@ mode that keeps the custom items readable.
 
 **Mod menu.** `/sr`.
 
-English and Russian, switched in `/sr`. Everything is off on first launch.
-
 ## Installing
 
 1. Install [Fabric](https://fabricmc.net/use/installer) and

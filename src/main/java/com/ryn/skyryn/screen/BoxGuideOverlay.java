@@ -12,16 +12,7 @@ import com.ryn.skyryn.config.ConfigManager;
 import com.ryn.skyryn.config.RynConfig;
 import com.ryn.skyryn.waypoint.SkyBlockCheck;
 
-/**
- * Оверлей «что сфьюзить» у окна Hunting Box (/hb) И Fusion Box.
- *
- * На /hb запас и иконки свежие (HuntingBoxReader/ShardIcons), на машине фьюза —
- * последние виденные. Панель перетаскивается за шапку сетки (позиция в конфиге,
- * как у калькулятора). Детальное меню раскрывается влево. Клик — GLFW-поллинг,
- * скролл — ScreenMouseEvents.
- */
 public class BoxGuideOverlay {
-
 	private static boolean wasDown = false;
 	private static boolean dragging = false;
 	private static int dragDX, dragDY;
@@ -50,12 +41,9 @@ public class BoxGuideOverlay {
 				return true;
 			});
 
-			// Блокируем клик от сундука ТОЛЬКО по нашим панелям. Клик по самому /hb
-			// (слот/страница) проходит в контейнер как обычно.
 			ScreenMouseEvents.allowMouseClick(screen).register((scr, event) ->
 					!(RynConfig.boxBoardEnabled && BoxBoard.contains((int) event.x(), (int) event.y())));
 
-			// Ввод в поиск гайда: пока строка поиска активна, буквы/цифры идут в неё.
 			ScreenKeyboardEvents.allowKeyPress(screen).register((scr, keyEvent) -> {
 				if (!RynConfig.boxBoardEnabled || !BoxBoard.isSearching()) return true;
 				int k = keyEvent.key();
@@ -64,7 +52,7 @@ public class BoxGuideOverlay {
 				if (k == GLFW.GLFW_KEY_ENTER) return false;
 				String ch = charOf(k);
 				if (ch != null) { BoxBoard.searchAppend(ch); return false; }
-				return true;   // не наша клавиша — в игру
+				return true;
 			});
 		});
 	}
@@ -82,7 +70,6 @@ public class BoxGuideOverlay {
 					dragDY = my - gy;
 				}
 			} else {
-				// Клик по контейнеру/миру: закрыть только настройки, детали оставить.
 				BoxBoard.closeSettings();
 			}
 		}
@@ -98,11 +85,9 @@ public class BoxGuideOverlay {
 		wasDown = down;
 	}
 
-	/** Сетка: свёрнуто — иконка ПРИКРЕПЛЕНА справа от контейнера (не таскается);
-	 *  развёрнуто — сохранённая позиция (свободно таскается) либо авто справа. */
 	private static int gridX(Screen scr) {
 		if (BoxBoard.isCollapsed())
-			return Math.min(containerRight(scr) + 1, scr.width - BoxBoard.ICON_BAR - 2);   // вплотную к правому краю /hb
+			return Math.min(containerRight(scr) + 1, scr.width - BoxBoard.ICON_BAR - 2);
 		int auto = (scr.width + 176) / 2 + 12;
 		return RynConfig.boxGuideX >= 0 ? Math.min(RynConfig.boxGuideX, scr.width - BoxBoard.gridWidth()) : auto;
 	}
@@ -111,7 +96,6 @@ public class BoxGuideOverlay {
 		return RynConfig.boxGuideY >= 0 ? Math.min(RynConfig.boxGuideY, scr.height - 30) : 20;
 	}
 
-	/** Правый край окна контейнера (точно — через миксин; иначе оценка по 176). */
 	private static int containerRight(Screen scr) {
 		if (scr instanceof com.ryn.skyryn.mixin.ContainerScreenAccessor a)
 			return a.skyryn$leftPos() + a.skyryn$imageWidth();
@@ -122,15 +106,12 @@ public class BoxGuideOverlay {
 		return 20;
 	}
 
-	/** Шапка сетки — за неё таскаем. */
 	private static boolean inStrip(int gx, int gy, int mx, int my) {
 		return mx >= gx && mx <= gx + BoxBoard.gridWidth() && my >= gy && my <= gy + BoxBoard.STRIP_H;
 	}
 
-
 	private static int clamp(int v, int lo, int hi) { return Math.max(lo, Math.min(hi, v)); }
 
-	/** Код клавиши → символ для поиска (буква/цифра/пробел), иначе null. */
 	private static String charOf(int k) {
 		if (k >= GLFW.GLFW_KEY_A && k <= GLFW.GLFW_KEY_Z) return String.valueOf((char) ('a' + (k - GLFW.GLFW_KEY_A)));
 		if (k >= GLFW.GLFW_KEY_0 && k <= GLFW.GLFW_KEY_9) return String.valueOf((char) ('0' + (k - GLFW.GLFW_KEY_0)));

@@ -14,18 +14,7 @@ import java.util.regex.Pattern;
 import com.ryn.skyryn.config.ConfigManager;
 import com.ryn.skyryn.config.RynConfig;
 
-/**
- * Читает уровни перков из «Safari Essence Shop» (NPC Archie) — как
- * {@link AttributeMenuReader} для аттрибутов: предметы статичны, меняются только
- * уровни. Читаем при открытии, сохраняем (перк-уровни живут в RynConfig.ints
- * под ключом «perk.<имя>»). Ничего не нажимаем.
- *
- * Точный формат лора неизвестен — уровень ищем по: римской цифре в конце имени
- * («Sparkling Specialist V») ИЛИ «Level/Tier N» в лоре. Диагностика в лог, чтобы
- * при промахе поправить парс по реальной строке.
- */
 public class SafariPerks {
-
 	private static final Pattern LORE_LEVEL = Pattern.compile("(?:level|tier)\\s*:?\\s*(\\d+)", Pattern.CASE_INSENSITIVE);
 	private static boolean dirty = false;
 	private static boolean loggedOnce = false;
@@ -58,7 +47,6 @@ public class SafariPerks {
 		loggedOnce = true;
 	}
 
-	/** Уровень перка: римская цифра в конце имени ИЛИ «Level N» в лоре; иначе -1 (не перк). */
 	private static int parseLevel(String name, List<String> lore) {
 		String[] w = name.trim().split("\\s+");
 		if (w.length > 0) { int r = roman(w[w.length - 1]); if (r > 0) return r; }
@@ -66,7 +54,6 @@ public class SafariPerks {
 		return -1;
 	}
 
-	/** Имя перка без хвостовой римской цифры, нижним регистром. */
 	private static String perkKey(String name) {
 		String[] w = name.trim().split("\\s+");
 		if (w.length > 1 && roman(w[w.length - 1]) > 0)
@@ -82,14 +69,12 @@ public class SafariPerks {
 		};
 	}
 
-	/** Куплен ли перк Sparkling Specialist (уровень ≥ 1). */
 	public static boolean hasSparkling() {
 		for (var en : RynConfig.ints.entrySet())
 			if (en.getKey().startsWith("perk.") && en.getKey().contains("sparkling") && en.getValue() > 0) return true;
 		return false;
 	}
 
-	/** Список перков «Имя N | …» для #perks. */
 	public static String list() {
 		StringBuilder sb = new StringBuilder();
 		for (var en : RynConfig.ints.entrySet()) {

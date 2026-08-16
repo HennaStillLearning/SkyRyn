@@ -20,64 +20,24 @@ import com.ryn.skyryn.config.Lang;
 import com.ryn.skyryn.config.RynConfig;
 import com.ryn.skyryn.waypoint.SkyBlockCheck;
 
-/**
- * Honeycomb tracker — таймеры Critter на помазанных мёдом деревьях (Foraging).
- *
- * Механика: особым предметом «мажешь» дерево мёдом («You lathered the Fig Tree with
- * Honeycomb!») — через 60/30/15 мин появляется Critter. По предмету не понять, сколько
- * ждать: время пишет только сама игра строкой «⏣ Critter in: Xm Ys», и видно её ТОЛЬКО
- * у дерева.
- *
- * Строка приходит по-разному, поэтому читаем все места сразу:
- *   1) голограммы вокруг игрока — основной источник,
- *   2) экшн-бар,
- *   3) субтитр/титр (через GuiSubtitleMixin),
- *   4) обычный чат.
- *
- * Таймер привязывается к месту, где висит строка, поэтому помеченных деревьев
- * может быть сколько угодно и «помазал» ловить не обязательно: подошёл к дереву —
- * таймер сам появился в списке.
- *
- * Когда время вышло, строка не пропадает: криттер уже сидит на дереве и ждёт, пока за
- * ним придут, а голограмма вместо времени показывает «Tree Protection Order» (в плашку
- * это не выводим). Дерево висит с пометкой «Spawned», пока таймер не обновится или пока
- * игрок не подойдёт и Hypixel не напишет «HONEY TREE! … has appeared!».
- *
- * ПОРОДУ дерева голограмма не пишет (там только время и «Tree Protection Order»), её
- * знает единственное сообщение — о мазке. Поэтому породу получает ближайший к игроку
- * безымянный таймер, и дальше она держится за местом: иначе свежее дерево подписалось
- * бы породой предыдущего помазанного.
- */
 public class CritterTimer {
-
 	private static final Pattern LATHER =
 			Pattern.compile("lathered the (\\w+) tree with honeycomb", Pattern.CASE_INSENSITIVE);
 	private static final Pattern CRITTER_IN =
 			Pattern.compile("critter in:\\s*(?:(\\d+)\\s*m)?\\s*(?:(\\d+)\\s*s)?", Pattern.CASE_INSENSITIVE);
-	/**
-	 * Криттер появился. Это сообщение приходит, когда подходишь к дереву:
-	 * «HONEY TREE! Pollendart has appeared!». Второй вариант — старое «fell from the tree».
-	 */
 	private static final Pattern SPAWN =
 			Pattern.compile("honey tree!.*\\bhas appeared|\\bfell from the tree", Pattern.CASE_INSENSITIVE);
-	/**
-	 * Улей: «Honeyhive / Refill in: 59m 50s» голограммой над ним. Ульев много и стоят
-	 * они кучно, но запоминать каждый не нужно — держим ОДИН таймер по самому большому
-	 * увиденному отсчёту: он наполнится последним, значит к этому моменту готовы все.
-	 */
 	private static final Pattern REFILL_IN =
 			Pattern.compile("refill in:\\s*(?:(\\d+)\\s*m)?\\s*(?:(\\d+)\\s*s)?", Pattern.CASE_INSENSITIVE);
 	private static long hiveEndMs = 0;
 
-	/** Таймер, которому так и не досталось времени, столько не живёт. */
 	private static final long UNSYNCED_LIFE = 600_000;
-	/** Предохранитель от бесконечного накопления: отработавшее дерево дольше не держим. */
 	private static final long SPAWNED_LIFE = 3 * 3600_000L;
 
 	private static final class Timer {
-		final String key;      // место (блок) или имя дерева — по чему таймер опознаётся
-		String tree;           // подпись в плашке
-		BlockPos pos;          // где висит строка времени
+		final String key;
+		String tree;
+		BlockPos pos;
 		long endMs;
 		final long createdAt = now();
 		boolean alerted;
@@ -85,7 +45,6 @@ public class CritterTimer {
 	}
 
 	private static final Map<String, Timer> timers = new LinkedHashMap<>();
-	/** Порода дерева по месту его голограммы — запоминается, когда ты его мажешь. */
 	private static final Map<String, String> knownTrees = new java.util.HashMap<>();
 	private static String pendingTree = null;
 	private static Vec3 pendingPos = null;
@@ -99,12 +58,9 @@ public class CritterTimer {
 			if (!RynConfig.critterTimer || !SkyBlockCheck.onSkyBlock()) return;
 			String s = strip(message.getString());
 			if (s == null) return;
-			// Экшн-бар тоже может нести «Critter in».
 			if (overlay) { readTime(s, null, "action bar"); return; }
 			Matcher m = LATHER.matcher(s);
 			if (m.find()) {
-				// Породу знает только это сообщение. Запоминаем и место игрока: голограмма
-				// с временем висит тут же рядом — ей имя и достанется.
 				pendingTree = cap(m.group(1).toLowerCase());
 				var pl = Minecraft.getInstance().player;
 				pendingPos = pl != null ? pl.position() : null;
@@ -115,25 +71,17 @@ public class CritterTimer {
 			readTime(s, null, "чат");
 		});
 
-		// Основной источник: голограмма над деревом. Смотрим два раза в секунду.
 		ClientTickEvents.END_CLIENT_TICK.register(CritterTimer::scanHolograms);
 
 		HudElementRegistry.addLast(Identifier.fromNamespaceAndPath("skyryn", "critter-timer"),
 				(ctx, tick) -> renderHud(ctx));
 	}
 
-	/** Титр/субтитр (из миксина Gui). */
 	public static void onSubtitle(String raw) {
 		if (!RynConfig.critterTimer) return;
 		readTime(strip(raw), null, "титр");
 	}
 
-	// ===== Чтение времени =====
-
-	/**
-	 * Разбирает строку «Critter in: Xm Ys». pos — где строка висит (голограмма),
-	 * либо null, если источник без места (чат/титр/экшн-бар).
-	 */
 	private static Timer readTime(String s, BlockPos pos, String source) {
 		if (s == null || s.isEmpty()) return null;
 		Matcher m = CRITTER_IN.matcher(s);
@@ -144,18 +92,16 @@ public class CritterTimer {
 		if (secs <= 0) return null;
 
 		Timer t = pos != null ? timerAt(pos) : pick(secs);
-		if (t == null) {   // источник без места и ни одного известного дерева — заводим по факту чтения
+		if (t == null) {
 			t = new Timer("loose", pendingTree != null ? pendingTree : "");
 			timers.put(t.key, t);
 		}
 		long end = now() + secs * 1000;
-		// Не дёргаем таймер туда-сюда от секундных расхождений между источниками.
 		if (Math.abs(end - t.endMs) > 2000) { t.endMs = end; t.alerted = false; }
 		logOnce(source, secs, t.tree);
 		return t;
 	}
 
-	/** Отсчёт улья. Берём самый большой из увиденных — по нему готовы будут все. */
 	private static void readHive(String s) {
 		Matcher m = REFILL_IN.matcher(s);
 		if (!m.find()) return;
@@ -167,10 +113,7 @@ public class CritterTimer {
 		if (end > hiveEndMs) hiveEndMs = end;
 	}
 
-	/** Таймер по месту голограммы (создаётся при первом чтении). */
 	private static Timer timerAt(BlockPos pos) {
-		// Голограмма между тиками чуть съезжает — таймер вплотную это то же самое
-		// дерево, а не второе. Иначе одно дерево размножалось бы в плашке.
 		for (Timer t : timers.values())
 			if (t.pos != null && !t.key.equals("loose") && t.pos.distSqr(pos) <= 9) {
 				t.pos = pos;
@@ -182,30 +125,19 @@ public class CritterTimer {
 		if (t == null) {
 			t = new Timer(key, nameFor(pos));
 			timers.put(key, t);
-			// Если рядом уже болтался таймер «без места» — он про это же дерево, убираем дубль.
 			timers.remove("loose");
 		} else if (t.tree.isEmpty()) {
-			t.tree = nameFor(pos);   // породу могли узнать уже после того, как завели таймер
+			t.tree = nameFor(pos);
 		}
 		t.pos = pos;
 		return t;
 	}
 
-	/**
-	 * Порода дерева, если она уже известна. Голограмма над деревом пишет только время
-	 * («⏣ Critter in: 12m 22s») и «Tree Protection Order» — породы там нет, а угадывать
-	 * её по соседним строкам нельзя: так все деревья подписываются последним помазанным.
-	 * Единственный источник — сообщение о мазке.
-	 */
 	private static String nameFor(BlockPos pos) {
 		String k = knownTrees.get(key(pos));
 		return k != null ? k : "";
 	}
 
-	/**
-	 * Отдаёт имя из «You lathered the X Tree» ближайшей безымянной голограмме.
-	 * Мазок делается вплотную, так что ближайшая — она и есть.
-	 */
 	private static void assignPending(java.util.List<Timer> seen) {
 		if (pendingTree == null) return;
 		if (pendingPos == null || now() - pendingAt > 30_000) { clearPending(); return; }
@@ -217,7 +149,7 @@ public class CritterTimer {
 		}
 		if (best == null) return;
 		best.tree = pendingTree;
-		knownTrees.put(best.key, pendingTree);   // вернёшься к этому дереву — подпишется само
+		knownTrees.put(best.key, pendingTree);
 		clearPending();
 	}
 
@@ -225,15 +157,11 @@ public class CritterTimer {
 
 	private static String key(BlockPos pos) { return pos.getX() + ":" + pos.getY() + ":" + pos.getZ(); }
 
-	/** Голограммы вокруг игрока: «⏣ Critter in: Xm Ys» висит над помазанным деревом. */
 	private static void scanHolograms(Minecraft mc) {
 		if (!RynConfig.critterTimer || mc.level == null || mc.player == null) return;
 		if (now() - lastScan < 500) return;
 		lastScan = now();
 		if (!SkyBlockCheck.onSkyBlock()) return;
-		// Отработавшее дерево из плашки НЕ убираем — оно висит как «Spawned», пока
-		// таймер не обновится или пока криттер не появится (сообщение в чате).
-		// Убираем только то, чему так и не досталось времени, и совсем старое.
 		timers.values().removeIf(t -> t.endMs > 0
 				? now() > t.endMs + SPAWNED_LIFE
 				: now() - t.createdAt > UNSYNCED_LIFE);
@@ -253,15 +181,8 @@ public class CritterTimer {
 		assignPending(seen);
 	}
 
-	/**
-	 * Какому дереву принадлежит время, прочитанное БЕЗ места (чат/титр/экшн-бар).
-	 * По породе НЕ выбираем: её знает только сообщение о мазке, и такой выбор уводит
-	 * время свежего дерева в таймер предыдущего помазанного.
-	 */
 	private static Timer pick(long secs) {
-		// Ещё не синканный таймер (endMs=0) — первое же прочитанное время его и задаёт.
 		for (Timer t : timers.values()) if (t.endMs == 0) return t;
-		// Иначе — тот, чей остаток ближе к прочитанному значению.
 		Timer best = null; long bd = Long.MAX_VALUE;
 		for (Timer t : timers.values()) {
 			long d = Math.abs((t.endMs - now()) / 1000 - secs);
@@ -270,18 +191,13 @@ public class CritterTimer {
 		return (best != null && bd <= 120) ? best : null;
 	}
 
-	/**
-	 * Криттер появился — убираем дерево из плашки. Сообщение приходит у самого дерева,
-	 * поэтому берём отработавший таймер, ближайший к игроку; если места нет ни у кого —
-	 * тот, что отработал первым (дольше всех ждёт).
-	 */
 	private static void removeNearestExpired() {
 		Minecraft mc = Minecraft.getInstance();
 		Vec3 p = mc.player != null ? mc.player.position() : null;
-		Timer near = null; double nd = Double.MAX_VALUE;   // ближайшее к игроку
-		Timer old = null;                                  // отработавшее раньше всех
+		Timer near = null; double nd = Double.MAX_VALUE;
+		Timer old = null;
 		for (Timer t : timers.values()) {
-			if (t.endMs == 0 || t.endMs > now()) continue;   // ещё тикает — не оно
+			if (t.endMs == 0 || t.endMs > now()) continue;
 			if (old == null || t.endMs < old.endMs) old = t;
 			if (p == null || t.pos == null) continue;
 			double d = p.distanceToSqr(Vec3.atCenterOf(t.pos));
@@ -291,7 +207,6 @@ public class CritterTimer {
 		if (best != null) timers.remove(best.key);
 	}
 
-	/** Диагностика: раз в 5 секунд пишем в лог, откуда взяли время (искали долго). */
 	private static long lastLog = 0;
 	private static void logOnce(String source, long secs, String tree) {
 		if (now() - lastLog < 5000) return;
@@ -299,15 +214,10 @@ public class CritterTimer {
 		com.ryn.skyryn.config.SkyLog.d("Critter: " + secs + "с (" + tree + ") источник — " + source);
 	}
 
-
-	// ===== Метки деревьев =====
-	// Живут здесь, в honey-трекере: это его функция, тумблер тоже его. Метка —
-	// короткая, с подписью, как места применения Icebreaker; столба в небо нет.
-
 	private static final double[][] HONEY_TREES = {
-			{ -618, 99, 233 }, { -549, 111, 298 }, { -535, 110, 275 }, { -512, 108, 259 },   // Torrhus, Helix
-			{ -605, 115, 9 }, { -661, 115, -79 }, { -731, 120, 38 },                          // Galatea, Fig
-			{ -611, 90, 32 }, { -610, 99, 94 }, { -717, 100, 38 },                            // Galatea, Mangrove
+			{ -618, 99, 233 }, { -549, 111, 298 }, { -535, 110, 275 }, { -512, 108, 259 },
+			{ -605, 115, 9 }, { -661, 115, -79 }, { -731, 120, 38 },
+			{ -611, 90, 32 }, { -610, 99, 94 }, { -717, 100, 38 },
 	};
 
 	private static String treeName(int i) { return i < 4 ? "Helix" : i < 7 ? "Fig" : "Mangrove"; }
@@ -324,7 +234,6 @@ public class CritterTimer {
 		haveFrame = true;
 	}
 
-	/** Горшок с мёдом в руке — любой из трёх размеров. */
 	private static boolean holdingHoneyPot(Minecraft mc) {
 		for (var st : new net.minecraft.world.item.ItemStack[]{
 				mc.player.getMainHandItem(), mc.player.getOffhandItem() }) {
@@ -334,13 +243,11 @@ public class CritterTimer {
 		return false;
 	}
 
-	/** Короткая метка на каждом дереве. Зовётся из миксина. */
 	public static void renderWorld(com.mojang.blaze3d.vertex.PoseStack ps,
 								   net.minecraft.client.renderer.MultiBufferSource.BufferSource buf, Vec3 cam) {
 		treeLabels.clear();
 		Minecraft mc = Minecraft.getInstance();
 		if (mc.level == null || mc.player == null) return;
-		// Режим меток: 0 — выключены, 1 — только с горшком в руке, 2 — всегда.
 		int mode = RynConfig.getInt("trees.mode", 0);
 		if (mode == 0 || (mode == 1 && !holdingHoneyPot(mc))) return;
 		String isl = SkyBlockCheck.currentIsland();
@@ -362,7 +269,6 @@ public class CritterTimer {
 		buf.endBatch();
 	}
 
-	/** Подписи деревьев — проекцией мир→экран, как подписи меток сафари. */
 	private static void drawTreeLabels(GuiGraphicsExtractor ctx, Minecraft mc, Font font) {
 		if (!haveFrame || treeLabels.isEmpty()) return;
 		int sw = mc.getWindow().getGuiScaledWidth(), sh = mc.getWindow().getGuiScaledHeight();
@@ -377,7 +283,6 @@ public class CritterTimer {
 		}
 	}
 
-	// ===== Плашка =====
 	private static void renderHud(GuiGraphicsExtractor ctx) {
 		Minecraft mc = Minecraft.getInstance();
 		if (mc.player == null || mc.options.hideGui || mc.screen != null) return;
@@ -387,8 +292,6 @@ public class CritterTimer {
 		Font font = mc.font;
 		if (RynConfig.flag("critter.plaque", true)) drawPlaque(ctx, font);
 
-		// Вспышка за 5 сек. Место, размер, цвет, длительность и сам текст — из настроек
-		// анонса. Свой текст подставляется целиком, поэтому в нём есть {tree}.
 		long showMs = Announce.showMs(Announce.CRITTER);
 		long dt = now() - flashAt;
 		if (dt >= 0 && dt < showMs) {
@@ -399,8 +302,7 @@ public class CritterTimer {
 		}
 	}
 
-	// ===== Плашка: место и размер правятся мышкой в режиме правки HUD =====
-	private static int plaqueW = 90, plaqueH = 30;   // габариты последней отрисовки
+	private static int plaqueW = 90, plaqueH = 30;
 	public static int plaqueW() { return plaqueW; }
 	public static int plaqueH() { return plaqueH; }
 	public static int hudX() { return RynConfig.getInt("critter.x", 4); }
@@ -416,7 +318,6 @@ public class CritterTimer {
 	public static int scalePct() { return Math.max(50, Math.min(150, RynConfig.getInt("critter.scale", 100))); }
 	public static void setScalePct(int v) { RynConfig.setInt("critter.scale", Math.max(50, Math.min(150, v))); }
 
-	/** Плашка таймеров в позиции и масштабе из конфига. Зовётся и с HUD, и с экрана правки. */
 	public static void drawPlaque(GuiGraphicsExtractor ctx, Font font) {
 		java.util.List<Timer> list = new java.util.ArrayList<>(timers.values());
 		list.sort((a, b) -> Long.compare(a.endMs, b.endMs));
@@ -438,11 +339,7 @@ public class CritterTimer {
 				y += 10; continue;
 			}
 			long rem = (t.endMs - now()) / 1000;
-			// Алерт за 5 сек.
 			if (rem <= 5 && rem >= 0 && !t.alerted) { t.alerted = true; flashAt = now(); flashTree = name; }
-			// Ноль — не конец строки: криттер уже сидит на дереве и ждёт, пока за ним
-			// придут. Строка так и висит, пока таймер не обновится или криттер не
-			// появится (тогда Hypixel пишет «HONEY TREE! … has appeared!»).
 			int col = rem <= 0 ? 0xFF8CE04A : (rem <= 10 ? 0xFFFF5A5A : (rem <= 60 ? 0xFFFFD24A : 0xFF5FD68A));
 			String time = rem <= 0 ? Lang.tr("Spawned", "Появился") : fmt(rem);
 			ctx.text(font, "§f" + name + " §7— ", 0, y, 0xFFFFFFFF, true);
@@ -450,7 +347,6 @@ public class CritterTimer {
 			maxW = Math.max(maxW, font.width(name + " — " + time));
 			y += 10;
 		}
-		// Ульи — одной строкой под деревьями: таймер у них общий.
 		if (RynConfig.flag("hive.timer", true) && hiveEndMs > now()) {
 			long rem = (hiveEndMs - now()) / 1000;
 			String time = fmt(rem);
@@ -464,25 +360,16 @@ public class CritterTimer {
 		plaqueH = Math.round(y * s);
 	}
 
-	/**
-	 * Показывать ли плашку здесь. Режим 0 — везде (таймер тикает, даже когда ты уехал
-	 * на базар), 1 — только в Torrhus Canyon и его подзонах: деревья всё равно там,
-	 * и в остальном мире плашка только занимает угол экрана.
-	 */
 	private static boolean plaqueHere() {
-		// Остров берём из areas.json, а не ищем «torrhus» в названии зоны: половина
-		// подзон каньона называется иначе (Hotspot Haven, Miria's Hut, Ant's Cave,
-		// Desert Temple), и по имени они в проверку не попадали.
 		String isl = SkyBlockCheck.currentIsland();
 		return switch (RynConfig.getInt("critter.where", 3)) {
 			case 0 -> "torrhus".equals(isl);
 			case 1 -> "galatea".equals(isl);
-			case 2 -> "torrhus".equals(isl) || "galatea".equals(isl);   // Foraging Island
-			default -> true;                                            // везде
+			case 2 -> "torrhus".equals(isl) || "galatea".equals(isl);
+			default -> true;
 		};
 	}
 
-	/** Подпись в плашке: пока породу не узнали — просто «Дерево». */
 	private static String label(Timer t) { return t.tree.isEmpty() ? Lang.tr("Tree", "Дерево") : t.tree; }
 	private static String cap(String s) { return s.isEmpty() ? s : Character.toUpperCase(s.charAt(0)) + s.substring(1); }
 	private static String fmt(long sec) { return String.format("%d:%02d", sec / 60, sec % 60); }

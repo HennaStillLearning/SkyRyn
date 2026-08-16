@@ -14,47 +14,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-/**
- * Тянет цены шардов с публичного Hypixel Bazaar API и кеширует их.
- *
- * Для каждого шарда доступны:
- *   instaBuy (=buyPrice API) — высокая цена: почём КУПИТЬ мгновенно,
- *                                И почём ПРОДАТЬ через sell offer.
- *   sellOffer (=sellPrice API) — низкая цена: почём продать мгновенно (insta-sell)
- *                                или купить через buy order.
- *   buyVolume / sellVolume — объёмы (ликвидность рынка)
- *
- * API публичный, без ключа. Обновляется по запросу (не чаще раза в 60 сек).
- */
 public class BazaarPrices {
-
 	private static final String API_URL = "https://api.hypixel.net/v2/skyblock/bazaar";
 	private static final HttpClient HTTP = HttpClient.newBuilder()
 			.connectTimeout(Duration.ofSeconds(5))
 			.build();
 
-	// Пороги подобраны по живым данным, а не на глаз. Медиана спреда по всем
-	// 189 шардам — 1.32x, 90-й перцентиль 1.89x. Но спред сам по себе накрутку
-	// не выдаёт: у Strider Surfer 3.85x при 30 продавцах и спросе 11.7k/день —
-	// это просто широкий рынок. Опасен широкий спред только при малом числе
-	// продавцов: тогда цену держит один-два человека.
 	private static final int THIN_OFFERS = 5;
 	private static final double THIN_SPREAD = 2.0;
-	/** При таком спреде цена бредовая при любом числе продавцов. */
 	private static final double ABSURD_SPREAD = 10.0;
 
 	public static class Price {
-		public final double instaBuy;   // buyPrice: insta-buy И продажа через sell offer
-		public final double sellOffer;  // sellPrice: insta-sell / покупка через buy order
-		public final long buyVolume;    // глубина стакана: сколько висит в ордерах
+		public final double instaBuy;
+		public final double sellOffer;
+		public final long buyVolume;
 		public final long sellVolume;
-		/**
-		 * Сколько штук игроки ВЫКУПИЛИ за неделю — это спрос.
-		 * Именно он отвечает на «как быстро я продам»: продаём мы через sell offer,
-		 * а его должен кто-то выкупить. Глубина стакана (volume) на это не отвечает.
-		 */
 		public final long buyMovingWeek;
-		/** Сколько штук игроки продали за неделю — предложение. */
 		public final long sellMovingWeek;
 
 		public Price(double instaBuy, double sellOffer, long buyVolume, long sellVolume,
@@ -73,13 +48,6 @@ public class BazaarPrices {
 			this.buyOrderBook = buyOrderBook;
 		}
 
-		/**
-		 * Сколько выручишь, если продать qty штук МГНОВЕННО прямо сейчас.
-		 * Идём по заявкам сверху вниз, как это сделает игра. Если заявок не хватает —
-		 * возвращаем то, что удалось продать, вместе с реальным количеством.
-		 *
-		 * @return [выручка до налога, сколько штук удалось продать]
-		 */
 		public double[] instaSellRevenue(int qty) {
 			double total = 0;
 			int left = qty;
@@ -92,47 +60,23 @@ public class BazaarPrices {
 			return new double[] { total, qty - left };
 		}
 
-		/** Сколько офферов на продажу висит в стакане. 1 = цену держит один человек. */
 		public final int sellOfferCount;
-		/** Нижний оффер на продажу — по нему покупают мгновенно. */
 		public final double lowestOffer;
-		/** Верхняя заявка на покупку — по ней продают мгновенно. */
 		public final double highestBuyOrder;
-		/**
-		 * Заявки на покупку целиком: [цена, количество] по убыванию цены.
-		 * Нужны, чтобы честно считать insta-sell партии: верхних заявок обычно
-		 * на десятки штук, и продавая сотню ты съезжаешь вниз по стакану.
-		 * У Mimic из-за этого «прибыль» превращается в убыток.
-		 */
 		public final double[][] buyOrderBook;
 
-		/** Спрос в день — сколько рынок реально съедает. */
 		public double demandPerDay() {
 			return buyMovingWeek / 7.0;
 		}
 
-		/**
-		 * Во сколько раз цена продавцов выше цены покупателей.
-		 * У здорового шарда 1.1–1.35. Когда кто-то задирает оффер, сторона
-		 * покупателей не двигается — и спред разлетается: у накрученных 5–13.
-		 */
 		public double spread() {
 			return highestBuyOrder > 0 ? lowestOffer / highestBuyOrder : 0;
 		}
 
-		/**
-		 * Стоит ли верить цене этого шарда.
-		 *
-		 * Ключевое: широкий спред сам по себе НЕ признак накрутки. По живым данным
-		 * у Strider Surfer спред 3.85x при 30 продавцах и спросе 11.7k/день — это
-		 * просто широкий рынок. А вот тот же спред при одном-двух продавцах —
-		 * уже чья-то личная цена. Поэтому спред смотрим только вместе с числом
-		 * офферов. Медиана по всем шардам — 1.32x.
-		 */
 		public Warning warning() {
 			if (sellOfferCount == 0) return Warning.NO_OFFERS;
 			double sp = spread();
-			if (sp > ABSURD_SPREAD) return Warning.DETACHED;   // абсурд при любом раскладе
+			if (sp > ABSURD_SPREAD) return Warning.DETACHED;
 			if (sellOfferCount <= THIN_OFFERS && sp > THIN_SPREAD) return Warning.DETACHED;
 			if (sellOfferCount == 1) return Warning.SINGLE_SELLER;
 			if (instaBuy <= 0) return Warning.NO_PRICE;
@@ -140,7 +84,6 @@ public class BazaarPrices {
 		}
 	}
 
-	/** Почему цене шарда нельзя верить. severity: 2 — цифре верить нельзя, 1 — хрупко, 0 — нет данных. */
 	public enum Warning {
 		NONE(0, "", "", new String[0], new String[0]),
 		DETACHED(2, "possible manipulation", "возможна манипуляция",
@@ -180,37 +123,24 @@ public class BazaarPrices {
 			this.explainRu = explainRu;
 		}
 
-		/** Короткая пометка (двуязычная). */
 		public String tag() { return Lang.tr(tagEn, tagRu); }
-		/** Пояснение построчно (двуязычное). */
 		public String[] explain() { return RynConfig.isRu() ? explainRu : explainEn; }
 		public boolean isBad() { return this != NONE; }
 	}
 
-	// Кеш: internal_id (напр. "SHARD_FIREFLY") -> Price
 	private static final Map<String, Price> cache = new HashMap<>();
 	private static long lastFetch = 0;
 	private static boolean fetching = false;
-	/** Хоть раз пытались загрузить цены (чтобы отличить «ещё не начинали» от «не вышло»). */
 	private static volatile boolean attempted = false;
-	/** Последняя попытка провалилась (нет сети / API лёг). Сбрасывается при успехе. */
 	private static volatile boolean lastFailed = false;
-	/** Растёт при каждом обновлении цен — по нему инвалидируется кеш расчёта. */
 	private static volatile int version = 0;
 
-	/** Цены недоступны: пробовали, не загрузились и последняя попытка упала. */
 	public static boolean unavailable() {
 		return !isLoaded() && attempted && lastFailed;
 	}
 
-	/** Версия цен. Менялась — значит пересчитывать. */
 	public static int version() { return version; }
 
-	/**
-	 * Насколько свежие цены, коротким текстом. Нужно, чтобы понимать, почему
-	 * наши числа расходятся с другими калькуляторами: у всех свой снапшот,
-	 * и цены на базаре двигаются постоянно.
-	 */
 	public static String ageText() {
 		if (lastFetch == 0) return "—";
 		long sec = (System.currentTimeMillis() - lastFetch) / 1000;
@@ -218,28 +148,21 @@ public class BazaarPrices {
 		return (sec / 60) + Lang.tr("m", "м");
 	}
 
-	/** Просит обновить цены прямо сейчас, игнорируя минутный интервал. */
 	public static void forceRefresh() {
 		lastFetch = 0;
 		refreshIfNeeded();
 	}
 
-	private static final long MIN_INTERVAL_MS = 60_000; // не чаще раза в минуту
+	private static final long MIN_INTERVAL_MS = 60_000;
 
-	/** Есть ли уже загруженные цены. */
 	public static boolean isLoaded() {
 		return !cache.isEmpty();
 	}
 
-	/** Цена шарда по internal_id, или null если не загружено/не найдено. */
 	public static Price get(String internalId) {
 		return cache.get(internalId);
 	}
 
-	/**
-	 * Запускает обновление цен, если прошло достаточно времени.
-	 * Асинхронно, не блокирует игру. Вызывать при открытии панели.
-	 */
 	public static void refreshIfNeeded() {
 		long now = System.currentTimeMillis();
 		if (fetching) return;
@@ -289,9 +212,6 @@ public class BazaarPrices {
 				long buyWeek = qs.has("buyMovingWeek") ? qs.get("buyMovingWeek").getAsLong() : 0;
 				long sellWeek = qs.has("sellMovingWeek") ? qs.get("sellMovingWeek").getAsLong() : 0;
 
-				// Стакан. Внимание на имена: у Hypixel они наизнанку —
-				//   buy_summary  = ОФФЕРЫ НА ПРОДАЖУ (по ним ты покупаешь)
-				//   sell_summary = ЗАЯВКИ НА ПОКУПКУ (по ним ты продаёшь)
 				JsonArray offers = prod.has("buy_summary") ? prod.getAsJsonArray("buy_summary") : new JsonArray();
 				JsonArray orders = prod.has("sell_summary") ? prod.getAsJsonArray("sell_summary") : new JsonArray();
 				int offerCount = offers.size();

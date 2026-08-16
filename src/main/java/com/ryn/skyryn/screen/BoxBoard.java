@@ -21,42 +21,31 @@ import com.ryn.skyryn.fusion.FusionPlanner;
 import com.ryn.skyryn.fusion.FusionState;
 import com.ryn.skyryn.hud.HuntingFortune;
 
-/**
- * Компонент «что сфьюзить» в стиле ванильного инвентаря: сетка слотов с иконками
- * шардов (3 в ряд), клик по слоту открывает детальное меню в той же стилистике.
- *
- * Рисуется и на standalone-экране, и оверлеем у Hunting Box / Fusion Box —
- * все зовут {@link #render}/{@link #click} в абсолютных координатах. Считает
- * всё {@link FusionPlanner}. Состояние статическое: одновременно виден один хост.
- */
 public class BoxBoard {
-
-	// Тёмная палитра мода (как FusionPanel / страница шарда).
-	static final int FACE      = 0xF21A1A24;   // фон панели (верх градиента)
-	static final int BG_BOTTOM = 0xF2131319;   // низ градиента
+	static final int FACE      = 0xF21A1A24;
+	static final int BG_BOTTOM = 0xF2131319;
 	static final int SHADOW    = 0x66000000;
 	static final int BORDER    = 0xFF2E2E3C;
 	static final int ACCENT    = 0xFF5B8DEF;
-	static final int EDGE_HI   = 0xFF2E2E3C;   // (имя сохранено) — рамка
+	static final int EDGE_HI   = 0xFF2E2E3C;
 	static final int EDGE_LO   = 0xFF14141C;
-	static final int SLOT      = 0xFF1F1F29;   // поверхность слота/кнопки
-	static final int SLOT_DARK = 0xFF2A2A38;   // поверхность при наведении
-	static final int INK       = 0xFFDDDEE6;   // основной текст (светлый)
+	static final int SLOT      = 0xFF1F1F29;
+	static final int SLOT_DARK = 0xFF2A2A38;
+	static final int INK       = 0xFFDDDEE6;
 	static final int INK_DIM   = 0xFF9A9CAB;
-	static final int HOVER     = 0x33FFFFFF;   // лёгкая подсветка слота
+	static final int HOVER     = 0x33FFFFFF;
 	static final int GREEN     = 0xFF5FD68A;
 	static final int ORANGE    = 0xFFD9A441;
 	static final int REDINK    = 0xFFE06C6C;
 
-	static final int ICON = 16;      // ванильная иконка предмета — всегда 16
+	static final int ICON = 16;
 	static final int COLS = 3;
-	static final int VIS_ROWS = 3;   // сетка всегда 3×3, остальное — скроллом
+	static final int VIS_ROWS = 3;
 	static final int PAD = 4;
-	static final int STRIP_H = 12;   // шапка сетки: настройки + перетаскивание
-	static final int ICON_BAR = 18;  // размер свёрнутой плашки-иконки
+	static final int STRIP_H = 12;
+	static final int ICON_BAR = 18;
 	static final int DETAIL_W = 244;
 
-	/** Размер слота — настраивается пользователем (мин 18). */
 	static int cell() { return Math.max(18, RynConfig.boxGuideSlot); }
 
 	private record Entry(String key, String rarity, int cur) { }
@@ -66,7 +55,7 @@ public class BoxBoard {
 	private static boolean ironman;
 	private static int scroll = 0;
 	private static boolean settingsOpen = false;
-	private static boolean collapsed = false;   // свёрнута до полоски-шапки
+	private static boolean collapsed = false;
 
 	public static boolean isCollapsed() { return collapsed; }
 
@@ -80,28 +69,21 @@ public class BoxBoard {
 		boolean has(int mx, int my) { return mx >= x1 && mx <= x2 && my >= y1 && my <= y2; }
 	}
 
-	/** Прямоугольники ВСЕХ нарисованных панелей этого кадра — чтобы хост блокировал
-	 *  клики ТОЛЬКО по ним, а не по всему региону (иначе перекрывался /hb-контейнер). */
 	private static final List<int[]> panelRects = new ArrayList<>();
-	/** Попал ли курсор в какую-либо нашу панель (сетка/детали/настройки/иконка). */
 	public static boolean contains(int mx, int my) {
 		for (int[] r : panelRects) if (mx >= r[0] && mx <= r[2] && my >= r[1] && my <= r[3]) return true;
 		return false;
 	}
 
-	/** Тултип текущего кадра (напр. у звезды Diana, описание шарда). Рисуется последним. */
 	private static java.util.List<String> tooltip = null;
 
-	/** Diana-only берём из гайда (упоминание Diana/Mythological в тексте). */
 	private static boolean dianaOnly(String key) {
 		return ShardInfo.isDianaOnly(key);
 	}
 
-	// ===== Данные =====
-
 	public static void rebuild() {
 		ironman = RynConfig.ironman;
-		if (!ironman) com.ryn.skyryn.fusion.BazaarPrices.refreshIfNeeded();   // нормал-профиль: нужны цены
+		if (!ironman) com.ryn.skyryn.fusion.BazaarPrices.refreshIfNeeded();
 		entries.clear();
 		for (String key : ShardDb.allShards()) {
 			ShardDb.Shard s = ShardDb.shard(key);
@@ -117,7 +99,7 @@ public class BoxBoard {
 
 	private static void sortEntries() {
 		entries.sort((a, b) -> {
-			int r = rarityRank(b.rarity) - rarityRank(a.rarity);   // редкость по убыванию
+			int r = rarityRank(b.rarity) - rarityRank(a.rarity);
 			if (r != 0) return r;
 			return ShardDb.displayName(a.key).compareTo(ShardDb.displayName(b.key));
 		});
@@ -133,12 +115,8 @@ public class BoxBoard {
 	public static void ensureBuilt() { if (!built) rebuild(); }
 	public static void invalidate() { built = false; selected = null; }
 
-	/** Ширина сетки (для позиционирования хостами). */
 	public static int gridWidth() { return PAD * 2 + COLS * cell(); }
 
-	// ===== Отрисовка =====
-
-	/** gridX/gridY — левый верх сетки; availH — высота под сетку (скролл). */
 	public static void render(GuiGraphicsExtractor ctx, Font font, int gridX, int gridY, int availH,
 							  int mouseX, int mouseY) {
 		zones.clear();
@@ -168,7 +146,7 @@ public class BoxBoard {
 		int h = tooltip.size() * 10 + 4;
 		int x = mx + 8, y = my - 12;
 		int screenW = Minecraft.getInstance().getWindow().getGuiScaledWidth();
-		if (x + w > screenW - 2) x = mx - w - 8;                 // не вылезаем за правый край
+		if (x + w > screenW - 2) x = mx - w - 8;
 		if (y < 2) y = 2;
 		ctx.fill(x, y, x + w, y + h, 0xF0100010);
 		ctx.fill(x, y, x + w, y + 1, 0xFF9A3A3A);
@@ -180,7 +158,7 @@ public class BoxBoard {
 		int w = 170;
 		int x = gx - w - 3;
 		if (x < 2) x = gx + gridWidth() + 3;
-		int h = 18 + 2 * 14 + 16 + 16 + 8;   // 2 тумблера + croc + размер
+		int h = 18 + 2 * 14 + 16 + 16 + 8;
 		panel(ctx, x, gy, w, h);
 		int tx = x + 8, cy = gy + 6;
 		ctx.text(font, Lang.tr("Settings", "Настройки"), tx, cy, INK, false);
@@ -192,9 +170,6 @@ public class BoxBoard {
 				RynConfig.excludeWoodenBait, mouseX, mouseY,
 				() -> { RynConfig.excludeWoodenBait = !RynConfig.excludeWoodenBait; applySetting(); });
 
-		// Hunter Fortune вынесена в /sr (типизированное поле).
-
-		// Crocodile (0 = выключен) — множит выход reptile-фьюзов.
 		ctx.text(font, "Crocodile " + RynConfig.crocodileLevel, tx, cy + 2, INK, false);
 		int cmx = x + w - 34;
 		boolean cml = RynConfig.crocodileLevel > 0;
@@ -210,7 +185,6 @@ public class BoxBoard {
 					() -> { RynConfig.crocodileLevel++; applySetting(); }));
 		cy += 16;
 
-		// Размер слота
 		ctx.text(font, Lang.tr("Slot size ", "Размер слота ") + RynConfig.boxGuideSlot, tx, cy + 2, INK, false);
 		int mx = x + w - 34;
 		boolean mh = RynConfig.boxGuideSlot > 18 && inBox(mouseX, mouseY, mx, cy, mx + 12, cy + 11);
@@ -221,12 +195,9 @@ public class BoxBoard {
 		miniBtn(ctx, font, "+", px, cy, RynConfig.boxGuideSlot < 64, mouseX, mouseY);
 		if (ph) zones.add(new Zone(px, cy, px + 12, cy + 11, () -> { RynConfig.boxGuideSlot++; ConfigManager.save(); }));
 
-		// Фон-зона панели настроек (последней): клик по пустому месту настроек НЕ
-		// закрывает детальное меню.
 		zones.add(new Zone(x, gy, x + w, gy + h, () -> { }));
 	}
 
-	/** Строка-тумблер: чекбокс + подпись. Возвращает следующий y. */
 	private static int toggle(GuiGraphicsExtractor ctx, Font font, int x, int w, int y, String label,
 							  boolean on, int mouseX, int mouseY, Runnable act) {
 		boolean hover = inBox(mouseX, mouseY, x + 6, y, x + w - 6, y + 11);
@@ -239,14 +210,13 @@ public class BoxBoard {
 
 	private static void applySetting() {
 		ConfigManager.save();
-		invalidate();   // exclude/frog меняют планы — пересобрать
+		invalidate();
 	}
 
 	private static void drawGrid(GuiGraphicsExtractor ctx, Font font, int gx, int gy, int availH,
 								 int mouseX, int mouseY) {
 		int panelW = gridWidth();
 
-		// Свёрнуто — маленькая плашка-иконка (клик разворачивает).
 		if (collapsed) {
 			int sz = ICON_BAR;
 			boolean hov = inBox(mouseX, mouseY, gx, gy, gx + sz, gy + sz);
@@ -257,7 +227,6 @@ public class BoxBoard {
 			return;
 		}
 
-		// Кнопки шапки (справа): сворачивание, настройки, поиск.
 		String cg = "▾";
 		int cbw = font.width(cg) + 8;
 		int cbx = gx + panelW - cbw - 3;
@@ -266,11 +235,9 @@ public class BoxBoard {
 		int qbw = font.width("⌕") + 8;
 		int qbx = gbx - qbw - 3;
 
-		int searchH = searching ? 13 : 0;              // строка поиска под шапкой
+		int searchH = searching ? 13 : 0;
 		int gridTop = gy + STRIP_H + searchH;
 		java.util.List<Entry> view = filtered();
-		// Сетка фиксирована на VIS_ROWS рядов — не растягивается на пол-экрана.
-		// Всё, что не влезло, доступно колёсиком (scroll).
 		int visRows = VIS_ROWS;
 		int totalRows = Math.max(1, (view.size() + COLS - 1) / COLS);
 		int maxScroll = Math.max(0, totalRows - visRows);
@@ -296,7 +263,6 @@ public class BoxBoard {
 		ctx.text(font, "⌕", qbx + 4, gy + 3, searching ? ACCENT : INK, false);
 		zones.add(new Zone(qbx, gy + 1, qbx + qbw, gy + STRIP_H - 1, BoxBoard::toggleSearch));
 
-		// Поле поиска.
 		if (searching) {
 			int fy = gy + STRIP_H;
 			button(ctx, gx + 2, fy, panelW - 4, 11, false);
@@ -327,7 +293,6 @@ public class BoxBoard {
 		}
 	}
 
-	/** Список для показа с учётом поиска. */
 	private static java.util.List<Entry> filtered() {
 		if (searchQuery.isEmpty()) return entries;
 		String q = searchQuery.toLowerCase();
@@ -336,7 +301,6 @@ public class BoxBoard {
 		return out;
 	}
 
-	// ===== Поиск (ввод с клавиатуры маршрутизируют хосты) =====
 	private static boolean searching = false;
 	private static String searchQuery = "";
 	public static boolean isSearching() { return searching; }
@@ -354,9 +318,7 @@ public class BoxBoard {
 		int off = (c - ICON) / 2;
 		drawIcon(ctx, font, e.key, x + off, y + off);
 		if (hover) ctx.fill(x + 1, y + 1, x + c - 1, y + c - 1, HOVER);
-		// Красная звезда Diana в углу
 		if (dianaOnly(e.key)) ctx.text(font, "★", x + 1, y + 1, 0xFFE04040, false);
-		// Бейдж уровня — как счётчик предметов (белый с тенью, снизу-справа)
 		String lv = String.valueOf(e.cur);
 		ctx.text(font, lv, x + c - 1 - font.width(lv), y + c - 8, 0xFFFFFFFF, true);
 	}
@@ -371,8 +333,6 @@ public class BoxBoard {
 		}
 	}
 
-	// ===== Детальное меню =====
-
 	private static void drawDetail(GuiGraphicsExtractor ctx, Font font, int gx, int gy, int availH,
 								   int mouseX, int mouseY) {
 		ShardDb.Shard s = ShardDb.shard(selected);
@@ -383,12 +343,8 @@ public class BoxBoard {
 
 		int dw = DETAIL_W;
 		int screenW = Minecraft.getInstance().getWindow().getGuiScaledWidth();
-		// Открываем ВПРАВО (в пустое место справа от сетки), чтобы не перекрывать
-		// окно Hunting Box слева. Не влезло справа — тогда влево.
 		int dx = gx + gridWidth() + 3;
 		if (dx + dw > screenW - 2) dx = gx - dw - 3;
-		// Панель во всю высоту содержимого; если выше доступного — скроллим колесом
-		// (детали справа от сетки, верх уходит в пустоту — перекрытий нет).
 		int dh = measureDetail(font, dw);
 		int maxDS = Math.max(0, dh - availH);
 		if (detailScroll > maxDS) detailScroll = maxDS;
@@ -397,12 +353,10 @@ public class BoxBoard {
 		panel(ctx, dx, dy, dw, dh);
 		int tx = dx + 8;
 
-		// Шапка: слот с иконкой (фикс 18) + имя + close
 		vanillaSlot(ctx, dx + 6, dy + 6, 18);
 		drawIcon(ctx, font, selected, dx + 7, dy + 7);
 		ctx.text(font, s.name, dx + 28, dy + 8, INK, false);
 		ctx.text(font, s.rarity, dx + 28, dy + 18, INK_DIM, false);
-		// Наведение на имя — тултип «что даёт шард» (аттрибут + описание).
 		if (inBox(mouseX, mouseY, dx + 28, dy + 6, dx + 28 + font.width(s.name), dy + 16)) {
 			java.util.List<String> tt = descTooltip(font, s);
 			if (!tt.isEmpty()) tooltip = tt;
@@ -411,8 +365,6 @@ public class BoxBoard {
 		ctx.text(font, "✕", dx + dw - 13, dy + 6, xh ? REDINK : INK, false);
 		zones.add(new Zone(dx + dw - 15, dy + 4, dx + dw - 3, dy + 16, () -> selected = null));
 
-		// Hunter Fortune под крестиком: по ней считается время фарма ниже, поэтому
-		// цифру видно сразу — не гадаешь, из какой она взялась.
 		if (RynConfig.hunterFortune > 0) {
 			String f = "Fortune " + (int) RynConfig.hunterFortune;
 			int fx = dx + dw - 6 - font.width(f);
@@ -432,7 +384,6 @@ public class BoxBoard {
 			y += 12;
 		}
 
-		// Регулятор уровня (без «box» — убрали по просьбе)
 		String pre = Lang.tr("Level ", "Уровень ") + cur + " → ";
 		ctx.text(font, pre, tx, y, INK, false);
 		int stepX = tx + font.width(pre);
@@ -450,12 +401,10 @@ public class BoxBoard {
 		bar(ctx, tx, y, dw - 16, cur, cur, targetLevel);
 		y += 9;
 
-		// Полная потребность (запас не вычитаем — игрок видит по подсветке в боксе).
 		int total = FusionPlanner.shardsForLevels(s.rarity, cur, targetLevel);
 		ctx.text(font, Lang.tr("Need ", "Нужно ") + total + "× " + s.name, tx, y, INK, false);
 		y += 12;
 
-		// Оптимальный путь (ironman — время / normal — цена): дерево + материалы + итог.
 		if (plan != null && !plan.steps.isEmpty()) {
 			ctx.text(font, Lang.tr("Fuse:", "Фьюз:"), tx, y, INK_DIM, false);
 			y += 11;
@@ -490,7 +439,6 @@ public class BoxBoard {
 		if (plan != null && plan.hasBuy)
 			ctx.text(font, Lang.tr("🛒 can be bought from NPC", "🛒 можно купить у NPC"), tx, y, GREEN, false);
 
-		// Кнопка «в калькулятор»
 		int by = dy + dh - 16;
 		boolean bh = inBox(mouseX, mouseY, dx + 6, by, dx + dw - 6, by + 12);
 		button(ctx, dx + 6, by, dw - 12, 12, bh);
@@ -498,12 +446,9 @@ public class BoxBoard {
 		ctx.text(font, bl, dx + (dw - font.width(bl)) / 2, by + 2, INK, false);
 		zones.add(new Zone(dx + 6, by, dx + dw - 6, by + 12, BoxBoard::openInCalculator));
 
-		// Фон-зона всей панели (последней, низший приоритет): клик по пустому месту
-		// деталей НЕ закрывает меню (напр. по неактивному «+» на 10 уровне).
 		zones.add(new Zone(dx, dy, dx + dw, dy + dh, () -> { }));
 	}
 
-	/** Входы шага одной строкой: "100× We + 100× Invisibug". */
 	private static String stepInputs(FusionPlanner.Step st) {
 		StringBuilder sb = new StringBuilder();
 		boolean first = true;
@@ -515,12 +460,11 @@ public class BoxBoard {
 		return sb.toString();
 	}
 
-	/** Высота детального меню под текущий план. */
 	private static int measureDetail(Font font, int dw) {
 		ShardDb.Shard s = ShardDb.shard(selected);
-		int h = 30;                                    // шапка
+		int h = 30;
 		if (s != null && s.attrTitle != null && !s.attrTitle.isEmpty()) h += 12;
-		h += 14 + 9 + 12;                              // уровень + бар + строка «нужно»
+		h += 14 + 9 + 12;
 		if (plan != null && !plan.steps.isEmpty()) {
 			h += 11 + 2;
 			for (FusionPlanner.Step st : plan.steps) {
@@ -531,7 +475,7 @@ public class BoxBoard {
 		if (plan != null && !plan.farm.isEmpty()) h += 11 + deficitRows(font, dw) * 13 + 3;
 		if (totalLine() != null) h += 12;
 		if (plan != null && plan.hasBuy) h += 11;
-		h += 20;                                       // кнопка + отступ
+		h += 20;
 		return h;
 	}
 
@@ -546,8 +490,6 @@ public class BoxBoard {
 		return rows;
 	}
 
-
-	/** Строка итога (время/цена) под деревом. null — показывать нечего. */
 	private static String totalLine() {
 		if (plan == null) return null;
 		if (ironman) {
@@ -574,22 +516,20 @@ public class BoxBoard {
 		return String.format("%.0f", v);
 	}
 
-	// ===== Взаимодействие =====
-
 	private static void select(String key) {
-		settingsOpen = false;   // выбор шарда закрывает настройки
-		if (key != null && key.equals(selected)) { selected = null; return; }   // повторный клик — закрыть
+		settingsOpen = false;
+		if (key != null && key.equals(selected)) { selected = null; return; }
 		selected = key;
 		detailScroll = 0;
 		int cur = Math.max(0, ShardProgress.displayLevel(key));
-		setTarget(Math.min(AttributeLevels.MAX_LEVEL, cur + 1));   // по умолчанию — следующий уровень
+		setTarget(Math.min(AttributeLevels.MAX_LEVEL, cur + 1));
 	}
 
 	private static void setTarget(int lvl) {
 		int cur = selected == null ? 0 : Math.max(0, ShardProgress.displayLevel(selected));
 		targetLevel = Math.max(cur + 1, Math.min(AttributeLevels.MAX_LEVEL, lvl));
 		if (selected == null) { plan = null; return; }
-		plan = FusionPlanner.planForLevel(selected, targetLevel, ironman);   // оптимальный путь
+		plan = FusionPlanner.planForLevel(selected, targetLevel, ironman);
 	}
 
 	private static void openShard(String key) {
@@ -602,26 +542,20 @@ public class BoxBoard {
 		ShardDb.Shard s = ShardDb.shard(selected);
 		int cur = Math.max(0, ShardProgress.displayLevel(selected));
 		int need = s == null ? 0 : FusionPlanner.shardsForLevels(s.rarity, cur, targetLevel);
-		// Тот же верхний рецепт, что показан в плашке (оптимальный путь).
 		String[] top = plan == null ? null : FusionPlanner.topInputs(plan);
 		if (top != null) FusionState.set(selected, Math.max(1, need), top[0], top[1]);
 		else FusionState.set(selected, Math.max(1, need));
 	}
 
-	/** Клик по нашей панели: срабатывает только по зонам (кнопки/слоты/чипы). */
 	public static boolean click(int mouseX, int mouseY) {
 		for (Zone z : zones) if (z.has(mouseX, mouseY)) { z.act.run(); return true; }
 		return false;
 	}
 
-	/** Клик МИМО панелей (по контейнеру/миру): закрываем только настройки, детали НЕ трогаем. */
 	public static void closeSettings() { settingsOpen = false; }
-	/** Полное закрытие (для standalone-экрана: клик по пустому). */
 	public static void closePopups() { settingsOpen = false; selected = null; }
 
 	public static void scroll(double dir) {
-		// Открыта плашка деталей — колесо крутит её (клампится по высоте в drawDetail);
-		// иначе прокручиваем сетку.
 		if (selected != null && !settingsOpen) detailScroll = Math.max(0, detailScroll - (int) Math.signum(dir) * 14);
 		else scroll = Math.max(0, scroll - (int) Math.signum(dir));
 	}
@@ -633,16 +567,12 @@ public class BoxBoard {
 		if (collapsed) { settingsOpen = false; selected = null; }
 	}
 
-	// ===== Ванильные примитивы =====
-
-	/** Заливка со скруглёнными углами (1px срез) — как в FusionPanel. */
 	private static void roundRect(GuiGraphicsExtractor ctx, int x1, int y1, int x2, int y2, int color) {
 		ctx.fill(x1 + 1, y1, x2 - 1, y2, color);
 		ctx.fill(x1, y1 + 1, x1 + 1, y2 - 1, color);
 		ctx.fill(x2 - 1, y1 + 1, x2, y2 - 1, color);
 	}
 
-	/** Рамка в 1px со скруглением. */
 	private static void roundOutline(GuiGraphicsExtractor ctx, int x1, int y1, int x2, int y2, int color) {
 		ctx.fill(x1 + 1, y1, x2 - 1, y1 + 1, color);
 		ctx.fill(x1 + 1, y2 - 1, x2 - 1, y2, color);
@@ -651,9 +581,9 @@ public class BoxBoard {
 	}
 
 	private static void panel(GuiGraphicsExtractor ctx, int x, int y, int w, int h) {
-		panelRects.add(new int[] { x, y, x + w, y + h });                 // для хит-теста хоста
-		roundRect(ctx, x + 2, y + 2, x + w + 2, y + h + 2, SHADOW);       // тень
-		ctx.fillGradient(x + 1, y, x + w - 1, y + h, FACE, BG_BOTTOM);    // фон-градиент
+		panelRects.add(new int[] { x, y, x + w, y + h });
+		roundRect(ctx, x + 2, y + 2, x + w + 2, y + h + 2, SHADOW);
+		ctx.fillGradient(x + 1, y, x + w - 1, y + h, FACE, BG_BOTTOM);
 		ctx.fill(x, y + 1, x + 1, y + h - 1, FACE);
 		ctx.fill(x + w - 1, y + 1, x + w, y + h - 1, BG_BOTTOM);
 		roundOutline(ctx, x, y, x + w, y + h, BORDER);
@@ -693,13 +623,11 @@ public class BoxBoard {
 		}
 	}
 
-	/** Рисует текст с переносом по словам заданным цветом; возвращает y после последней строки. */
 	private static int drawWrap(GuiGraphicsExtractor ctx, Font font, String s, int x, int y, int w, int color) {
 		for (String line : splitToWidth(font, s, w)) { ctx.text(font, line, x, y, color, false); y += 10; }
 		return y;
 	}
 
-	/** Разбивает строку по ширине {@code w} на строки (по словам). */
 	private static java.util.List<String> splitToWidth(Font font, String s, int w) {
 		java.util.List<String> out = new ArrayList<>();
 		for (var line : font.getSplitter().splitLines(net.minecraft.network.chat.Component.literal(s), w,
@@ -709,7 +637,6 @@ public class BoxBoard {
 		return out;
 	}
 
-	/** Тултип «что даёт шард»: аттрибут + описание, перенесённое по ширине. */
 	private static java.util.List<String> descTooltip(Font font, ShardDb.Shard s) {
 		java.util.List<String> out = new ArrayList<>();
 		if (s.attrTitle != null && !s.attrTitle.isEmpty()) out.add("§e" + s.attrTitle);

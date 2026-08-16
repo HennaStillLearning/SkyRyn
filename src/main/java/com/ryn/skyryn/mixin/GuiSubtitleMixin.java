@@ -9,14 +9,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.ryn.skyryn.hud.CritterTimer;
 
-/**
- * Ловим титр, субтитр и строку над хотбаром — там может лежать «⏣ Critter in: Xm Ys»
- * (в чат оно не дублируется). Основной источник времени всё-таки голограмма у дерева,
- * это подстраховка на случай, если Hypixel пишет время как-то иначе.
- */
 @Mixin(Gui.class)
 public class GuiSubtitleMixin {
-
 	@Inject(method = "setSubtitle", at = @At("HEAD"))
 	private void skyryn$subtitle(Component subtitle, CallbackInfo ci) {
 		if (subtitle != null) CritterTimer.onSubtitle(subtitle.getString());

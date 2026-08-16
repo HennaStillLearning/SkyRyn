@@ -12,19 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import com.ryn.skyryn.config.RynConfig;
 
-/**
- * Локации игры: как называется, каким цветом, куда варпает.
- *
- * Отдельным справочником, а не строками в гайде, по трём причинам: локация
- * упоминается у десятков шардов и красить её руками каждый раз — работа на
- * ровном месте; варп меняется в одном месте; и это же понадобится для
- * "Отслеживать", где надо будет сказать, куда телепортироваться.
- *
- * Два слоя, как у гайда: jar — основа, config/skyryn-locations.json — правки
- * игрока поверх. После патча Hypixel новую локацию можно добавить самому.
- */
 public class LocationDb {
-
 	public record Loc(String key, String name, String warp, String color,
 					  String coords, String note, String warpMvp, String scroll,
 					  boolean warpMvpHere) {
@@ -32,24 +20,15 @@ public class LocationDb {
 		public boolean hasCoords() { return coords != null && !coords.isBlank(); }
 		public boolean hasMvpWarp() { return warpMvp != null && !warpMvp.isBlank(); }
 
-		/** Ближний варп приземляет прямо в эту точку — метку/путь ставить не надо. */
 		public boolean landsHere() {
 			return warpMvpHere && hasMvpWarp() && warpMvp.equals(effectiveWarp());
 		}
 
-		/**
-		 * Какой варп использовать сейчас.
-		 *
-		 * Ближний (warpMvp) — только если игрок отметил MVP+ и включил нужный
-		 * свиток: без свитка команда просто не сработает, и отправлять к ней —
-		 * значит послать жать кнопку впустую. Иначе обычный варп, он у всех есть.
-		 */
 		public String effectiveWarp() {
 			if (hasMvpWarp() && RynConfig.mvpPlus && RynConfig.hasScroll(scroll)) return warpMvp;
 			return warp;
 		}
 
-		/** "x y z" в числа. null — не заданы или заданы криво. */
 		public double[] xyz() {
 			if (!hasCoords()) return null;
 			String[] p = coords.trim().split("[ ,]+");
@@ -109,11 +88,6 @@ public class LocationDb {
 		return o.has(f) && !o.get(f).isJsonNull() ? o.get(f).getAsString() : fallback;
 	}
 
-	/**
-	 * Свитки, встречающиеся в справочнике: свиток -> пример команды варпа.
-	 * По этому списку строится группа тумблеров в настройках — добавил игрок
-	 * локацию с новым свитком, тумблер появился сам.
-	 */
 	public static Map<String, String> scrolls() {
 		Map<String, String> out = new LinkedHashMap<>();
 		for (Loc l : LOCS.values()) {
@@ -124,19 +98,10 @@ public class LocationDb {
 		return out;
 	}
 
-	/** null — такой локации в справочнике нет. */
 	public static Loc get(String key) {
 		return key == null ? null : LOCS.get(key.toLowerCase());
 	}
 
-	/**
-	 * Подменяет базовый варп на ближний, если у игрока есть MVP+ и нужный свиток.
-	 *
-	 * Нужно там, где варп задан строкой в самом методе, а не loc-ссылкой: у loc
-	 * подмену делает {@link Loc#effectiveWarp()}, а голая строка шла на сервер как
-	 * есть, и тумблер MVP+ на такие методы не действовал. Ищем локацию с таким же
-	 * базовым варпом и спрашиваем у неё, куда лететь сейчас.
-	 */
 	public static String upgradeWarp(String warp) {
 		if (warp == null || warp.isBlank()) return warp;
 		String w = warp.trim();

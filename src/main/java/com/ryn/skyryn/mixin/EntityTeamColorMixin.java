@@ -8,13 +8,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.ryn.skyryn.waypoint.MobHighlight;
 
-/**
- * Цвет контура подсвеченного моба. Игра красит обводку цветом команды существа —
- * подменяем его на выбранный в настройках.
- */
 @Mixin(Entity.class)
 public class EntityTeamColorMixin {
-
 	@Inject(method = "getTeamColor", at = @At("HEAD"), cancellable = true)
 	private void skyryn$outlineColor(CallbackInfoReturnable<Integer> cir) {
 		int c = MobHighlight.outlineColor((Entity) (Object) this);

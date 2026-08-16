@@ -14,19 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import com.ryn.skyryn.data.ShardDb;
 
-/**
- * /srspot &lt;шард&gt; [метка спота] — записывает текущие координаты + зону из
- * скорборда в config/skyryn-spots.json. Порядок такой: добежать до точки спавна
- * моба и ввести команду с именем шарда — координаты, где стоишь, и станут спотом,
- * куда ведёт метка при отслеживании. Имя шарда матчится по базе, остаток — метка
- * места (напр. "Tangleburg's Path"). Заодно пишем сырой скорборд — по нему
- * строим карту зона -> остров.
- *
- * Команду ловим через ALLOW_COMMAND (перехват до отправки на сервер), а не через
- * fabric command API — в этой сборке его клиентские классы не резолвятся.
- */
 public class SpotRecorder {
-
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
 	private static Path file() {
@@ -47,23 +35,18 @@ public class SpotRecorder {
 				} else {
 					record(args);
 				}
-				return false; // не отправляем на сервер — это наша команда
+				return false;
 			}
 			return true;
 		});
 	}
 
-	/** Наш префикс чата — фиолетовый, чтобы не путать с зелёным SkyBlocker. */
 	private static final String PREFIX = "§5§l[§dSkyRyn§5§l]§r ";
 
 	private static void record(String args) {
 		Minecraft mc = Minecraft.getInstance();
 		if (mc.player == null) return;
 
-		// Форматы (оба работают):
-		//   /srspot шард варп метка   — пробелами (варп распознаём по списку)
-		//   /srspot шард ; варп ; метка — явно через ";"
-		// Варп задаёт остров надёжно (скорборд у нас пока не читается).
 		String shard, warp = "", label = "";
 		if (args.contains(";")) {
 			String[] parts = args.split(";", 3);
@@ -71,14 +54,12 @@ public class SpotRecorder {
 			if (parts.length > 1) warp = normWarp(parts[1].trim());
 			if (parts.length > 2) label = parts[2].trim();
 		} else {
-			// шард — самое длинное имя-ключ, с которого начинается ввод
 			String lower = args.toLowerCase();
 			shard = "";
 			for (String k : ShardDb.allShards()) {
 				if ((lower.equals(k) || lower.startsWith(k + " ")) && k.length() > shard.length()) shard = k;
 			}
 			String rest = shard.isEmpty() ? args : args.substring(shard.length()).trim();
-			// следующее слово — варп? тогда остальное метка
 			String[] rw = rest.split("\\s+", 2);
 			if (rw.length >= 1 && SkyBlockCheck.isWarp(rw[0])) {
 				warp = normWarp(rw[0]);
@@ -91,7 +72,6 @@ public class SpotRecorder {
 		Vec3 p = mc.player.position();
 		String coords = fmt(p.x) + " " + fmt(p.y) + " " + fmt(p.z);
 		String area = SkyBlockCheck.currentArea();
-		// Остров: из варпа (надёжно), иначе из скорборда (пока может быть пусто).
 		String island = warp.isBlank() ? SkyBlockCheck.currentIsland() : SkyBlockCheck.islandOfWarp(warp);
 
 		JsonObject entry = new JsonObject();
@@ -112,8 +92,6 @@ public class SpotRecorder {
 			return;
 		}
 
-		// В чат коорды через " / ", иначе SkyBlocker распознаёт тройку чисел и
-		// лезет со своим "Click to display waypoint". В файл пишется как "X Y Z".
 		String show = coords.replace(" ", " §7/§b ");
 		String areaShow = " §7зона '§f" + (area.isBlank() ? "—" : area) + "§7'";
 		if (shard.isEmpty()) {
@@ -126,7 +104,6 @@ public class SpotRecorder {
 		}
 	}
 
-	/** Читает массив спотов из файла; пусто, если файла нет или он битый. */
 	private static JsonArray readAll() {
 		try {
 			Path f = file();
@@ -144,7 +121,6 @@ public class SpotRecorder {
 		Files.writeString(f, GSON.toJson(arr));
 	}
 
-	/** Одна строка спота для чата: "#12 §fnessie §7(Murkwater Loch) @ -651 89 35 §7остров 'galatea'". */
 	private static String describe(int index1based, JsonObject e) {
 		String shard = e.has("shard") ? e.get("shard").getAsString() : "";
 		String label = e.has("label") ? e.get("label").getAsString() : "";
@@ -156,7 +132,6 @@ public class SpotRecorder {
 				+ (island.isBlank() ? "" : " §7остров '§f" + island + "§7'");
 	}
 
-	/** /srspot list [шард] — без аргумента: последние 15 записей, с шардом: все его споты. */
 	private static void list(String shardFilter) {
 		Minecraft mc = Minecraft.getInstance();
 		JsonArray arr = readAll();
@@ -193,7 +168,6 @@ public class SpotRecorder {
 		}
 	}
 
-	/** /srspot remove <номер|last> — номер как в выводе /srspot list (1-based). */
 	private static void remove(String arg) {
 		Minecraft mc = Minecraft.getInstance();
 		if (arg.isBlank()) {
@@ -207,7 +181,7 @@ public class SpotRecorder {
 			return;
 		}
 
-		int idx; // 0-based
+		int idx;
 		if (arg.equalsIgnoreCase("last")) {
 			idx = arr.size() - 1;
 		} else {
@@ -234,7 +208,6 @@ public class SpotRecorder {
 		say(mc, "§7Удалил " + describe(idx + 1, removed));
 	}
 
-	/** "galatea" / "/warp galatea" -> "/warp galatea". */
 	private static String normWarp(String w) {
 		if (w.isBlank()) return "";
 		w = w.replaceFirst("^/", "").trim();
@@ -246,7 +219,6 @@ public class SpotRecorder {
 		if (mc.player != null) mc.player.sendSystemMessage(Component.literal(PREFIX + msg));
 	}
 
-	/** Координата с 2 знаками, без хвостовых нулей: -553.50 -> -553.5, 89.00 -> 89. */
 	private static String fmt(double v) {
 		String s = String.format(java.util.Locale.US, "%.2f", v);
 		if (s.contains(".")) s = s.replaceAll("0+$", "").replaceAll("\\.$", "");

@@ -17,24 +17,11 @@ import java.util.List;
 import java.util.Optional;
 import com.ryn.skyryn.config.ConfigManager;
 
-/**
- * Снимает плашки мобов, пока игрок листает /bestiary.
- *
- * Экран не трогаем — только читаем лор предметов. Плашку узнаём по подписи:
- * имя вида "[Lv1,250] Empyrean Sphinx" + строка "Mob Stats:" в лоре. Другого
- * такого в игре нет, поэтому по заголовку меню не привязываемся (он у каждой
- * семьи свой: "Mythological Creatures ➜ Sphinx").
- *
- * Личные Kills/Deaths режем: без перезахода в меню они врут, а статика вечна
- * (вариант, согласованный с автором).
- */
 public class BestiaryReader {
-
 	public static void register() {
 		ScreenEvents.AFTER_INIT.register((client, screen, w, h) -> {
 			if (!(screen instanceof AbstractContainerScreen<?> cs)) return;
 
-			// Слоты сервер досылает не сразу — читаем каждый кадр, пока открыт.
 			ScreenEvents.afterExtract(screen).register((scr, ctx, mx, my, delta) -> scan(cs));
 
 			ScreenEvents.remove(screen).register(scr -> {
@@ -76,7 +63,6 @@ public class BestiaryReader {
 				raw.add(s);
 			}
 
-			// Полная плашка "[LvN] Name" + "Mob Stats:" — статика + киллы.
 			if (plain.startsWith("[Lv") && isBestiary) {
 				if (BestiaryDb.put(mobKey(name), build(name, raw), skin(stack))) dirty = true;
 				if (kills >= 0) { BestiaryDb.putKills(mobKey(name), kills); dirty = true; }
@@ -85,9 +71,6 @@ public class BestiaryReader {
 				if (SeaGuideDb.put(scgKey(name), buildScg(name, raw), skin(stack))) dirty = true;
 				found++;
 			} else if (kills >= 0 && (hasMobTypes || plain.matches(".*\\s[IVXLCDM]+$"))) {
-				// Сетка «Critter Safari ➜ Cavern Biome» и «/bestiary ➜ Семья»: имя «Gemzie X»
-				// + Kills в лоре, но без «Mob Stats:». Снимаем ТОЛЬКО киллы — сразу всех мобов
-				// на экране, чтобы не прокликивать каждого по отдельности.
 				String gk = gridMobKey(name);
 				if (!gk.isBlank()) { BestiaryDb.putKills(gk, kills); dirty = true; found++; }
 			}
@@ -99,7 +82,6 @@ public class BestiaryReader {
 		}
 	}
 
-	/** SCG-плашка: имя + лор, но без хвостовой подсказки "Click to view Bestiary!". */
 	private static List<String> buildScg(String name, List<String> lore) {
 		List<String> out = new ArrayList<>();
 		out.add(name);
@@ -118,7 +100,6 @@ public class BestiaryReader {
 		return out;
 	}
 
-	/** Ключ SCG: имя без "[Lvl X]" и без " (RARITY)", нижним регистром. */
 	private static String scgKey(String name) {
 		String s = strip(name);
 		int i = s.indexOf(']');
@@ -129,10 +110,6 @@ public class BestiaryReader {
 		return s.toLowerCase();
 	}
 
-	/**
-	 * Строит плашку: имя + лор, но без блока "Your ... Stats / Kills / Deaths"
-	 * (протухает) и без сдвоенных пустых строк, оставшихся после вырезки.
-	 */
 	private static List<String> build(String name, List<String> lore) {
 		List<String> out = new ArrayList<>();
 		out.add(name);
@@ -142,18 +119,16 @@ public class BestiaryReader {
 			if (p.startsWith("Kills:") || p.startsWith("Deaths:")) continue;
 			if (p.startsWith("Your ") && p.endsWith("Stats:")) continue;
 			boolean blank = p.isEmpty();
-			if (blank && prevBlank) continue; // схлопываем двойные пустые
+			if (blank && prevBlank) continue;
 			out.add(line);
 			prevBlank = blank;
 		}
-		// хвостовая пустая строка ни к чему
 		while (!out.isEmpty() && strip(out.get(out.size() - 1)).isEmpty()) {
 			out.remove(out.size() - 1);
 		}
 		return out;
 	}
 
-	/** Base64-текстура головы моба из слота — для иконки в плашке. "" если не голова. */
 	private static String skin(ItemStack stack) {
 		try {
 			ResolvableProfile prof = stack.get(DataComponents.PROFILE);
@@ -165,11 +140,6 @@ public class BestiaryReader {
 		return "";
 	}
 
-	/**
-	 * Ключ моба из сетки биома: имя «Gemzie X» / «Doomspiral IX» — срезаем хвостовой
-	 * римский уровень, остаётся «gemzie». Уровень пишут только римскими заглавными,
-	 * поэтому обычное последнее слово («Shrimp») не заденем.
-	 */
 	private static String gridMobKey(String name) {
 		String s = strip(name).trim();
 		int sp = s.lastIndexOf(' ');
@@ -177,7 +147,6 @@ public class BestiaryReader {
 		return s.trim().toLowerCase();
 	}
 
-	/** Ключ кэша: имя без "[LvX]" и без цветов, нижним регистром. */
 	private static String mobKey(String name) {
 		String s = strip(name);
 		int i = s.indexOf(']');
@@ -189,9 +158,6 @@ public class BestiaryReader {
 		return s == null ? "" : s.replaceAll("§.", "").trim();
 	}
 
-	// ---- Component -> строка с §-кодами (чтобы сохранить цвета лора) ----
-
-	/** Разворачивает Component в легаси-строку с §-кодами. */
 	static String legacy(Component c) {
 		if (c == null) return "";
 		StringBuilder sb = new StringBuilder();
@@ -208,7 +174,7 @@ public class BestiaryReader {
 		if (col != null) {
 			ChatFormatting cf = byColor(col.getValue());
 			if (cf != null) sb.append('§').append(cf.getChar());
-			else sb.append("§r"); // нестандартный цвет — хотя бы сбросим бляклость
+			else sb.append("§r");
 		}
 		if (s.isBold()) sb.append("§l");
 		if (s.isItalic()) sb.append("§o");
@@ -218,7 +184,6 @@ public class BestiaryReader {
 		return sb.toString();
 	}
 
-	/** Стандартный §-цвет по RGB. Hypixel красит лор палитрой Minecraft. */
 	private static ChatFormatting byColor(int rgb) {
 		for (ChatFormatting f : ChatFormatting.values()) {
 			if (f.isColor() && f.getColor() != null && f.getColor() == rgb) return f;

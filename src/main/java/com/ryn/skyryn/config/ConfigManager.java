@@ -15,38 +15,26 @@ import com.ryn.skyryn.data.ShardProgress;
 import com.ryn.skyryn.fusion.FusionTracker;
 import com.ryn.skyryn.hud.HuntingTracker;
 
-/**
- * Сохраняет и загружает настройки и данные трекера в файл
- * .minecraft/config/skyryn.json. Вызывается при старте и при изменениях.
- */
 public class ConfigManager {
-
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
 	private static Path configPath() {
 		return FabricLoader.getInstance().getConfigDir().resolve("skyryn.json");
 	}
 
-	/** Конфиг до переименования мода. Читаем один раз, чтобы не потерять настройки. */
 	private static Path legacyPath() {
 		return FabricLoader.getInstance().getConfigDir().resolve("rynfusion.json");
 	}
 
-	/** Загружает конфиг при старте мода. */
 	public static void load() {
 		try {
 			Path path = configPath();
 			if (!Files.exists(path)) {
-				// Мод раньше звался rynfusion — переносим старые настройки и статистику,
-				// иначе игрок молча потеряет позицию панели и все тоталы.
 				Path old = legacyPath();
 				if (Files.exists(old)) {
 					Files.copy(old, path);
 					com.ryn.skyryn.config.SkyLog.d("Перенёс настройки из rynfusion.json");
 				} else {
-					// Первый запуск: мод должен молчать, пока игрок сам не включит
-					// нужное. Иначе человек ставит мод и сразу получает полный экран
-					// плашек, подсветок и анонсов, которых не просил.
 					RynConfig.allFeaturesOff();
 					save();
 					return;
@@ -55,7 +43,6 @@ public class ConfigManager {
 			String json = Files.readString(path);
 			JsonObject root = JsonParser.parseString(json).getAsJsonObject();
 
-			// Язык интерфейса
 			if (root.has("lang")) RynConfig.lang = root.get("lang").getAsString();
 			if (root.has("shardsFlatView")) RynConfig.shardsFlatView = root.get("shardsFlatView").getAsBoolean();
 			if (root.has("recentShards") && root.get("recentShards").isJsonArray()) {
@@ -63,23 +50,18 @@ public class ConfigManager {
 				for (var e : root.getAsJsonArray("recentShards")) RynConfig.recentShards.add(e.getAsString());
 			}
 
-			// Модули
 			if (root.has("calculatorEnabled")) RynConfig.calculatorEnabled = root.get("calculatorEnabled").getAsBoolean();
 			if (root.has("fusionTrackerEnabled")) RynConfig.fusionTrackerEnabled = root.get("fusionTrackerEnabled").getAsBoolean();
 			if (root.has("huntingTrackerEnabled")) RynConfig.huntingTrackerEnabled = root.get("huntingTrackerEnabled").getAsBoolean();
 
-			// Калькулятор
 			if (root.has("useInstaBuy")) RynConfig.useInstaBuy = root.get("useInstaBuy").getAsBoolean();
 			if (root.has("bazaarHintEnabled")) RynConfig.bazaarHintEnabled = root.get("bazaarHintEnabled").getAsBoolean();
 			if (root.has("bazaarFlipperLevel")) RynConfig.bazaarFlipperLevel = root.get("bazaarFlipperLevel").getAsInt();
 			if (root.has("crocodileLevel")) RynConfig.crocodileLevel = root.get("crocodileLevel").getAsInt();
 			if (root.has("huntingWisdom")) RynConfig.huntingWisdom = root.get("huntingWisdom").getAsFloat();
 			if (root.has("hunterFortune")) RynConfig.hunterFortune = root.get("hunterFortune").getAsFloat();
-			// Гайд «что сфьюзить»
 			if (root.has("boxBoardEnabled")) RynConfig.boxBoardEnabled = root.get("boxBoardEnabled").getAsBoolean();
 			if (root.has("highlightFuseInputs")) RynConfig.highlightFuseInputs = root.get("highlightFuseInputs").getAsBoolean();
-			// Старый тумблер «не грузить пак» стал режимом: у тех, кто его включал, это
-			// была именно полная отмена — переносим её как есть, остальным даём гибрид.
 			if (root.has("blockServerPack"))
 				RynConfig.packMode = root.get("blockServerPack").getAsBoolean() ? RynConfig.PACK_OFF : RynConfig.PACK_HYBRID;
 			if (root.has("packMode")) RynConfig.packMode = root.get("packMode").getAsInt();
@@ -129,7 +111,6 @@ public class ConfigManager {
 			}
 			if (root.has("mobKills") && root.get("mobKills").isJsonObject())
 				for (var en : root.getAsJsonObject("mobKills").entrySet()) { try { com.ryn.skyryn.data.BestiaryDb.putKills(en.getKey(), en.getValue().getAsInt()); } catch (Exception ignored) { } }
-			// Снимок наших поимок на момент чтения киллов — ПОСЛЕ putKills (он его перезаписывает).
 			if (root.has("mobKillsSnap") && root.get("mobKillsSnap").isJsonObject())
 				for (var en : root.getAsJsonObject("mobKillsSnap").entrySet()) { try { com.ryn.skyryn.data.BestiaryDb.putCapSnap(en.getKey(), en.getValue().getAsInt()); } catch (Exception ignored) { } }
 			if (root.has("safariSellOffer")) RynConfig.safariSellOffer = root.get("safariSellOffer").getAsBoolean();
@@ -158,7 +139,6 @@ public class ConfigManager {
 				for (var e : root.getAsJsonArray("customMobs")) {
 					if (!e.isJsonObject()) continue;
 					JsonObject o = e.getAsJsonObject();
-					// Поле zone из старых конфигов просто игнорируем: по зонам больше не привязываемся.
 					RynConfig.customMobs.add(new RynConfig.CustomMob(
 							str(o, "key"), str(o, "label"), str(o, "entityType"), str(o, "namePart"),
 							o.has("color") ? o.get("color").getAsInt() : 0xFFFFD24A));
@@ -171,7 +151,6 @@ public class ConfigManager {
 			if (root.has("safariParty")) RynConfig.safariParty = root.get("safariParty").getAsBoolean();
 			if (root.has("questHighlight")) RynConfig.questHighlight = root.get("questHighlight").getAsBoolean();
 			if (root.has("hotspotAnnounce")) RynConfig.hotspotAnnounce = root.get("hotspotAnnounce").getAsBoolean();
-			// safariTestChat слился с соло-режимом — старое включённое значение переносим в него.
 			if (root.has("safariTestChat") && root.get("safariTestChat").getAsBoolean()) RynConfig.safariSolo = true;
 			if (root.has("safariSolo")) RynConfig.safariSolo = root.get("safariSolo").getAsBoolean();
 			if (root.has("safariTimings")) RynConfig.safariTimings = root.get("safariTimings").getAsBoolean();
@@ -194,9 +173,6 @@ public class ConfigManager {
 				for (var e : root.getAsJsonArray("scrolls")) RynConfig.scrolls.add(e.getAsString());
 			}
 
-			// Уровни аттрибутов с прошлого захода. Обновятся сами, когда игрок
-			// снова откроет Attribute Menu — до тех пор показываем последнее
-			// известное, а не «?».
 			if (root.has("attrLevels") && root.get("attrLevels").isJsonObject()) {
 				JsonObject levels = root.getAsJsonObject("attrLevels");
 				for (String k : levels.keySet()) {
@@ -205,9 +181,6 @@ public class ConfigManager {
 				}
 			}
 
-			// Живой захват бестиария кладём ПОВЕРХ вшитого бандла (bundle грузится
-			// в SkyRynClient до конфига). Игрок листал /bestiary — его данные
-			// перекрывают дефолт; не листал — остаётся бандл.
 			if (root.has("bestiary") && root.get("bestiary").isJsonObject()) {
 				BestiaryDb.fromJson(root.getAsJsonObject("bestiary"));
 			}
@@ -215,7 +188,6 @@ public class ConfigManager {
 				SeaGuideDb.fromJson(root.getAsJsonObject("seaguide"));
 			}
 
-			// Размеры партии по шардам (в /rftop колонка "вложить")
 			RynConfig.clearBatches();
 			if (root.has("batches") && root.get("batches").isJsonObject()) {
 				JsonObject b = root.getAsJsonObject("batches");
@@ -224,13 +196,11 @@ public class ConfigManager {
 				}
 			}
 
-			// Позиция панели
 			if (root.has("panelX")) RynConfig.panelX = root.get("panelX").getAsInt();
 			if (root.has("panelY")) RynConfig.panelY = root.get("panelY").getAsInt();
 			if (root.has("panelScale")) RynConfig.panelScale = root.get("panelScale").getAsFloat();
 			if (root.has("trackerMode")) RynConfig.trackerMode = root.get("trackerMode").getAsInt();
 
-			// Данные трекера фьюзов
 			if (root.has("tracker")) {
 				JsonObject t = root.getAsJsonObject("tracker");
 				FusionTracker.totalFusions = t.has("totalFusions") ? t.get("totalFusions").getAsLong() : 0;
@@ -240,7 +210,6 @@ public class ConfigManager {
 				FusionTracker.totalEarned = t.has("totalEarned") ? t.get("totalEarned").getAsDouble() : 0;
 			}
 
-			// Данные трекера охоты «всего» — иначе режим [всего] обнулялся бы за перезаход
 			if (root.has("hunt")) {
 				JsonObject h = root.getAsJsonObject("hunt");
 				HuntingTracker.totalShards = h.has("totalShards") ? h.get("totalShards").getAsLong() : 0;
@@ -259,7 +228,6 @@ public class ConfigManager {
 		}
 	}
 
-	/** Сохраняет текущее состояние в файл. */
 	public static void save() {
 		try {
 			JsonObject root = new JsonObject();
@@ -319,9 +287,6 @@ public class ConfigManager {
 			JsonObject mobKills = new JsonObject();
 			for (var en : com.ryn.skyryn.data.BestiaryDb.allKills().entrySet()) mobKills.addProperty(en.getKey(), en.getValue());
 			root.add("mobKills", mobKills);
-			// Снимок наших поимок на момент чтения киллов. Без него после перезапуска
-			// putKills переснимал его по текущим поимкам, и всё, что поймано с прошлого
-			// захода в бестиарий, обнулялось — #ct показывал ровно игровое число.
 			JsonObject mobKillsSnap = new JsonObject();
 			for (var en : com.ryn.skyryn.data.BestiaryDb.allCapSnaps().entrySet()) mobKillsSnap.addProperty(en.getKey(), en.getValue());
 			root.add("mobKillsSnap", mobKillsSnap);
@@ -383,8 +348,6 @@ public class ConfigManager {
 			for (String s : RynConfig.highlightMobs) hl.add(s);
 			root.add("highlightMobs", hl);
 
-			// Уровни аттрибутов. Читаются только из Attribute Menu, поэтому без
-			// сохранения после каждого перезахода пришлось бы лезть туда заново.
 			JsonObject levels = new JsonObject();
 			for (java.util.Map.Entry<String, Integer> e : ShardProgress.allLevels().entrySet()) {
 				levels.addProperty(e.getKey(), e.getValue());
@@ -449,7 +412,6 @@ public class ConfigManager {
 		}
 	}
 
-	/** Строковое поле объекта, "" если нет. */
 	private static String str(JsonObject o, String key) {
 		return o.has(key) && !o.get(key).isJsonNull() ? o.get(key).getAsString() : "";
 	}

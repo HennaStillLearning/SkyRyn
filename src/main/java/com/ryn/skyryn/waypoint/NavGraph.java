@@ -17,21 +17,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 
-/**
- * Навигационный граф островов — подход «как у SkyHanni»: путь не считается вживую
- * по блокам (это и спотыкалось под водой/в пещерах), а идёт по заранее записанной
- * сети узлов. Игрок может стоять где угодно: берём ближайший узел графа, дальше
- * Dijkstra по рёбрам до узла-цели.
- *
- * Граф записывается ногами через {@link PathRecorder} (/srpath) в
- * config/skyryn-graph.json. Нет графа на острове — навигация откатывается на
- * живой {@link PathFinder} (см. Waypoints.renderRoute).
- */
 public class NavGraph {
-
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-	/** Узел цели ищем не дальше этого от точки метки — иначе считаем, что метка не на графе. */
 	private static final double GOAL_SNAP = 12.0;
 
 	public static class Node {
@@ -45,9 +33,7 @@ public class NavGraph {
 		final List<Node> nodes = new ArrayList<>();
 		final Map<Integer, Node> byId = new HashMap<>();
 		final Map<Integer, List<Integer>> adj = new HashMap<>();
-		/** "shard|label" -> nodeId. */
 		final Map<String, Integer> spots = new LinkedHashMap<>();
-		/** имя NPC -> nodeId. */
 		final Map<String, Integer> npcs = new LinkedHashMap<>();
 		int nextId = 0;
 
@@ -65,7 +51,6 @@ public class NavGraph {
 			Node p = byId.get(a), q = byId.get(b);
 			return Math.sqrt(sq(p.x - q.x) + sq(p.y - q.y) + sq(p.z - q.z));
 		}
-		/** Ближайший узел к точке в пределах maxDist (или -1). exclude — какие id пропустить. */
 		int nearest(double x, double y, double z, double maxDist, int... exclude) {
 			int best = -1; double bestD = maxDist * maxDist;
 			outer:
@@ -94,23 +79,13 @@ public class NavGraph {
 
 	private static double sq(double v) { return v * v; }
 
-	// ===== Маршрутизация (с кэшем: Dijkstra гоняем лишь при смене узлов) =====
-
 	private static volatile Island cIsl = null;
 	private static volatile int cGoal = -1;
 	private static volatile int cStart = -1;
-	private static Map<Integer, Double> cDist = null;   // путь по графу ОТ цели ко всем узлам
-	private static Map<Integer, Integer> cPrev = null;  // сосед на шаг К цели
+	private static Map<Integer, Double> cDist = null;
+	private static Map<Integer, Integer> cPrev = null;
 	private static volatile List<Vec3> cPath = null;
 
-	/**
-	 * Путь по графу от игрока к точке метки: узлы start..goal (без анкера/цели —
-	 * их дорисует вызывающий). Нужный граф находим САМИ — по ближайшему к цели узлу
-	 * среди всех островов (не полагаемся на определение острова по скорборду, оно
-	 * хрупкое). Вход в сеть — ближайший к игроку узел; дальше кратчайший путь по
-	 * рёбрам (истинная длина, без штрафов за высоту — лестницы/подъёмы разрешены).
-	 * null — цель не рядом ни с одной записанной сетью (откат на живой A*).
-	 */
 	public static List<Vec3> route(Vec3 from, Vec3 target) {
 		Island isl = null; int goal = -1; double bestG = GOAL_SNAP * GOAL_SNAP;
 		for (Island i : ISLANDS.values()) {
@@ -119,17 +94,16 @@ public class NavGraph {
 				if (d <= bestG) { bestG = d; goal = n.id; isl = i; }
 			}
 		}
-		if (isl == null) return null; // метка не на графе — пусть считает A*
+		if (isl == null) return null;
 
 		if (!(isl == cIsl && goal == cGoal && cDist != null)) {
-			dijkstraFrom(isl, goal);            // расстояния/пути ко всем узлам от цели (кэш по цели)
+			dijkstraFrom(isl, goal);
 			cIsl = isl; cGoal = goal; cStart = -1; cPath = null;
 		}
 
-		// Вход = ближайший к игроку узел (по прямой), достижимый до цели по графу.
 		int start = -1; double best = Double.MAX_VALUE;
 		for (Node n : isl.nodes) {
-			if (cDist.get(n.id) == null) continue; // узел не ведёт к цели по графу
+			if (cDist.get(n.id) == null) continue;
 			double d2 = sq(n.x - from.x) + sq(n.y - from.y) + sq(n.z - from.z);
 			if (d2 < best) { best = d2; start = n.id; }
 		}
@@ -148,7 +122,6 @@ public class NavGraph {
 		return pts;
 	}
 
-	/** Dijkstra ОТ цели ко всем узлам: cDist[node] — путь по графу до цели, cPrev[node] — шаг к цели. */
 	private static void dijkstraFrom(Island isl, int goal) {
 		Map<Integer, Double> d = new HashMap<>();
 		Map<Integer, Integer> prev = new HashMap<>();
@@ -159,7 +132,7 @@ public class NavGraph {
 			int u = pq.poll()[0];
 			double du = d.getOrDefault(u, Double.MAX_VALUE);
 			for (int v : isl.adj.getOrDefault(u, List.of())) {
-				double nd = du + isl.dist(u, v);   // истинная евклидова длина ребра → кратчайший путь
+				double nd = du + isl.dist(u, v);
 				if (nd < d.getOrDefault(v, Double.MAX_VALUE)) {
 					d.put(v, nd); prev.put(v, u); pq.add(new int[]{v});
 				}
@@ -170,36 +143,18 @@ public class NavGraph {
 
 	public static void invalidateCache() { cIsl = null; cGoal = -1; cStart = -1; cDist = null; cPrev = null; cPath = null; }
 
-	/**
-	 * Координаты записанных /srpath спотов шарда (по всем островам). Ключ спота —
-	 * "shard" или "shard|метка". Нужны трекингу как запасная цель, когда у метода
-	 * нет своих coords — тогда одно действие /srpath spot задаёт и метку, и маршрут.
-	 */
 	public static List<Vec3> spotsForShard(String shardKey) {
 		return spotsForMethod(shardKey, null);
 	}
 
-	/**
-	 * Шарды без своего /srpath-спота, трекинг которых ведёт к ЧУЖОМУ споту: их
-	 * покупают у того же NPC. Heron берут у Agatha там же, где Crow, поэтому хватает
-	 * одного спота crow — оба шарда ведут в эту точку.
-	 */
 	private static final Map<String, String> SPOT_ALIAS = Map.of("heron", "crow");
 
-	/** Ключ спота для трекинга шарда (учитывает алиасы общих NPC). */
 	private static String spotKey(String shardKey) {
 		if (shardKey == null) return null;
 		String k = shardKey.trim().toLowerCase();
 		return SPOT_ALIAS.getOrDefault(k, k);
 	}
 
-	/**
-	 * Споты шарда для КОНКРЕТНОГО метода. Метку спота смотрим на ключевые слова
-	 * (trap / hunt / chest / buy|npc): спот с меткой под этот метод идёт только ему;
-	 * спот без такой метки — общий (годится любому методу). Так у одного шарда
-	 * ловушка (метка «trap») и охота ведут в РАЗНЫЕ места, не мешаясь.
-	 * methodType == null — не фильтруем (все споты шарда).
-	 */
 	public static List<Vec3> spotsForMethod(String shardKey, String methodType) {
 		List<Vec3> typed = new ArrayList<>(), untyped = new ArrayList<>();
 		if (shardKey == null) return untyped;
@@ -214,16 +169,14 @@ public class NavGraph {
 				Node n = isl.byId.get(e.getValue());
 				if (n == null) continue;
 				String lt = labelType(bar >= 0 ? key.substring(bar + 1).toLowerCase() : "");
-				if (mt == null) { untyped.add(n.vec()); continue; }        // без фильтра — все
-				if (lt.isEmpty()) untyped.add(n.vec());                    // общий спот
-				else if (lt.equals(mt)) typed.add(n.vec());                // спот под этот метод
-				// иначе спот помечен под ДРУГОЙ метод — пропускаем
+				if (mt == null) { untyped.add(n.vec()); continue; }
+				if (lt.isEmpty()) untyped.add(n.vec());
+				else if (lt.equals(mt)) typed.add(n.vec());
 			}
 		}
 		return !typed.isEmpty() ? typed : untyped;
 	}
 
-	/** Тип метода, зашитый в метку спота по ключевому слову (или "" — общий спот). */
 	private static String labelType(String label) {
 		if (label == null) return "";
 		if (label.contains("trap")) return "trap";
@@ -233,12 +186,6 @@ public class NavGraph {
 		return "";
 	}
 
-	/**
-	 * Остров записанного /srpath-спота под этот метод — той же логикой приоритета,
-	 * что и spotsForMethod (typed важнее untyped). "" — спота нет ни на одном острове.
-	 * Нужен, чтобы отследить варп сам по себе, когда у метода в гайде поле warp
-	 * не заполнено: спот записан, а варпа нет — трек иначе не телепортирует.
-	 */
 	public static String islandForMethod(String shardKey, String methodType) {
 		if (shardKey == null) return "";
 		String want = spotKey(shardKey);
@@ -257,7 +204,6 @@ public class NavGraph {
 		return untypedIsland;
 	}
 
-	/** Координаты записанного NPC (/srpath npc) и остров, на котором он стоит. "" — не найден. */
 	public record NpcSpot(double x, double y, double z, String island) { }
 
 	public static NpcSpot npc(String name) {
@@ -274,7 +220,6 @@ public class NavGraph {
 		return null;
 	}
 
-	/** Канонический /warp острова графа — запасной вариант, когда у метода свой warp не задан. */
 	private static final Map<String, String> ISLAND_WARP = Map.of(
 			"galatea", "/warp galatea", "crimson", "/warp crimson", "dwarven", "/warp dwarves",
 			"end", "/warp end", "spider", "/warp spider", "park", "/warp park",
@@ -283,8 +228,6 @@ public class NavGraph {
 	public static String defaultWarp(String island) {
 		return ISLAND_WARP.getOrDefault(norm(island), "");
 	}
-
-	// ===== Загрузка / сохранение =====
 
 	private static Path file() { return FabricLoader.getInstance().getConfigDir().resolve("skyryn-graph.json"); }
 

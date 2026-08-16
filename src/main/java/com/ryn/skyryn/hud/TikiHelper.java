@@ -18,28 +18,11 @@ import com.ryn.skyryn.config.Lang;
 import com.ryn.skyryn.config.RynConfig;
 import com.ryn.skyryn.waypoint.SkyBlockCheck;
 
-/**
- * Tiki helper: показывает, по какой голове бить и сколько раз.
- *
- * Тотем — столб из трёх голов. Клик крутит саму голову И ту, что над ней; по верхней —
- * её и нижнюю, то есть за раз двигаются два блока. ЛКМ — по часовой, ПКМ — против.
- * Когда все три смотрят одинаково, Tiki просыпается и его можно бить.
- *
- * Мод НЕ кликает за игрока — только считает и показывает.
- *
- * Шаг поворота заранее не известен: у блока-черепа поворот бывает 16-позиционным
- * (свойство rotation) или 4-позиционным (facing), и на сколько единиц сдвигает один
- * клик — вопрос к серверу, а не к ванили. Поэтому хелпер учится сам: запоминает
- * положения голов и, увидев первый же клик игрока, берёт разницу за шаг. До этого
- * честно пишет, что изучает.
- */
 public class TikiHelper {
-
-	/** Три головы снизу вверх и их положения. */
 	private static BlockPos base = null;
 	private static final int[] rot = new int[3];
-	private static int steps = 0;      // сколько всего положений (16 или 4)
-	private static int step = 0;       // на сколько сдвигает один клик; 0 — ещё не знаем
+	private static int steps = 0;
+	private static int step = 0;
 	private static long lastScan = 0;
 
 	public static void register() {
@@ -52,7 +35,6 @@ public class TikiHelper {
 		return RynConfig.flag("tiki.on", true) && RynConfig.flag("tiki.hint", true);
 	}
 
-	// ===== Плашка: место правится перетаскиванием в режиме правки HUD =====
 	private static int plaqueW = 90, plaqueH = 50;
 	public static int plaqueW() { return plaqueW; }
 	public static int plaqueH() { return plaqueH; }
@@ -67,7 +49,6 @@ public class TikiHelper {
 		RynConfig.setInt("tiki.y", y);
 	}
 
-	/** Пример плашки для режима правки: там живого тотема рядом нет. */
 	public static void drawSample(GuiGraphicsExtractor ctx, Font font) {
 		int x = hudX(), y = hudY();
 		ctx.text(font, "§5§lTiki", x, y, 0xFFFFFFFF, true);
@@ -76,8 +57,6 @@ public class TikiHelper {
 		for (int i = 0; i < 3; i++) ctx.text(font, "§7" + n[i] + " §f" + v[i], x, y + 11 + i * 10, 0xFFFFFFFF, true);
 		ctx.text(font, "§a" + Lang.tr("LMB", "ЛКМ") + " §f" + n[2] + " §7×2", x, y + 41, 0xFFFFFFFF, true);
 	}
-
-	// ===== Чтение тотема =====
 
 	private static void tick(Minecraft mc) {
 		if (!on() || mc.level == null || mc.player == null) return;
@@ -98,22 +77,15 @@ public class TikiHelper {
 		System.arraycopy(now, 0, rot, 0, 3);
 	}
 
-	/**
-	 * Ближайший тотем: столб РОВНО из трёх голов в 6 блоках вокруг игрока.
-	 *
-	 * «Ровно» и близко — принципиально: по каньону головы натыканы просто как декор,
-	 * и при более широком поиске хелпер цепляется к ним. Четвёртая голова сверху или
-	 * снизу — значит это украшение, а не тотем.
-	 */
 	private static BlockPos nearestTotem(Minecraft mc) {
 		BlockPos me = mc.player.blockPosition();
 		BlockPos best = null;
 		double bd = Double.MAX_VALUE;
 		for (BlockPos bp : BlockPos.betweenClosed(me.offset(-6, -4, -6), me.offset(6, 4, 6))) {
 			if (!isHead(mc.level.getBlockState(bp))) continue;
-			if (isHead(mc.level.getBlockState(bp.below()))) continue;          // не низ столба
+			if (isHead(mc.level.getBlockState(bp.below()))) continue;
 			if (!isHead(mc.level.getBlockState(bp.above())) || !isHead(mc.level.getBlockState(bp.above(2)))) continue;
-			if (isHead(mc.level.getBlockState(bp.above(3)))) continue;         // столб длиннее трёх — декор
+			if (isHead(mc.level.getBlockState(bp.above(3)))) continue;
 			double d = mc.player.distanceToSqr(bp.getX() + 0.5, bp.getY(), bp.getZ() + 0.5);
 			if (d < bd) { bd = d; best = bp.immutable(); }
 		}
@@ -125,10 +97,6 @@ public class TikiHelper {
 		return id.contains("head") || id.contains("skull");
 	}
 
-	/**
-	 * Положение головы числом. У напольного черепа это rotation (0..15), у настенного —
-	 * facing (4 стороны). Берём то, что есть, и запоминаем, сколько всего положений.
-	 */
 	private static Integer rotationOf(BlockState st) {
 		for (Property<?> p : st.getProperties()) {
 			String n = p.getName();
@@ -144,13 +112,6 @@ public class TikiHelper {
 		return null;
 	}
 
-	/**
-	 * Увидели, что голова повернулась — берём разницу за шаг клика.
-	 *
-	 * Заодно пишем в config/skyryn-tiki.txt строку «было → стало»: подсказка может
-	 * разойтись с игрой (предложить голову, которая не жмётся), и без записи настоящих
-	 * переходов правило не уточнить.
-	 */
 	private static void learnStep(int[] now) {
 		if (steps == 0) return;
 		boolean changed = false;
@@ -174,23 +135,11 @@ public class TikiHelper {
 		} catch (Exception ignored) { }
 	}
 
-	// ===== Решатель =====
-
-	/**
-	 * Замершие головы: если ровно две смотрят одинаково, обе встают. Двигать можно
-	 * только третью — ту, что смотрит иначе. Пример: верх и центр по 14, низ 4 —
-	 * жмётся только низ.
-	 */
 	private static boolean frozen(int[] s, int i) {
 		int b = (i + 1) % 3, c = (i + 2) % 3;
 		return s[i] == s[b] && s[i] != s[c] || s[i] == s[c] && s[i] != s[b];
 	}
 
-	/**
-	 * Клик по голове i двигает её и следующую по кругу (по верхней — её и нижнюю),
-	 * но замершие головы не двигаются: клик по паре, где одна встала, крутит только
-	 * свободную. По самой замершей голове клик не проходит вовсе.
-	 */
 	private static int[] apply(int[] s, int i, int dir) {
 		int[] n = s.clone();
 		int j = (i + 1) % 3;
@@ -199,27 +148,12 @@ public class TikiHelper {
 		return n;
 	}
 
-	/**
-	 * Можно ли сейчас кликнуть по голове i.
-	 *
-	 * Клик двигает пару (i, i+1) — обе на один шаг, поэтому разница ВНУТРИ пары не
-	 * меняется. Совпавшие головы «слипаются» и дальше ходят только вместе: клик,
-	 * который их разлучил бы, не жмётся вовсе. Разлучает он их тогда, когда третья
-	 * голова равна одной из пары.
-	 *
-	 * Отсюда и порядок решения: сперва склеиваешь две головы, потом гоняешь склейку
-	 * до третьей. Склейка — не тупик, а необходимый шаг.
-	 */
 	private static boolean allowed(int[] s, int i) {
-		return !frozen(s, i);   // замершую голову не нажать
+		return !frozen(s, i);
 	}
 
 	private record Move(int head, int dir) { }
 
-	/**
-	 * Кратчайшая последовательность кликов до «все три смотрят одинаково».
-	 * Состояний мало (три головы), поэтому обычный обход в ширину.
-	 */
 	private static java.util.List<Move> solve() {
 		if (step == 0 || steps == 0) return null;
 		int[] start = rot.clone();
@@ -231,9 +165,9 @@ public class TikiHelper {
 		while (!q.isEmpty()) {
 			int[] cur = q.poll();
 			java.util.List<Move> path = seen.get(key(cur));
-			if (path.size() > 12) continue;   // дальше не ищем: столько кликов не бывает
+			if (path.size() > 12) continue;
 			for (int i = 0; i < 3; i++) {
-				if (!allowed(cur, i)) continue;   // эта голова сейчас не жмётся
+				if (!allowed(cur, i)) continue;
 				for (int dir : new int[]{ 1, -1 }) {
 					int[] nx = apply(cur, i, dir);
 					String k = key(nx);
@@ -251,8 +185,6 @@ public class TikiHelper {
 
 	private static String key(int[] s) { return s[0] + ":" + s[1] + ":" + s[2]; }
 
-	// ===== Плашка =====
-
 	private static void render(GuiGraphicsExtractor ctx) {
 		Minecraft mc = Minecraft.getInstance();
 		if (mc.player == null || mc.options.hideGui || mc.screen != null) return;
@@ -264,9 +196,7 @@ public class TikiHelper {
 		ctx.text(font, "§5§lTiki", x, y, 0xFFFFFFFF, true);
 		y += 11;
 		String[] name = { Lang.tr("bottom", "низ"), Lang.tr("middle", "центр"), Lang.tr("top", "верх") };
-		// Только число: стрелок восемь на шестнадцать положений, поворот на шаг их не
-		// менял — они путали больше, чем помогали.
-		for (int i = 2; i >= 0; i--) {   // рисуем сверху вниз, как стоит тотем
+		for (int i = 2; i >= 0; i--) {
 			ctx.text(font, "§7" + name[i] + " §f" + rot[i], x, y, 0xFFFFFFFF, true);
 			y += 10;
 		}
@@ -284,7 +214,6 @@ public class TikiHelper {
 			ctx.text(font, "§8" + Lang.tr("no way found", "путь не найден"), x, y, 0xFFFFFFFF, true);
 			return;
 		}
-		// Считаем подряд идущие одинаковые клики: «ЛКМ по нижней ×2» читается лучше списка.
 		int i = 0;
 		while (i < path.size()) {
 			int n = 1;

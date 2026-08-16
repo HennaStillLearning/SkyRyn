@@ -10,18 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Плашки Sea Creature Guide — снимаются с меню "Sea Creature Guide", пока игрок
- * его листает. В отличие от бестиария ({@link BestiaryDb}) тут не статы/лут, а
- * требования и шансы: уровень, редкость, типы, Fishing Skill, Spawn Chance,
- * Categories (Liquid/Island), Special Requirements. Их вешаем на слово
- * "Требования" морских шардов — игрок сразу видит, что нужно и с каким шансом.
- *
- * Всё как у BestiaryDb: двухслойно (бандл + живой захват), ключ — имя моба без
- * "[Lvl X]" и без "(RARITY)", нижним регистром.
- */
 public class SeaGuideDb {
-
 	public record Plaque(List<String> lines, String skin) {}
 
 	private static final Map<String, Plaque> PLAQUES = new LinkedHashMap<>();
@@ -40,7 +29,6 @@ public class SeaGuideDb {
 		List<Plaque> out = new ArrayList<>();
 		if (query == null || query.isBlank()) return out;
 		String q = query.toLowerCase().trim();
-		// База без хвостового " (...)" — тиры (Master и т.п.) листаются как один моб.
 		for (Map.Entry<String, Plaque> e : PLAQUES.entrySet()) {
 			String base = baseName(e.getKey());
 			if (base.equals(q) || base.endsWith(" " + q)) out.add(e.getValue());
@@ -52,7 +40,6 @@ public class SeaGuideDb {
 		return out;
 	}
 
-	/** Ключ без хвостового " (variant)". */
 	private static String baseName(String key) {
 		int p = key.lastIndexOf(" (");
 		return p > 0 && key.endsWith(")") ? key.substring(0, p).trim() : key;

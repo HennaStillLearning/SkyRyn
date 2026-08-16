@@ -11,15 +11,7 @@ import com.ryn.skyryn.config.ConfigManager;
 import com.ryn.skyryn.config.Lang;
 import com.ryn.skyryn.hud.Announce;
 
-/**
- * Правка анонса на экране: тащишь надпись мышкой куда хочешь, снизу — размер и цвет.
- *
- * Открывается шестерёнкой у самой функции в /sr, поэтому экран один на все анонсы:
- * что править — задаёт id ({@link Announce}). Цвет можно взять из палитры или
- * собрать свой тремя ползунками R/G/B.
- */
 public class AnnounceEditScreen extends Screen {
-
 	private static final int BG = 0xB0101018;
 	private static final int PANEL = 0xFF151519, SEG = 0xFF23232B, BORDER = 0xFF2A2A32;
 	private static final int TITLE = 0xFFF0F1F4, DESC = 0xFF888B94, ACCENT = 0xFF5B8DEF;
@@ -27,19 +19,15 @@ public class AnnounceEditScreen extends Screen {
 	private final Screen parent;
 	private final String id;
 
-	/** Что таскаем/двигаем: -1 ничего, 0 надпись, дальше — ползунок по индексу. */
 	private int drag = -1;
 	private int dragDX, dragDY;
 
-	/** Индексы ползунков. */
 	private static final int S_SIZE = 0, S_TIME = 1, S_R = 2, S_G = 3, S_B = 4;
 
-	// Геометрия контролов — считается при отрисовке, используется в кликах.
 	private int panelY;
 	private final int[][] tracks = new int[5][2];
 	private final int[] trackY = new int[5];
 	private int[] resetRect = new int[4], doneRect = new int[4], textRect = new int[4];
-	/** Свой текст надписи: правится прямо здесь, пустой = заводской. */
 	private String textBuf;
 	private boolean textFocused = false;
 	private final int[][] swatches = new int[RynSettingsScreen.PALETTE.length][4];
@@ -51,8 +39,6 @@ public class AnnounceEditScreen extends Screen {
 		this.textBuf = Announce.text(id, "");
 	}
 
-	// ===== Предпросмотр =====
-	/** Заводская надпись этого анонса — она же подсказка в пустом поле. */
 	private String defaultSample() {
 		return switch (id) {
 			case Announce.WOODPECKER -> "WOODPECKER!";
@@ -64,7 +50,6 @@ public class AnnounceEditScreen extends Screen {
 		};
 	}
 
-	/** Что показываем в предпросмотре: свой текст, если вписан, иначе заводской. */
 	private String sample() {
 		String t = textBuf.isBlank() ? defaultSample() : textBuf;
 		return t.replace("{tree}", "Fig");
@@ -88,7 +73,6 @@ public class AnnounceEditScreen extends Screen {
 		int x = Announce.px(this.width, id), y = Announce.py(this.height, id);
 		int w = Announce.width(this.font, id, big), h = Announce.height(this.font, id);
 
-		// Рамка вокруг надписи — видно, что именно ты таскаешь.
 		ctx.fill(x - w / 2 - 4, y - 3, x + w / 2 + 4, y - 2, BORDER);
 		ctx.fill(x - w / 2 - 4, y + h + 2, x + w / 2 + 4, y + h + 3, BORDER);
 		Announce.draw(ctx, this.font, id, big, sampleSub(), 255, x, y);
@@ -99,7 +83,6 @@ public class AnnounceEditScreen extends Screen {
 		String name = Announce.label(id);
 		ctx.text(this.font, name, (this.width - this.font.width(name)) / 2, 20, TITLE, true);
 
-		// ===== Панель контролов снизу =====
 		int ph = 124;
 		panelY = this.height - ph;
 		ctx.fill(0, panelY, this.width, this.height, PANEL);
@@ -109,7 +92,6 @@ public class AnnounceEditScreen extends Screen {
 		int col = Announce.color(id);
 		int r = (col >> 16) & 0xFF, g = (col >> 8) & 0xFF, b = col & 0xFF;
 
-		// Поле своего текста. Пустое — значит заводской, он и написан серым как подсказка.
 		int ty = panelY + 8;
 		ctx.text(this.font, Lang.tr("Text", "Текст"), cx1, ty + 3, DESC, true);
 		int fx1 = cx1 + 34, fx2 = cx2;
@@ -131,12 +113,11 @@ public class AnnounceEditScreen extends Screen {
 		slider(ctx, S_G, cx1, cx2, panelY + 74, "G", g, 0, 255, 0xFF55FF55);
 		slider(ctx, S_B, cx1, cx2, panelY + 86, "B", b, 0, 255, 0xFF5555FF);
 
-		// Палитра готовых цветов.
 		int sw = 16, sx = cx1, sy = panelY + 100;
-		for (int i = 0; i < swatches.length; i++) swatches[i] = new int[4];   // не влезшие — без клик-зоны
+		for (int i = 0; i < swatches.length; i++) swatches[i] = new int[4];
 		for (int i = 0; i < RynSettingsScreen.PALETTE.length; i++) {
 			int px = sx + i * (sw + 3);
-			if (px + sw > cx2 - 160) break;   // до кнопок
+			if (px + sw > cx2 - 160) break;
 			ctx.fill(px - 1, sy - 1, px + sw + 1, sy + 13, BORDER);
 			ctx.fill(px, sy, px + sw, sy + 12, 0xFF000000 | (RynSettingsScreen.PALETTE[i] & 0xFFFFFF));
 			swatches[i] = new int[]{ px, sy, px + sw, sy + 12 };
@@ -160,7 +141,6 @@ public class AnnounceEditScreen extends Screen {
 		int kx = t1 + (int) (frac * (t2 - t1));
 		ctx.fill(t1, y + 3, kx, y + 5, accent);
 		ctx.fill(kx - 2, y - 1, kx + 2, y + 9, accent);
-		// Время читается в секундах: «2.2s» понятнее, чем 2200.
 		String txt = idx == S_TIME ? String.format(java.util.Locale.US, "%.1fs", value / 1000f) : String.valueOf(value);
 		ctx.text(this.font, txt, t2 + 6, y, TITLE, true);
 	}
@@ -173,7 +153,6 @@ public class AnnounceEditScreen extends Screen {
 		return new int[]{ x, y, x + w, y + h };
 	}
 
-	// ===== Ввод =====
 	@Override
 	public boolean mouseClicked(MouseButtonEvent event, boolean doubled) {
 		int mx = (int) event.x(), my = (int) event.y();
@@ -187,7 +166,6 @@ public class AnnounceEditScreen extends Screen {
 			return true;
 		}
 		textFocused = false;
-		// Свотчи лежат в том же порядке, что и палитра — индекс строки и есть цвет.
 		for (int i = 0; i < swatches.length; i++) {
 			int[] s = swatches[i];
 			if (s[2] > 0 && RynSettingsScreen.in(mx, my, s[0], s[1], s[2], s[3])) {
@@ -203,7 +181,7 @@ public class AnnounceEditScreen extends Screen {
 				return true;
 			}
 		}
-		if (my < panelY) {   // клик по полю — берём надпись
+		if (my < panelY) {
 			drag = 0;
 			dragDX = mx - Announce.px(this.width, id);
 			dragDY = my - Announce.py(this.height, id);
@@ -236,7 +214,6 @@ public class AnnounceEditScreen extends Screen {
 		double frac = Math.max(0, Math.min(1, (mouseX - t1) / (double) (t2 - t1)));
 		if (idx == S_SIZE) { Announce.setScalePct(id, (int) Math.round(40 + frac * (400 - 40))); return; }
 		if (idx == S_TIME) {
-			// Шаг 100 мс — иначе ползунком не поймать круглое значение.
 			Announce.setShowMs(id, (int) (Math.round((500 + frac * (15000 - 500)) / 100) * 100));
 			return;
 		}
@@ -269,7 +246,6 @@ public class AnnounceEditScreen extends Screen {
 		return super.keyPressed(event);
 	}
 
-	/** Пустое поле = заводской текст: setText сам выкидывает пустую строку из конфига. */
 	private void applyText() {
 		Announce.setText(id, textBuf);
 		ConfigManager.save();

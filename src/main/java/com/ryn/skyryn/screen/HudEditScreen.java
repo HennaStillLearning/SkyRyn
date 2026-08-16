@@ -10,21 +10,13 @@ import com.ryn.skyryn.config.RynConfig;
 import com.ryn.skyryn.hud.HuntingHud;
 import com.ryn.skyryn.hud.SafariTracker;
 
-/**
- * Режим правки HUD (/sr hud): плашка трекера таскается мышкой.
- *
- * Нужен отдельный экран, потому что на обычном HUD мыши нет — курсор там
- * захвачен игрой, и поймать перетаскивание негде. Переключать режимы сюда
- * заходить не надо: клик по плашке работает и поверх инвентаря — см. HudClicks.
- */
 public class HudEditScreen extends Screen {
-
 	private static final int BG = 0x90101018;
 
 	private boolean dragging = false;
 	private boolean moved = false;
 	private int dragDX, dragDY;
-	private int drag = 0;   // 0 — ничего, 1 — плашка охоты, 2 — плашка сафари
+	private int drag = 0;
 
 	public HudEditScreen() {
 		super(Component.literal(Lang.tr("SkyRyn — edit HUD", "SkyRyn — правка HUD")));
@@ -49,8 +41,6 @@ public class HudEditScreen extends Screen {
 				"Тащи плашку мышкой, колесо над ней — размер");
 		ctx.text(this.font, hint, (this.width - this.font.width(hint)) / 2, 8, 0xFF888B94, true);
 
-		// Плашки рисуем САМИ, после затемнения. HUD рисуется до экранов, поэтому
-		// затемнение ложилось поверх них — и было не видно, что ты двигаешь.
 		HuntingHud.drawAt(ctx, this.font);
 		SafariTracker.drawPlaque(ctx, this.font);
 		com.ryn.skyryn.hud.CritterTimer.drawPlaque(ctx, this.font);
@@ -81,7 +71,6 @@ public class HudEditScreen extends Screen {
 	@Override
 	public boolean mouseClicked(MouseButtonEvent event, boolean doubled) {
 		int mx = (int) event.x(), my = (int) event.y();
-		// Сафари приоритетнее (обычно ниже/сбоку). ПКМ по плашке охоты — переключение режима продажи.
 		if (overSafari(mx, my)) {
 			drag = 2; dragging = true; moved = false;
 			dragDX = mx - RynConfig.safariHudX; dragDY = my - RynConfig.safariHudY;
@@ -132,7 +121,6 @@ public class HudEditScreen extends Screen {
 	public boolean mouseReleased(MouseButtonEvent event) {
 		if (dragging) {
 			dragging = false;
-			// Клик без переноса по плашке охоты — переключаем её режим.
 			if (!moved && drag == 1) RynConfig.huntTrackerMode = (RynConfig.huntTrackerMode + 1) % 4;
 			drag = 0;
 			ConfigManager.save();
@@ -141,10 +129,6 @@ public class HudEditScreen extends Screen {
 		return super.mouseReleased(event);
 	}
 
-	/**
-	 * Колесо над плашкой — её размер. Раньше он правился ползунком в настройках, но
-	 * подбирать размер вслепую, не видя плашку, неудобно: здесь она перед глазами.
-	 */
 	@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double dx, double dy) {
 		int mx = (int) mouseX, my = (int) mouseY;
