@@ -19,13 +19,9 @@ repositories {
 }
 
 dependencies {
-	// 26.1 не обфусцирован — строка mappings больше не нужна,
-	// а modImplementation заменён на обычный implementation.
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-	// Экран настроек /rynfusion
 }
 
 processResources {
