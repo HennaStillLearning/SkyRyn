@@ -3,26 +3,26 @@
 Client-side Fabric mod for Hypixel SkyBlock, focused on the Foraging islands and the
 Hunting mechanics. Works with both Normal and Ironman profiles.
 
-Everything is read from what the game already shows you: chat, scoreboard and GUIs.
-All settings live in one screen, opened with `/sr`.
+The mod reads what the game already shows you (chat, scoreboard, GUIs) and draws its own
+overlays on top. All settings live in one screen, opened with `/sr`.
 
 ## Features
 
 **Fusion.** A calculator inside the Fusion Box that works out the cheapest path to the
-shard you want, bazaar prices included. See `/sr shards` and `/sr top`.
+shard you want, with bazaar prices included. See `/sr shards` and `/sr top`.
 
 **Shards.** A guide to every shard: where it drops, how to get it, what it fuses into.
-Shard tracking, locations and attribute guides.
+Includes shard tracking, locations and attribute guides.
 
-**Attribute Helper.** A companion panel for levelling attributes: what to fuse, how many
-shards are left and how long it takes.
+**Attribute Helper.** A companion panel for levelling attributes. It shows what to fuse,
+how many shards are left and how long the farm takes.
 
 **Hunting.** Fusion tracker, Hunting tracker and Critter Safari tracker.
 
 **Foraging.** Helpers for Torrhus Canyon, Galatea and Critter Safari: a Tiki totem
 solver, a Safari run tracker, Honeycomb trackers and more.
 
-**Serverpack disabler.** Turns the server texture pack off completely, or in hybrid
+**Serverpack disabler.** Turns the server texture pack off completely, or runs in hybrid
 mode that keeps the custom items readable.
 
 **Mod menu.** `/sr`.
@@ -36,13 +36,14 @@ mode that keeps the custom items readable.
 
 ## Documentation
 
-- [Commands](docs/COMMANDS.md) — every command, key binding and party command.
+- [Commands](docs/COMMANDS.md): every command, key binding and party command.
 - [Changelog](docs/CHANGELOG.md)
 
 ## Notes
 
-Client-side only, nothing is needed on the server. The only outgoing request is
-Hypixel's public bazaar endpoint, with no API key and no account data.
+The mod runs on the client only, nothing is needed on the server. The only outgoing
+request goes to Hypixel's public bazaar endpoint, without an API key and without any
+account data.
 
 Special thanks to the author of [SkyShards](https://github.com/Campionnn/SkyShards)
 for the fusion recipe data.
