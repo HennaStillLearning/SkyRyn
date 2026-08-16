@@ -3,15 +3,10 @@ build/
 *.iml
 .idea/
 run/
-
 backup/
-
 __pycache__/
 *.pyc
 
-# Рабочие заметки — остаются на диске, но не публикуются
 CLAUDE.md
 TRAIN-IDEAS.md
-docs/ideas.md
-docs/tracking-todo.md
-docs/modrinth-release.md
+docs/
