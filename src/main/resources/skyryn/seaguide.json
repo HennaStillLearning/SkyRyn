@@ -1,0 +1,478 @@
+{
+ "_comment": "Вшитые плашки Sea Creature Guide (требования + шансы морских мобов). Наполняется дампом: игрок листает Sea Creature Guide, BestiaryReader снимает плашки в config/skyryn.json -> seaguide, переносим сюда. Формат: \"имя моба без [Lvl X] и (RARITY), нижним регистром\": {\"lines\":[\"§-строки\"], \"skin\":\"base64 головы\"}. Живой захват игрока кладётся поверх.",
+ "alligator": {
+  "lines": [
+   "§7[Lvl 120] Alligator§7 (§6§lLEGENDARY§7)",
+   "§9 Aquatic§7, §a Animal§7, §d Elusive",
+   "",
+   "§7Fishing Skill: §a20",
+   "§7Spawn Chance: §a1% §8(100 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §bWater",
+   "§7- Island: §2Bayou"
+  ],
+  "skin": "ewogICJ0aW1lc3RhbXAiIDogMTc0MjMyOTU1ODgzMywKICAicHJvZmlsZUlkIiA6ICJkYzA5MjA4MTM2ZDg0Y2Y5OWIwMzFmMGI1NzM4OTdmNSIsCiAgInByb2ZpbGVOYW1lIiA6ICJLRUlUSF8wMzAyIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzVjZjZhYmZiYzc3OGIxZmFjMGQ2ZGIxNjFlNzQ0MzhhMWI0NjgzMjNiNmY5M2ZhNGQ2NTBlNDJjZDBmNTgwMmEiCiAgICB9CiAgfQp9"
+ },
+ "lord jawbus": {
+  "lines": [
+   "§7[Lvl 600] Lord Jawbus§7 (§d§lMYTHIC§7)",
+   "§c Magmatic§7, §7 Construct§7, §d Elusive",
+   "",
+   "§7Fishing Skill: §a45",
+   "§7Spawn Chance: §a0.17% §8(8 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §cLava",
+   "§7- Island: §cCrimson Isle",
+   "",
+   "§7Special Requirements:",
+   "§7- §cAdept Trophy Fisher"
+  ],
+  "skin": "ewogICJ0aW1lc3RhbXAiIDogMTYxMDE2OTExMzgwNiwKICAicHJvZmlsZUlkIiA6ICI0YjMyOTM3YTgyNWU0ZWZkYjFmYzFkZTZiYmYyOWFhOSIsCiAgInByb2ZpbGVOYW1lIiA6ICJHb2xlbSIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8yMmJjYWNlZWI0MTYyZjQwMGQ0NDc0MzMxNTkzMmFjODIwZDMxMTlhYzg5ODZhMDE2MWE3MjYxNjFjY2M5M2ZjIgogICAgfQogIH0KfQ=="
+ },
+ "titanoboa": {
+  "lines": [
+   "§7[Lvl 240] Titanoboa§7 (§d§lMYTHIC§7)",
+   "§9 Aquatic§7, §a Animal§7, §d Elusive",
+   "",
+   "§7Fishing Skill: §a30",
+   "§7Spawn Chance: §a0.25% §8(25 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §bWater",
+   "§7- Island: §2Bayou"
+  ],
+  "skin": "ewogICJ0aW1lc3RhbXAiIDogMTczOTU0OTUyMDAxMCwKICAicHJvZmlsZUlkIiA6ICI2OGVmMmM5NTc5NjM0MjE4YjYwNTM5YWVlOTU3NWJiNSIsCiAgInByb2ZpbGVOYW1lIiA6ICJUaGVNdWx0aUFjb3VudCIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS82NDVmMmMwYmJmZTNiOGIxOWI3NDUyMDcyZGI2OWE1ZjU5ZGEzOGZmNjE0MTU1NDUxNTZlNTcwMWUxYmU3NTZkIiwKICAgICAgIm1ldGFkYXRhIiA6IHsKICAgICAgICAibW9kZWwiIDogInNsaW0iCiAgICAgIH0KICAgIH0KICB9Cn0="
+ },
+ "nessie": {
+  "lines": [
+   "§7[Lvl 302] Nessie§7 (§d§lMYTHIC§7)",
+   "§9 Aquatic§7, §d Elusive§7, §a Animal",
+   "",
+   "§7Fishing Skill: §a25",
+   "§7Spawn Chance: §a0.25% §8(25 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §bWater",
+   "§7- Island: §2Galatea"
+  ],
+  "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY5MDg1Mzg5MjQ2NSwKICAicHJvZmlsZUlkIiA6ICI3MDQ0ZDlkY2I5OGI0YzgzYWFjNjIzNjFlYTY5YmNmOSIsCiAgInByb2ZpbGVOYW1lIiA6ICJfV2F0cnlzaGthXyIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8zZDZjOWY0MzUxMGNiOTBkMjQ0OTNlMDdiN2NmOGNhOWY1NDEzMmQwOWEyNTdmMjBiNzA0ODAyMmUzYjFiNzA3IgogICAgfQogIH0KfQ=="
+ },
+ "bogged": {
+  "lines": [
+   "§7[Lvl 10] Bogged§7 (§f§lCOMMON§7)",
+   "§f Skeletal§7, §9 Aquatic",
+   "",
+   "§7Fishing Skill: §a5",
+   "§7Spawn Chance: §a50% §8(5000 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §bWater",
+   "§7- Island: §2Galatea"
+  ],
+  "skin": "ewogICJ0aW1lc3RhbXAiIDogMTcxMzk1ODQ4NzgzNSwKICAicHJvZmlsZUlkIiA6ICI0MDNlYmEzYjhkODg0MDVlYjhjMDlkNTQ4NmFjYzdiZSIsCiAgInByb2ZpbGVOYW1lIiA6ICJWb3J0ZXh0dHYiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTNiOTAwM2JhMmQwNTU2MmM3NTExOWI4YTYyMTg1YzY3MTMwZTkyODJmN2FjYmFjNGJjMjgyNGMyMWViOTVkOSIsCiAgICAgICJtZXRhZGF0YSIgOiB7CiAgICAgICAgIm1vZGVsIiA6ICJzbGltIgogICAgICB9CiAgICB9CiAgfQp9"
+ },
+ "carrot king": {
+  "lines": [
+   "§7[Lvl 25] Carrot King§7 (§9§lRARE§7)",
+   "§9 Aquatic§7, §a Animal",
+   "",
+   "§7Fishing Skill: §a14",
+   "§7Spawn Chance: §a5%",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §bWater",
+   "§7- Island: §6Any Island",
+   "",
+   "§7Special Requirements:",
+   "§7- §fCarrot Bait"
+  ],
+  "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY4NzAwMzQ0NTU4MiwKICAicHJvZmlsZUlkIiA6ICJlZTg4M2RmMjM0ZWI0YWM1YTFlNDEwODhhYzZkZWIxNyIsCiAgInByb2ZpbGVOYW1lIiA6ICJUdW5lc0Jsb2NrIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2I1MDQ1OWJjYjA4ZGI1Y2U5M2UwMjEwNzljMWNmYzAzOGM5ZWJlN2FkOWExNDk1MTZlZmU0ZDVlZThhZmI1OWYiCiAgICB9CiAgfQp9"
+ },
+ "fire eel": {
+  "lines": [
+   "§7[Lvl 240] Fire Eel§7 (§9§lRARE§7)",
+   "§c Magmatic§7, §a Animal",
+   "",
+   "§7Fishing Skill: §a34",
+   "§7Spawn Chance: §a6.02% §8(280 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §cLava",
+   "§7- Island: §cCrimson Isle"
+  ],
+  "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY0MzgzMTA5NzU4NywKICAicHJvZmlsZUlkIiA6ICJmMjU5MTFiOTZkZDU0MjJhYTcwNzNiOTBmOGI4MTUyMyIsCiAgInByb2ZpbGVOYW1lIiA6ICJmYXJsb3VjaDEwMCIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9jNjM3MDRhN2ZjN2Q0MzdmN2I5MjNlMjNlOWEwOGFlM2JiZTI4OTM3ZGY0ZGFmYTllM2U4NzI1YjJjZTRhZmE1IgogICAgfQogIH0KfQ=="
+ },
+ "inkling": {
+  "lines": [
+   "§7[Lvl 6] Inkling§7 (§a§lUNCOMMON§7)",
+   "§9 Aquatic§7, §a Animal",
+   "",
+   "§7Fishing Skill: §a7",
+   "§7Spawn Chance: §a28.75% §8(2875 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §bWater",
+   "§7- Island: §6Any Island",
+   "§7- Special: §dHotspot"
+  ],
+  "skin": "ewogICJ0aW1lc3RhbXAiIDogMTcyMTc1MTU3NTc5OCwKICAicHJvZmlsZUlkIiA6ICI4YzQwMGUyYTNiNjI0YTkzODBkYzdlZWNkMmE3NDNhNiIsCiAgInByb2ZpbGVOYW1lIiA6ICJaemVydnluIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2M2YmU0MGI3MGQ3MzljZjgyMWIwMzJkNzkwMDBiY2YxN2Y4MzNkYzRlY2M0YTMwMzBkOWFjZjY3YzkyMDI5NGUiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ=="
+ },
+ "lava flame": {
+  "lines": [
+   "§7[Lvl 230] Lava Flame§7 (§9§lRARE§7)",
+   "§c Magmatic§7, §4 Infernal",
+   "",
+   "§7Fishing Skill: §a33",
+   "§7Spawn Chance: §a7.75% §8(360 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §cLava",
+   "§7- Island: §cCrimson Isle"
+  ],
+  "skin": "eyJ0aW1lc3RhbXAiOjE0OTk3MTAzNjk1MTEsInByb2ZpbGVJZCI6IjRjMzhlZDExNTk2YTRmZDRhYjFkMjZmMzg2YzFjYmFjIiwicHJvZmlsZU5hbWUiOiJNSEZfQmxhemUiLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2I3OGVmMmU0Y2YyYzQxYTJkMTRiZmRlOWNhZmYxMDIxOWY1YjFiZjViMzVhNDllYjUxYzY0Njc4ODJjYjVmMCJ9fX0="
+ },
+ "tadgang": {
+  "lines": [
+   "§7[Lvl 8] Tadgang§7 (§9§lRARE§7)",
+   "§9 Aquatic§7, §a Animal",
+   "",
+   "§7Fishing Skill: §a9",
+   "§7Spawn Chance: §a15% §8(1500 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §bWater",
+   "§7- Island: §2Galatea"
+  ],
+  "skin": "ewogICJ0aW1lc3RhbXAiIDogMTcyMjI2MDE4NzA4NCwKICAicHJvZmlsZUlkIiA6ICJjMTJkMmY5ZWJhZGI0ZTllYTIxZmM2M2M3YWY3M2E5NSIsCiAgInByb2ZpbGVOYW1lIiA6ICJEcmVhbXlOZW9uIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzE2MDhkODZmZmIyOTdiZjkzYjcxOTBkMjRiYzNiMmRjMDk0ZjgwODY3NDBmNzU0MWE3NTJmYmU2NjFmMTc1ZmMiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ=="
+ },
+ "water hydra": {
+  "lines": [
+   "§7[Lvl 100] Water Hydra§7 (§6§lLEGENDARY§7)",
+   "§9 Aquatic§7, §a Animal§7, §d Elusive",
+   "",
+   "§7Fishing Skill: §a19",
+   "§7Spawn Chance: §a0.42% §8(18 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §bWater",
+   "§7- Island: §aBasic"
+  ],
+  "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY2MDk1ODgxMzQ0NywKICAicHJvZmlsZUlkIiA6ICJjOTgyNzhiY2Y0YzI0ZWM4ODQxMDE1MzRhNWIyN2Y3NSIsCiAgInByb2ZpbGVOYW1lIiA6ICJnYWlhX2xpbmsiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmQ2YmNkM2JlYTBkZmYxZjQ1ZDgwOGU3YTg1NTBmOTUxMDZhZjQxYjZkOGQxOGEwNzkzZTE5YzkyNTVhZTg0NSIKICAgIH0KICB9Cn0="
+ },
+ "magma slug": {
+  "lines": [
+   "§7[Lvl 200] Magma Slug§7 (§a§lUNCOMMON§7)",
+   "§c Magmatic§7, §a Cubic",
+   "",
+   "§7Fishing Skill: §a27",
+   "§7Spawn Chance: §a34.42% §8(1600 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §cLava",
+   "§7- Island: §cCrimson Isle"
+  ],
+  "skin": "eyJ0aW1lc3RhbXAiOjE0OTk3MTAwODQ4OTEsInByb2ZpbGVJZCI6IjA5NzJiZGQxNGI4NjQ5ZmI5ZWNjYTM1M2Y4NDkxYTUxIiwicHJvZmlsZU5hbWUiOiJNSEZfTGF2YVNsaW1lIiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8zODk1N2Q1MDIzYzkzN2M0YzQxYWEyNDEyZDQzNDEwYmRhMjNjZjc5YTlmNmFiMzZiNzZmZWYyZDdjNDI5In19fQ=="
+ },
+ "wetwing": {
+  "lines": [
+   "§7[Lvl 18] Wetwing§7 (§a§lUNCOMMON§7)",
+   "§9 Aquatic§7, §2 Undead§7, §a Animal",
+   "",
+   "§7Fishing Skill: §a7",
+   "§7Spawn Chance: §a28.75% §8(2875 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §bWater",
+   "§7- Island: §2Galatea"
+  ],
+  "skin": "eyJ0aW1lc3RhbXAiOjE1NzA3Mzg3OTIyNzEsInByb2ZpbGVJZCI6IjkxOGEwMjk1NTlkZDRjZTZiMTZmN2E1ZDUzZWZiNDEyIiwicHJvZmlsZU5hbWUiOiJCZWV2ZWxvcGVyIiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9kYmMwZjdjOWU5MjZjMzIwYmE0NzJkNGE4ODc2M2VmOTMyYTY2MGM0NzBmNzg2YWMwYzA0YzE1YTc4ZmQ1MDVmIn19fQ=="
+ },
+ "ent": {
+  "lines": [
+   "§7[Lvl 14] Ent§7 (§5§lEPIC§7)",
+   "§2 Woodland§7, §9 Aquatic",
+   "",
+   "§7Fishing Skill: §a12",
+   "§7Spawn Chance: §a5% §8(500 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §bWater",
+   "§7- Island: §2Galatea"
+  ],
+  "skin": "ewogICJ0aW1lc3RhbXAiIDogMTU4ODM0OTY2NTM0OCwKICAicHJvZmlsZUlkIiA6ICIyM2YxYTU5ZjQ2OWI0M2RkYmRiNTM3YmZlYzEwNDcxZiIsCiAgInByb2ZpbGVOYW1lIiA6ICIyODA3IiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzMwNTE5Zjc5ZTU4MjkxMzZjM2RmMTBiNmJkNzI3ZGIyNTU3MTdjODdlNWMxMDI4OTJlZjY3ZTdmNDY5Mjk1MTUiCiAgICB9CiAgfQp9"
+ },
+ "stridersurfer": {
+  "lines": [
+   "§7[Lvl 21] Stridersurfer§7 (§9§lRARE§7)",
+   "§c Magmatic§7, §2 Undead§7, §2 Woodland",
+   "",
+   "§7Fishing Skill: §a17",
+   "§7Spawn Chance: §a100% §8(200 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §cLava",
+   "§7- Island: §2Galatea"
+  ],
+  "skin": "ewogICJ0aW1lc3RhbXAiIDogMTczNDQ1NTYzMTM5MSwKICAicHJvZmlsZUlkIiA6ICIxODA1Y2E2MmM0ZDI0M2NiOWQxYmY4YmM5N2E1YjgyNCIsCiAgInByb2ZpbGVOYW1lIiA6ICJ3aG9pc3J1bGxlZCIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS82MjA5NzFmNGRkNzE1OTJhNjA2NTk0NDQ4N2RhMmFkZjIyOTg3ZDVkMGNjY2Y2MDg1ZGZmN2E2NzY3ZDFiMjFhIiwKICAgICAgIm1ldGFkYXRhIiA6IHsKICAgICAgICAibW9kZWwiIDogInNsaW0iCiAgICAgIH0KICAgIH0KICB9Cn0="
+ },
+ "the loch emperor": {
+  "lines": [
+   "§7[Lvl 150] The Loch Emperor§7 (§6§lLEGENDARY§7)",
+   "§9 Aquatic§7, §f Skeletal§7, §d Elusive",
+   "",
+   "§7Fishing Skill: §a20",
+   "§7Spawn Chance: §a1% §8(100 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §bWater",
+   "§7- Island: §2Galatea"
+  ],
+  "skin": "eyJ0aW1lc3RhbXAiOjE1ODY3MzY5MDMzNTEsInByb2ZpbGVJZCI6IjczODJkZGZiZTQ4NTQ1NWM4MjVmOTAwZjg4ZmQzMmY4IiwicHJvZmlsZU5hbWUiOiJZYU9PUCIsInNpZ25hdHVyZVJlcXVpcmVkIjp0cnVlLCJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDZjMTViNTI3ZTQ4NzIyNDljOTE3OTc0MzU1MjFjYjc3NjUxYjU2N2U1NzUxODMwNGY1ZjEzMWU0OWRlZDY1MiJ9fX0="
+ },
+ "dumpster diver": {
+  "lines": [
+   "§7[Lvl 15] Dumpster Diver§7 (§a§lUNCOMMON§7)",
+   "§9 Aquatic§7, §e Humanoid",
+   "",
+   "§7Fishing Skill: §a5",
+   "§7Spawn Chance: §a28.75% §8(2875 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §bWater",
+   "§7- Island: §2Bayou"
+  ],
+  "skin": "ewogICJ0aW1lc3RhbXAiIDogMTc0MDkxNjY1NzY2MiwKICAicHJvZmlsZUlkIiA6ICI0ZThjZjYxNzVhMzg0MmMxYjhkZjcyMmUxODdjZGY1ZCIsCiAgInByb2ZpbGVOYW1lIiA6ICJQdGl0ZV9MaWNvcm5lXyIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9mNWM1ZWI1ZWUwNzJjMDY1ODA5ODZkMTJhMDI5ZTI4MDEwYzEyOTA4NzU1MzQ4MTBjNTMxNDBiYzc2ZGFiZmViIiwKICAgICAgIm1ldGFkYXRhIiA6IHsKICAgICAgICAibW9kZWwiIDogInNsaW0iCiAgICAgIH0KICAgIH0KICB9Cn0="
+ },
+ "trash gobbler": {
+  "lines": [
+   "§7[Lvl 8] Trash Gobbler§7 (§f§lCOMMON§7)",
+   "§9 Aquatic§7, §4 Arthropod",
+   "",
+   "§7Fishing Skill: §a5",
+   "§7Spawn Chance: §a50% §8(5000 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §bWater",
+   "§7- Island: §2Bayou"
+  ],
+  "skin": "eyJ0aW1lc3RhbXAiOjE1ODQzODU5MzM1MTIsInByb2ZpbGVJZCI6IjRkNzA0ODZmNTA5MjRkMzM4NmJiZmM5YzEyYmFiNGFlIiwicHJvZmlsZU5hbWUiOiJzaXJGYWJpb3pzY2hlIiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8xOGFlNzA0NmRhOThkY2IzM2YzZWQ0MmYxZGM0MWQwOGFjOGRmYTVkYjNhMzg2MGRlNWIxYjVjMDU2ODA0MTg3In19fQ=="
+ },
+ "banshee": {
+  "lines": [
+   "§7[Lvl 10] Banshee§7 (§9§lRARE§7)",
+   "§9 Aquatic§7, §e Humanoid",
+   "",
+   "§7Fishing Skill: §a10",
+   "§7Spawn Chance: §a15% §8(1500 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §bWater",
+   "§7- Island: §2Bayou"
+  ],
+  "skin": "ewogICJ0aW1lc3RhbXAiIDogMTc0MDQ4NzczNDcwOCwKICAicHJvZmlsZUlkIiA6ICJjN2Y2Nzk3ZmE4ZGM0NTdiYTkxNTU0NWIwMGU3M2UzMSIsCiAgInByb2ZpbGVOYW1lIiA6ICJlZGd5c3BlbmNlIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzMwY2NjM2M5YTA2ZGU2NTdiOThmODgxZTIzYTU3ZWNhZWIyNTJjMzY0ZGRiN2I5MjU2NGY1ZWQyYjgwODdlM2IiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ=="
+ },
+ "bayou sludge": {
+  "lines": [
+   "§7[Lvl 25] Bayou Sludge§7 (§5§lEPIC§7)",
+   "§9 Aquatic§7, §a Cubic",
+   "",
+   "§7Fishing Skill: §a15",
+   "§7Spawn Chance: §a5% §8(500 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §bWater",
+   "§7- Island: §2Bayou"
+  ],
+  "skin": "eyJ0aW1lc3RhbXAiOjE0OTU5ODU3MzEzOTcsInByb2ZpbGVJZCI6ImIwZDRiMjhiYzFkNzQ4ODlhZjBlODY2MWNlZTk2YWFiIiwicHJvZmlsZU5hbWUiOiJZZWxlaGEiLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzg5NWFlZWM2Yjg0MmFkYTg2NjlmODQ2ZDY1YmM0OTc2MjU5NzgyNGFiOTQ0ZjIyZjQ1YmYzYmJiOTQxYWJlNmMifX19"
+ },
+ "taurus": {
+  "lines": [
+   "§7[Lvl 250] Taurus§7 (§5§lEPIC§7)",
+   "§c Magmatic§7, §e Humanoid§7, §a Animal",
+   "",
+   "§7Fishing Skill: §a35",
+   "§7Spawn Chance: §a3.44% §8(160 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §cLava",
+   "§7- Island: §cCrimson Isle"
+  ],
+  "skin": "ewogICJ0aW1lc3RhbXAiIDogMTY0MzU0MTIyNDQ3OSwKICAicHJvZmlsZUlkIiA6ICJlZDUzZGQ4MTRmOWQ0YTNjYjRlYjY1MWRjYmE3N2U2NiIsCiAgInByb2ZpbGVOYW1lIiA6ICI0MTQxNDE0MWgiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTY0MmEwNmNkNzVlZjMwN2MxOTEzYmE3YTIyNGZiMjA4MmQ4YTJjNTI1NGZkMWJmMDA2MTI1YTA4N2E5YTg2OCIKICAgIH0KICB9Cn0="
+ },
+ "haggard": {
+  "lines": [
+   "§7[Lvl 44] Haggard§7 (§f§lCOMMON§7)",
+   "§f Skeletal§7, §9 Aquatic",
+   "",
+   "§7Fishing Skill: §a15",
+   "§7Spawn Chance: §a50% §8(5000 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §bWater",
+   "§7- Island: §6Torrhus Canyon"
+  ],
+  "skin": ""
+ },
+ "brineling": {
+  "lines": [
+   "§7[Lvl 58] Brineling§7 (§a§lUNCOMMON§7)",
+   "§9 Aquatic§7, §a Animal",
+   "",
+   "§7Fishing Skill: §a15",
+   "§7Spawn Chance: §a28.75% §8(2875 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §bWater",
+   "§7- Island: §6Torrhus Canyon"
+  ],
+  "skin": "ewogICJ0aW1lc3RhbXAiIDogMTc4NDEyNjkyOTIyOCwKICAicHJvZmlsZUlkIiA6ICI0YzZhZTVkNzc0ZDE0MjBkYmJiNThjNDMzZGM3NjNlMCIsCiAgInByb2ZpbGVOYW1lIiA6ICJKdXN0VHJhbnNHaXJsIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzE4ZGRmNDVmMmExNmU2NjJjNjY3NTQxNDIyY2JiZDk0NDM5OGIxYTkwYzUwMGIwMzMwOGIxYzk5YzEwMDAzZDMiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ=="
+ },
+ "sprawl": {
+  "lines": [
+   "§7[Lvl 71] Sprawl§7 (§9§lRARE§7)",
+   "§9 Aquatic§7, §7 Airborne",
+   "",
+   "§7Fishing Skill: §a15",
+   "§7Spawn Chance: §a15% §8(1500 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §bWater",
+   "§7- Island: §6Torrhus Canyon"
+  ],
+  "skin": "ewogICJ0aW1lc3RhbXAiIDogMTc4NDEyNjYyNzI0NywKICAicHJvZmlsZUlkIiA6ICI4ODYyYjU4ZWI4YjE0MTg5OGY3MWE0YjI2MDA3ZWVkNSIsCiAgInByb2ZpbGVOYW1lIiA6ICJHYWJyaWV3RiIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS82YmJlNmE3OGI4YjliMWJlZTQ0NThmYWU2MzNkZWNhN2RjOWRhMzE1ODliOTg5MDNjOWU4NzFlZmNiNDE2YWVhIiwKICAgICAgIm1ldGFkYXRhIiA6IHsKICAgICAgICAibW9kZWwiIDogInNsaW0iCiAgICAgIH0KICAgIH0KICB9Cn0="
+ },
+ "torrid": {
+  "lines": [
+   "§7[Lvl 85] Torrid§7 (§5§lEPIC§7)",
+   "§9 Aquatic§7, §7 Airborne",
+   "",
+   "§7Fishing Skill: §a15",
+   "§7Spawn Chance: §a5% §8(500 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §bWater",
+   "§7- Island: §6Torrhus Canyon"
+  ],
+  "skin": ""
+ },
+ "silkbreeze": {
+  "lines": [
+   "§7[Lvl 105] Silkbreeze§7 (§6§lLEGENDARY§7)",
+   "§9 Aquatic§7, §7 Airborne§7, §d Elusive",
+   "",
+   "§7Fishing Skill: §a15",
+   "§7Spawn Chance: §a1% §8(100 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §bWater",
+   "§7- Island: §6Torrhus Canyon"
+  ],
+  "skin": "ewogICJ0aW1lc3RhbXAiIDogMTc4NDIxNTk4ODQ1MywKICAicHJvZmlsZUlkIiA6ICIxMTM0OTAxMTU3ZTE0Yzg0OTE1YTNjMGY3M2RmYzM0NSIsCiAgInByb2ZpbGVOYW1lIiA6ICJab2xlZWV5IiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzI2MzBjMzE3MWM0MDI4NTQ0ZmY5NzliYTg3ZmEwMzEwMmFhY2JjMWU5MTdhY2U5OTg0ZDhlZTUxYTliYmQ1YmEiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ=="
+ },
+ "giant isopod": {
+  "lines": [
+   "§7[Lvl 186] Giant Isopod§7 (§d§lMYTHIC§7)",
+   "§9 Aquatic§7, §4 Arthropod§7, §d Elusive",
+   "",
+   "§7Fishing Skill: §a15",
+   "§7Spawn Chance: §a0.25% §8(25 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §bWater",
+   "§7- Island: §6Torrhus Canyon"
+  ],
+  "skin": "ewogICJ0aW1lc3RhbXAiIDogMTc4MzYxNDI3ODk3MSwKICAicHJvZmlsZUlkIiA6ICI3Mjc2ZThmYzVkNjE0ODNjYmMwN2IxYjIzNjI3MDA4ZSIsCiAgInByb2ZpbGVOYW1lIiA6ICJXYWJvV2ViaSIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8zZmNiMjAzYjAyOWFhYzQ5NTg0MDdkYWY0MDcyYTAxYTM1MzEwNTE2MjM3M2NlN2U1NTljNjY5ZDc4MzI1YmNiIiwKICAgICAgIm1ldGFkYXRhIiA6IHsKICAgICAgICAibW9kZWwiIDogInNsaW0iCiAgICAgIH0KICAgIH0KICB9Cn0="
+ },
+ "jumpin' jack": {
+  "lines": [
+   "§7[Lvl 10] Jumpin' Jack§7 (§f§lCOMMON§7)",
+   "§9 Aquatic§7, §6 Spooky",
+   "",
+   "§7Fishing Skill: §a6",
+   "§7Spawn Chance: §a50% §8(5000 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §bWater",
+   "§7- Island: §6Any Island",
+   "§7- Special: §6Spooky"
+  ],
+  "skin": ""
+ },
+ "scarecrow": {
+  "lines": [
+   "§7[Lvl 9] Scarecrow§7 (§a§lUNCOMMON§7)",
+   "§9 Aquatic§7, §6 Spooky",
+   "",
+   "§7Fishing Skill: §a9",
+   "§7Spawn Chance: §a28.75% §8(2875 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §bWater",
+   "§7- Island: §6Any Island",
+   "§7- Special: §6Spooky"
+  ],
+  "skin": ""
+ },
+ "nightmare": {
+  "lines": [
+   "§7[Lvl 24] Nightmare§7 (§9§lRARE§7)",
+   "§9 Aquatic§7, §6 Spooky§7, §2 Undead",
+   "",
+   "§7Fishing Skill: §a14",
+   "§7Spawn Chance: §a15% §8(1500 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §bWater",
+   "§7- Island: §6Any Island",
+   "§7- Special: §6Spooky"
+  ],
+  "skin": "ewogICJ0aW1lc3RhbXAiIDogMTYwNTQwMjg1NDk2NCwKICAicHJvZmlsZUlkIiA6ICJmMzA1ZjA5NDI0NTg0ZjU4YmEyYjY0ZjAyZDcyNDYyYyIsCiAgInByb2ZpbGVOYW1lIiA6ICJqcm9ja2EzMyIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS81NzgyMTFlMWI0ZDk5ZDFjN2JmZGE0ODM4ZTQ4ZmM4ODRjM2VhZTM3NmY1OGQ5MzJiYzJmNzhiMGE5MTlmOGU3IgogICAgfQogIH0KfQ=="
+ },
+ "werewolf": {
+  "lines": [
+   "§7[Lvl 50] Werewolf§7 (§5§lEPIC§7)",
+   "§9 Aquatic§7, §6 Spooky§7, §a Animal",
+   "",
+   "§7Fishing Skill: §a17",
+   "§7Spawn Chance: §a5% §8(500 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §bWater",
+   "§7- Island: §6Any Island",
+   "§7- Special: §6Spooky"
+  ],
+  "skin": "ewogICJ0aW1lc3RhbXAiIDogMTYwMzY2ODk3MjkwMywKICAicHJvZmlsZUlkIiA6ICIzYTNmNzhkZmExZjQ0OTllYjE5NjlmYzlkOTEwZGYwYyIsCiAgInByb2ZpbGVOYW1lIiA6ICJUaGVyb2Ryb2dvIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2NlNDYwNmM2ZDk3M2E5OTlhZWMxNjg3YzdlMDc1ZjdkMzdkYjgxODVlODhiODQ0NTA3ZjE2YjNlMmIzZWI2OTAiCiAgICB9CiAgfQp9"
+ },
+ "phantom fisher": {
+  "lines": [
+   "§7[Lvl 160] Phantom Fisher§7 (§6§lLEGENDARY§7)",
+   "§9 Aquatic§7, §6 Spooky§7, §d Elusive",
+   "",
+   "§7Fishing Skill: §a21",
+   "§7Spawn Chance: §a1% §8(100 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §bWater",
+   "§7- Island: §6Any Island",
+   "§7- Special: §6Spooky"
+  ],
+  "skin": "ewogICJ0aW1lc3RhbXAiIDogMTYwNDAyNDY0MjMyNywKICAicHJvZmlsZUlkIiA6ICI0ZmFkNjk2NTIxNGI0NGQ4YjAxYzlhZTVjZDQ0MDVjOCIsCiAgInByb2ZpbGVOYW1lIiA6ICJoaXBfYXNpYW4iLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmM5YmMwMWYyOTlmOThkNTY1YTI3YmExMGExMjkzOTE1YWU4YmVlZWZiOGE2Nzg0NWUyMzMxZGJlNmZkNmZkNiIKICAgIH0KICB9Cn0="
+ },
+ "grim reaper": {
+  "lines": [
+   "§7[Lvl 190] Grim Reaper§7 (§d§lMYTHIC§7)",
+   "§9 Aquatic§7, §6 Spooky§7, §d Elusive",
+   "",
+   "§7Fishing Skill: §a26",
+   "§7Spawn Chance: §a0.25% §8(25 Weight)",
+   "",
+   "§7Categories:",
+   "§7- Liquid: §bWater",
+   "§7- Island: §6Any Island",
+   "§7- Special: §6Spooky"
+  ],
+  "skin": "ewogICJ0aW1lc3RhbXAiIDogMTYwNDA1NDA5MDUwMCwKICAicHJvZmlsZUlkIiA6ICI5NGMzZGM3YTdiMmQ0NzQ1YmVlYjQzZDc2ZjRjNDVkYyIsCiAgInByb2ZpbGVOYW1lIiA6ICJEb25fVml0b0Nvcmxlb25lIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzY4YTYxOTRhNWIyMTdiOWY1YTNkZmVjY2U1ZjNlZmU2OTY3NDA1MDM5YjgyZmEwYzRlODk1OTE3NWYzMmU3NWEiCiAgICB9CiAgfQp9"
+ }
+}

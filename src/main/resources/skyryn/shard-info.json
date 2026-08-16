@@ -1,0 +1,3664 @@
+{
+ "_comment": [
+  "ТВОЙ файл. Мод его только читает и НИКОГДА не перезаписывает.",
+  "",
+  "Ключ = имя шарда в нижнем регистре, как в списке /sr shards.",
+  "Все поля необязательные: чего нет — того экран не покажет.",
+  "",
+  "  details  — секция 'Подробнее': что шард даёт и как работает.",
+  "  hunting  — метод 'Охота'. Пусто = где искать, ещё не написано.",
+  "      how    — где водится моб, чем бить, что брать с собой",
+  "      warp   — куда телепортироваться, например '/warp crimson'",
+  "      coords — координаты спота, например '-274 68 -412'",
+  "      images — ссылки на скрины, открываются в браузере",
+  "      video  — ссылка на видео",
+  "",
+  "Методы мод определяет сам: ловится шард или только фьюзится — это в",
+  "данных. Фьюз и базар тоже показывает сам. Писать их не надо.",
+  "",
+  "Переносы строк — обычный \n."
+ ],
+ "abyssal lanternfish": {
+  "details": "§6Golden§r and §bDiamond Goblin§r are mobs that can spawn while mining in [Dwarven Mines](loc:dwarven) or [Crystal Hollows](loc:crystal). They can be summoned using goblin eggs.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§6Treasure Fishing§r in [Dwarven Mines](loc:dwarven).\nRequirements:\n- §6GOOD CATCH§r.\nTips:\n- Get HOTF 6 for the Hunter Fortune Perk, which grants up to §d+50 Hunter Fortune§r, and upgrade your §9David Cloak§r, which grants up to §d+30 Hunter Fortune§r\n- Use [§aWooden Bait§r](bz:Wooden Bait|Makes your next §6GOOD CATCH§r a rare fish shard). Bait can be bought from [§aRosemary§r](npc:Rosemary) for 100 [§dForest Essence§r](bz:forest essence)\nAttributes:\n1. [§fFisherman§r](shard:inkling)\n2. [§5Lucky Rod§r](shard:moray eel)\n3. [§9Great Karma§r](shard:lizard king)\n4. [§6Hunter's Karma§r](shard:megalith)\n- For more efficiency use §5Diver's Armor§r or §6Abyssal Armor§r.\n  Gear: full §aBackwater Equipment§r or 2/4 + §9Frozen Amulet§r + §9David Cloak§r. Use this gear only if your §bFishing Speed§r is high enough. Otherwise use regular gear + §9David Cloak§r.\n- Rod: use the best rod you have. The [§9Treasure Hook§r](tip:only allows catching items and treasures) modifier will disable catching mobs.\n- Pet:\n1. §dFlying Fish§r: Boosts the stats of your Diver's or Abyssal Armor and gives a huge fishing speed boost, enhances the flash enchantment.\n2. §6Hermit Crab§r: Used in a party of 6 players for the full effect of its passive ability and profit.\n3. §6Ammonite§r: A budget option for a stat boost.",
+    "warp": "/warp dwarves",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap underwater in [Dwarven Mines](loc:dwarven).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   }
+  ]
+ },
+ "aero": {
+  "details": "Flat §cStrength§r stat: §a1§r per level. Belongs to the family Elemental and can be boosted by the Echo of Elemental on [§6Starborn Shard§r](shard:starborn)",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "alligator": {
+  "details": "Boosts [§cResistance§r](tip:boosts: §fVoracious Spider§r, §fTank Zombie§r, §fZealot§r, §fBezal§r, §fCretan Bull§r) attributes by §a2%§r per level. Belongs to the Echo category, boosted by the Echo of Echoes attribute on [§6Tiamat Shard§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§6Alligator§r](cmd:/bestiary Alligator) — a legendary mob you can catch while fishing in [Backwater Bayou](loc:bayou).\n\n§c*Only use Pocket Black Hole if the shard is your only goal — otherwise it's better to kill the mob with a Looting V + Magic Find build. Don't use it on someone else's Elusive mob.§r\n\n[Requirements](cmd:/seacreatureguide Alligator) for §6Alligator§r:\n- Fishing 20\n- Water\n- [Backwater Bayou](loc:bayou)",
+    "warp": "/warp bayou",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap underwater in [Backwater Bayou](loc:bayou).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "ananke": {
+  "details": "The Ananke Feather drops with a §60.36%§r chance (1 in 277.71 runs) from the paid reward chest of [§cInfernal Kuudra§r](tip:Kuudra Tier 5). This chance can be increased by §a+2%..20%§r with the Wings of Destiny attribute.",
+  "methods": [
+   {
+    "type": "chest",
+    "text": "Can be obtained as a chest reward after fighting [§cInfernal Kuudra§r](tip:Kuudra Tier 5)",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "apex dragon": {
+  "details": "§3Combat Wisdom§r — experience multiplier for [§6Combat§r](tip:Skyblock Skill): §a1%§r per level.",
+  "methods": [
+   {
+    "type": "chest",
+    "text": "Can be obtained as a reward for completing §cMaster Mode 7§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "arachne": {
+  "details": "Increases the amount of §dSpider Essence§r from all sources by §a1%§r per level. Belongs to the Essence attributes and can be boosted by the Echo of Essence attribute on [§5Komodo Dragon Shard§r](shard:komodo dragon)",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "The shard can be obtained as a reward from the boss [§cArachne§r](warp:/warp arachne), which is located in [Arachne's Burrow](loc:arachnes_burrow) in [Spider's Den](loc:spider).\nTo summon the boss, place 4 [§9Arachne's Calling.§r](bz:Arachne's Calling)",
+    "warp": "/warp spider",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "azure": {
+  "details": "Grants §a+5..50§r ❁ Strength on Foraging islands.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "Use the [§fFishing Net§r](tip:§aBasic Fishing Net§r|§9Medium Fishing Net§r|§5Turbo Fishing Net§r) on the §fAzure Fish§r in the water in [Tomb Floodway](loc:tomb_floodway), [Murkwater Shallows](loc:murkwater_shallows) and [Murkwater Depths](loc:murkwater_depths), to obtain the shard.",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap underwater in [Murkwater Shallows](loc:murkwater_shallows) or [Murkwater Depths](loc:murkwater_depths).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "bal": {
+  "details": "Each mined block has a §a+1%..10%§r chance to grant an extra ✧ Pristine.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "Can be obtained after defeating the miniboss [§cBal§r](cmd:/bestiary Bal) in §bKhazad-Dum§r using [Charm](tip:Charm chance scales with Hunting level). Look for the location in [Crystal Nucleus](loc:nucleus).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "bambloom": {
+  "details": "Flat §6Foraging Fortune§r stat: §a10§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "bambuleaf": {
+  "details": "Increases your axe's §2Sweep§r while chopping by §a3§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "Head to §2Galatea§r and find the entrance to [Tranquility Sanctum.](loc:tranquility sanctum.) Inside the cave you'll find pandas. Break the bamboo growing there (40–44 pieces) with any sword and feed it to a panda - you get the shard. If no pandas are left in the cave  - switch servers.\n\nNote: §aBambuleaf §rcan only be obtained in§6 §r§aSpring§r§a §ror§f §r§fSummer§r season. In §6Autumn §ror §bWinter§r - only [Mochibear](shard:mochibear).",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap in [Tranquility Sanctum](loc:tranquility_sanctum) in §aSpring§r or §eSummer§r season.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   }
+  ]
+ },
+ "barbarian duke x": {
+  "details": "This bonus is §7additive§r — its % goes into one shared damage pool with everything else (combat level, gear, enchants, other shards), not a separate multiplier. The more damage % you already have, the less each point adds.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "Can be obtained after defeating the miniboss [§5Barbarian Duke X§r](cmd:/bestiary Barbarian Duke X). Use §bPocket Black Hole§r at 10% HP or below to obtain the shard. The shard can also be obtained by defeating the miniboss with [Charm](tip:Charm chance scales with Hunting level).",
+    "warp": "/warp skull",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "chest",
+    "text": "Can be obtained as a reward for completing [§cKuudra§r](tip:Crimson Isle). Drops only from the §6Fiery§r tier and above — lower tiers give no shard.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": false
+   }
+  ]
+ },
+ "basilisk": {
+  "details": "The Lasso drains the mob's stamina §a2%§r faster per attribute level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "beaconmite": {
+  "details": "Increases the bonuses gained from Moonglade Beacon stacks. By completing the beacon challenge, players get 1 stack for 20 minutes, granting §6Fig§r and §6Mangrove Fortune§r. Up to 5 stacks.\nPlayers can also upgrade the signal strength to level 10 using the §6Signal Enhancer§r, which drops from Tree Gifts.",
+  "methods": [
+   {
+    "type": "tuning",
+    "text": "You can obtain this shard by Tuning [Moonglade Beacon](loc:moonglade_beacon).",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "bezal": {
+  "details": "Increases §aDefense§r against Infernal mobs by §a4§r per level. The shard belongs to the Resistance category and can be boosted by the Echo of Resistance attribute on [§5Alligator Shard§r](shard:alligator).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§cBezal§r](cmd:/bestiary Bezal) - a mob living on the upper floors of [§5Stronghold§r](loc:stronghold) on [Crimson Isle](loc:crimson).",
+    "warp": "/warp crimson",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true,
+    "track": true
+   },
+   {
+    "type": "chest",
+    "text": "Can be obtained as a reward for completing [§cKuudra§r](tip:Crimson Isle).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": false
+   }
+  ]
+ },
+ "birries": {
+  "details": "Grants a chance to double the drop of Berries and Sea Lumines: §a10%§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§fBirries§r - a mob that has a §a10%§r chance to be spawned when harvesting a §6Berries Bush§r in [Galatea](loc:galatea). Use [§fFishing Net§r](tip:§aBasic Fishing Net§r|§9Medium Fishing Net§r|§5Turbo Fishing Net§r) or [§eLasso§r](tip:§fAbysmal Lasso§r|§aVinerip Lasso§r|§9Entangler Lasso§r|§5Everstretch Lasso§r), to obtain the shard.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap on the ground in [Galatea](loc:galatea).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "bitbug": {
+  "details": "When eating a §6Booster Cookie§r you instantly receive part of your available §bBits§r: §a10%§r per level. In other words, eating a cookie makes 4000 bits available, 2000 of which you get instantly at attribute level 10.",
+  "methods": [
+   {
+    "type": "purchase",
+    "text": "Can be bought for §bBits§r at the §dElizabeth§r shop, located in [Community Center](loc:community_center).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "blizzard": {
+  "details": "Flat §bIntelligence§r stat: §a1§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "bogged": {
+  "details": "§3Sea Creature Chance§r (flat stat): §a5%§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fBogged§r](cmd:/bestiary Bogged) - a common mob that you can catch while fishing on [Galatea](loc:galatea).\n\n[Requirements](cmd:/seacreatureguide Bogged) for §fBogged§r:\n- Fishing 5\n- Water\n- §2Galatea§r",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true,
+    "blackHole": true
+   }
+  ]
+ },
+ "bolt": {
+  "details": "Flat §cStrength§r stat: §a1§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "boreal owl": {
+  "details": "Your pet gains more experience when trained at §aFann§r: §a2%§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "bramble": {
+  "details": "Flat §cHealth§r stat: §a2§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "bullfrog": {
+  "details": "Grants a chance to double §bAgatha's Starlyn Contest§r points when gathering berries: §a10%§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "caiman": {
+  "details": "Boosts [§cRuler§r](tip:boosts: §fChill§r, §aZombie Soldier§r, §aFlaming Spider§r, §aBruiser§r, §aStridersurfer§r, §9Drowned§r, §5Flare§r) attributes by §a2%§r per level. Belongs to the Echo category, boosted by the Echo of Echoes attribute on [§6Tiamat Shard§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "carrot king": {
+  "details": "Your §6Chocolate Factory§r produces more chocolate per second: §a2§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§9Carrot King§r](cmd:/bestiary Carrot King) - a rare mob, that you can catch while fishing on any island.\n\n[Requirements](cmd:/seacreatureguide Carrot King) for §9Carrot King§r:\n- Fishing 14\n- §bWater§r\n- §fCarrot Bait§r",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ },
+ "cascade": {
+  "details": "Flat §bIntelligence§r stat: §a1§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "cavernshade": {
+  "details": "§3Mining Wisdom§r — experience multiplier for [§6Mining§r](tip:Skyblock Skill): §a0.5%§r per level. Belongs to the §3Wisdom§r attributes and can be boosted by the Echo of Wisdom attribute on [§6Wyvern Shard§r](shard:wyvern).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "chameleon": {
+  "details": "Every shard has its own ID — a rarity letter (C→U→R→E→L = Common→Legendary) and a number: §fGrove§r (§fC1§r), §aBramble§r (§aU1§r), §9Sylvan§r (§9R1§r), §5Terra§r (§5E1§r), §6Tenebris§r (§6L1§r).\n\nFusing §6Chameleon §r+ a shard with ID §fXn§r gives the next 3 numbers as results: X(n+1), X(n+2), X(n+3). Example:§6 Chameleon§r + §fGrove§r (§fC1§r) → §fC2§r, §fC3§r, §fC4§r.\n\nThe chains have gaps (some numbers don't exist). A gap or the end of a rarity is filled by the first shard of the NEXT rarity, counted by the number of gaps in the window. Example: §6Chameleon §r+ §fChill§r (§fC12§r, no §fC13§r) → §aU1§r, §fC14§r, §fC15§r. §6Chameleon§r + §fCretan Bull§r (§fC39§r, end of Common) → §aU1§r, §aU2§r, §aU3§r. Legendary is the ceiling: there, gaps simply trim the output.",
+  "methods": [
+   {
+    "type": "foraging",
+    "text": "Can be found in §6Fig§r and §6Mangrove Tree Gifts§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "chill": {
+  "details": "This bonus is §7additive§r — its % goes into one shared damage pool with everything else (combat level, gear, enchants, other shards), not a separate multiplier. The more damage % you already have, the less each point adds.\n\nBelongs to the §cRuler§r category and is boosted by the [§5Echo of Ruler§r](shard:caiman) attribute, which is itself amplified by [§6Echo of Echoes§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fChillshot§r](cmd:/bestiary Chill|Chillshot) and [§fChillblade§r](cmd:/bestiary Chill|Chillblade) - a mob living in [Wyrmgrove Tomb](loc:wyrmgrove_tomb) on the island of §2Galatea§r.",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true,
+    "weapon": "Axes",
+    "track": true
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap in [Wyrmgrove Tomb](loc:wyrmgrove_tomb).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   }
+  ]
+ },
+ "cinderbat": {
+  "details": "Flat §bMagic Find§r stat: §a0.5§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§6Cinderbat§r - a legendary mob you can catch with [§eLasso§r](tip:§fAbysmal Lasso§r|§aVinerip Lasso§r|§9Entangler Lasso§r|§5Everstretch Lasso§r) in [Crimson Isle](loc:crimson).\n\nAlternative method: Lower the mob's health to 10% or below and use §bPocket Black Hole§r. Cinderbat's health is §c5m HP§r. It's not recommended to use Black Hole unless you have a weapon that can quickly lower the target's health to 10% or below.\n\nThe shard can also be obtained with [Charm](tip:Charm chance scales with Hunting level).",
+    "warp": "/warp crimson",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "chest",
+    "text": "Can be obtained from a chest after fighting [§cInfernal Kuudra§r](tip:Kuudra Tier 5).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": false
+   }
+  ]
+ },
+ "cocoaleech": {
+  "details": "Grants a chance to get a second Vinyl when killing a §aPest§r: §a2.5%§r per level.",
+  "methods": [
+   {
+    "type": "crafting",
+    "text": "The shard has a crafting recipe — [/recipe cocoaleech](cmd:/recipe cocoaleech).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "cod": {
+  "details": "Increases coins gained from §6Treasure Fishing§r: §a1%§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§fCod§r - a small fish that lives in the waters of [Galatea](loc:galatea). Use [§fFishing Net§r](tip:§aBasic Fishing Net§r|§9Medium Fishing Net§r|§5Turbo Fishing Net§r)  and bring the §eSpin Meter§r up to §a90%§r or higher, but not 100 — otherwise the Cod will explode.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap in the water of [Galatea](loc:galatea).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "condor": {
+  "details": "§3Taming Wisdom§r — experience multiplier for [§6Taming§r](tip:Skyblock Skill): §a0.5%§r per level. Belongs to the §3Wisdom§r attributes and can be boosted by the Echo of Wisdom attribute on [§6Wyvern Shard§r](shard:wyvern).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "coralot": {
+  "details": "Grants a chance to get an extra §fChums§r: §a5%§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§fCoralot§r - a rare fish that lives in the waters of [Galatea](loc:galatea). Find the fish and stay still for a while, looking at it. Use [§fFishing Net§r](tip:§aBasic Fishing Net§r|§9Medium Fishing Net§r|§5Turbo Fishing Net§r) or [§eLasso§r](tip:§fAbysmal Lasso§r|§aVinerip Lasso§r|§9Entangler Lasso§r|§5Everstretch Lasso§r), once the §e<!>§r sign above the mob's head disappears.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap in [Murkwater Depths](loc:murkwater_depths).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "cretan bull": {
+  "details": "Increases §aDefense§r against Mythological mobs by §a4§r per level. The shard belongs to the Resistance category and can be boosted by the Echo of Resistance attribute on [§5Alligator Shard§r](shard:alligator).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fCretan Bull§r](cmd:/bestiary Cretan Bull) - a Mythological mob that can be found with a [§fSpade§r](tip:§9Ancestral Spade§r|§5Archaic Spade§r|§6Deific Spade§r) and an equipped §aGriffin Pet§r during the [§2Mythological Ritual§r](tip:Mayor Diana's perk).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "crocodile": {
+  "details": "Grants a chance to get an extra shard of the §5Reptile§r family when Fusing: §a2%§r per level.",
+  "methods": [
+   {
+    "type": "purchase",
+    "text": "Can be bought up to §a7§r per day at [§aKiara's§r](loc:kiara).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "crow": {
+  "details": "Flat §2Sweep§r stat, applied to §6Fig Trees§r. Belongs to the §eSharpening§r category and is boosted by the [§9Echo of Sharpening§r](shard:gecko) attribute.",
+  "methods": [
+   {
+    "type": "purchase",
+    "text": "Can be bought at the §bAgatha's§r shop in [Murkwater Loch](loc:murkwater_loch).",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   }
+  ]
+ },
+ "cryo": {
+  "details": "Flat §bIntelligence§r stat: §a1§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "cuboa": {
+  "details": "Boosts [§aBox§r](tip:boosts: §fHideonleaf§r, §fHideongift§r, §aHideoncave§r, §9Hideongeon§r, §9Hideondra§r, §6Hideonbox§r) attributes by §a2%§r per level. Belongs to the Echo category, boosted by the Echo of Echoes attribute on [§6Tiamat Shard§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "daemon": {
+  "details": "The game has an [§dRNG§r](cmd:/rng) system. By selecting an item and performing certain actions you fill the §dRNG METER§r. This shard increases the RNG meter you gain by §a1%§r per level.",
+  "methods": [
+   {
+    "type": "chest",
+    "text": "Can be obtained as a chest reward after fighting §cInfernal Kuudra§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "dodo": {
+  "details": "Flat §dPet Luck§r stat: §a1§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "draconic": {
+  "details": "Increases the amount of §dDragon Essence§r from all sources by §a1%§r per level. Belongs to the Essence attributes and can be boosted by the Echo of Essence attribute on [§5Komodo Dragon Shard§r](shard:komodo dragon).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "Can be obtained as a reward from the boss §5Ender Dragon§r. The boss is summoned with §a8§r §5Summoning Eye§r at the Altar in [Dragon's Nest](loc:dragons_nest).",
+    "warp": "/warp end",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   }
+  ]
+ },
+ "dragonfly": {
+  "details": "§3Farming Wisdom§r — experience multiplier for [§6Farming§r](tip:Skyblock Skill): §a0.5%§r per level. Belongs to the §3Wisdom§r attributes and can be boosted by the Echo of Wisdom attribute on [§6Wyvern Shard§r](shard:wyvern).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "dreadwing": {
+  "details": "Increases the amount of §dForest Essence§r from all sources by §a1%§r per level. Belongs to the Essence attributes and can be boosted by the Echo of Essence attribute on [§5Komodo Dragon Shard§r](shard:komodo dragon).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§9Dreadwing§r - a rare mob that has a §a1.2%§r chance to appear from a chopped tree on [Galatea](loc:galatea). Use the [§eLasso§r](tip:§fAbysmal Lasso§r|§aVinerip Lasso§r|§9Entangler Lasso§r|§5Everstretch Lasso§r).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "foraging",
+    "text": "Can be obtained from §6Fig§r or §6Mangrove Tree Gifts§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap on the ground in [Galatea](loc:galatea).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "drowned": {
+  "details": "This bonus is §7additive§r — its % goes into one shared damage pool with everything else (combat level, gear, enchants, other shards), not a separate multiplier. The more damage % you already have, the less each point adds.\n\nBelongs to the §cRuler§r category and is boosted by the [§5Echo of Ruler§r](shard:caiman) attribute, which is itself amplified by [§6Echo of Echoes§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fTidetot§r](cmd:/bestiary Tidetot) - a family of mobs living in [Drowned Reliquary](loc:drowned_reliquary).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap in [Drowned Reliquary](loc:drowned_reliquary).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "eel": {
+  "details": "Increases the damage dealt with the [§fFishing Net§r](tip:§aBasic Fishing Net§r|§9Medium Fishing Net§r|§5Turbo Fishing Net§r) by §a1§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§6Treasure Fishing§r in [Tomb Floodway](loc:tomb_floodway).\nRequirements:\n- §6GOOD CATCH§r.\nTips:\n- Get HOTF 6 for the Hunter Fortune Perk, which grants up to §d+50 Hunter Fortune§r, and upgrade your §9David Cloak§r, which grants up to §d+30 Hunter Fortune§r\n- Use [§aWooden Bait§r](bz:Wooden Bait|Makes your next §6GOOD CATCH§r a rare fish shard). Bait can be bought from [§aRosemary§r](npc:Rosemary) for 100 [§dForest Essence§r](bz:forest essence)\n- [Tomb Floodway](loc:tomb_floodway) has a hidden §6+10 Treasure Chance§r bonus. If your goal is the Eel shard, disable the [§6Star Bait§r](shard:moltenfish) attribute.\nAttributes:\n1. [§fFisherman§r](shard:inkling)\n2. [§5Lucky Rod§r](shard:moray eel)\n3. [§9Great Karma§r](shard:lizard king)\n4. [§6Hunter's Karma§r](shard:megalith)\n- For more efficiency use §5Diver's Armor§r or §6Abyssal Armor§r.\n  Gear: full §aBackwater Equipment§r or 2/4 + §9Frozen Amulet§r + §9David Cloak§r. Use this gear only if your §bFishing Speed§r is high enough. Otherwise use regular gear + §9David Cloak§r.\n- Rod: use the best rod you have. Apply the [§9Treasure Hook§r](tip:only allows catching items and treasures) modifier.\n- Pet:\n1. §dFlying Fish§r: Boosts the stats of your Diver's or Abyssal Armor and gives a huge fishing speed boost, enhances the flash enchantment.\n2. §6Hermit Crab§r: Used in a party of 6 players for the full effect of its passive ability and profit.\n3. §6Ammonite§r: A budget option for a stat boost.",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "purchase",
+    "text": "Can be bought up to 7 per day at [§aKiara's§r](loc:kiara).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   }
+  ]
+ },
+ "ent": {
+  "details": "This bonus is §7additive§r — its % goes into one shared damage pool with everything else (combat level, gear, enchants, other shards), not a separate multiplier. The more damage % you already have, the less each point adds.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§5Ent §r](cmd:ent )- an epic mob that you can catch while fishing on Galatea.\n\nRequirements for Bogged:\n- Fishing 12\n- §bWater§r\n- §2Galatea§r",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true,
+    "weapon": "Axes",
+    "track": false
+   },
+   {
+    "type": "trap",
+    "text": "Place trap underwater in §3Murkwater Shallows or Murkwater Depths.§r",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": false
+   }
+  ]
+ },
+ "etherdrake": {
+  "details": "MULTIPLIER: it multiplies, it does not stack additively.\n\nThis percent multiplies the whole stat itself — together with everything gear, pets and reforges give you. At level 10, +1% means x1.01 of your stat.\n\nThat's how it differs from % damage attributes: those add into a shared pool and get weaker the beefier you are. This one works off your stat, so the bigger the stat, the bigger the gain.\n\nMeasured in game: Crit Damage 1214.77% -> 1226.92%, exactly x1.01.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "falcon": {
+  "details": "Your pet gains more experience from §7Combat Exp§r: §a1%§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "fenlord": {
+  "details": "Increases the duration of [Salts](bz:lushlilac|§aLushlilac§r|§aLushlilac Bonbon§r|§aPrime Lushlilac Bonbon§r|§aExalted Lushlilac Bonbon§r) by §a1%§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap on the ground in [Galatea](loc:galatea).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "fire eel": {
+  "details": "Flat §6Trophy Chance§r stat: §a2%§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§9Fire Eel§r](cmd:/bestiary Fire Eel) - a rare mob that you can catch while doing §cLava Fishing§r on [Crimson Isle](loc:crimson).\n\n[Requirements](cmd:/seacreatureguide Fire Eel) for §9Fire Eel§r:\n- Fishing 34\n- §cLava§r\n- §cCrimson Isle§r",
+    "warp": "/warp crimson",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "chest",
+    "text": "Can be obtained as a chest reward after fighting §cFiery Kuudra§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "firefly": {
+  "details": "Flat §6Farming Fortune§r stat during the daytime: §a5§r Fortune per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "flaming spider": {
+  "details": "This bonus is §7additive§r — its % goes into one shared damage pool with everything else (combat level, gear, enchants, other shards), not a separate multiplier. The more damage % you already have, the less each point adds.\n\nBelongs to the §cRuler§r category and is boosted by the [§5Echo of Ruler§r](shard:caiman) attribute, which is itself amplified by [§6Echo of Echoes§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§cFlaming Spider§r](cmd:/bestiary Flaming Spider) - a mob living in §eBurning Desert§r on [Crimson Isle](loc:crimson).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ },
+ "flare": {
+  "details": "This bonus is §7additive§r — its % goes into one shared damage pool with everything else (combat level, gear, enchants, other shards), not a separate multiplier. The more damage % you already have, the less each point adds.\n\nBelongs to the §cRuler§r category and is boosted by the [§5Echo of Ruler§r](shard:caiman) attribute, which is itself amplified by [§6Echo of Echoes§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§5Flare§r](cmd:/bestiary Flare) - a mob living in §cMagma Chamber§r on [Crimson Isle](loc:crimson).",
+    "warp": "/warp crimson",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true,
+    "blackHole": true
+   },
+   {
+    "type": "trap",
+    "text": "Place traps in §cMagma Chamber§r.",
+    "warp": "/warp crimson",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "chest",
+    "text": "Can be obtained as a chest reward after fighting §cFiery Kuudra§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": false
+   }
+  ]
+ },
+ "flash": {
+  "details": "Flat §cStrength§r stat: §a1§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "flipflopper": {
+  "details": "Multiplicative bonus. Increases your chance to roll a §6Gold Trophy Frog§r: §a0.5%§r per level. The final chance with this attribute at level 10 is §a2.1%§r.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§aFlipflopper§r](cmd:/bestiary Flipflopper) - a dolphin mob that has a §a50%§r chance to appear from an §aExploding Lily Pad§r. Combine the small lily pads in the water on [Lotus Atoll](loc:lotus) into one big one to explode it, get rewards and spawn various mobs. Use [§fFishing Net§r](tip:§9Medium Fishing Net§r|§5Turbo Fishing Net§r) on §aFlipflopper§r, to obtain the shard.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "fungloom": {
+  "details": "Grants a chance to get an extra charge in Fossil Excavator: §a10%§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "galaxy fish": {
+  "details": "Flat §6Fortune§r stat. Increases §6Mining Fortune§r, §6Farming Fortune§r and §6Foraging Fortune§r by §a1§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "gecko": {
+  "details": "Boosts [§cSharpening§r](tip:boosts: §fCrow§r, §aHeron§r) attributes by §a2%§r per level. Belongs to the Echo category, boosted by the Echo of Echoes attribute on [§6Tiamat Shard§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "purchase",
+    "text": "Can be bought up to §a5§r per day at [§aKiara's§r](loc:kiara).",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "ghost": {
+  "details": "Flat §fTrue Defense§r stat: §a1§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§5Ghost§r](cmd:/bestiary Ghost) - charged creepers that live in [The Mist](loc:the_mist) in [Dwarven Mines](loc:dwarven).",
+    "warp": "/warp dwarves",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true,
+    "blackHole": true
+   }
+  ]
+ },
+ "glacite walker": {
+  "details": "Increases the amount of §bIce Essence§r gained from all sources by §a1%§r per level. Belongs to the Essence attributes and can be boosted by the Echo of Essence attribute on [§5Komodo Dragon Shard§r](shard:komodo dragon).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§9Glacite Walker§r](cmd:/bestiary Glacite Walker) - a mob living in [Great Ice Wall](loc:great_ice_wall) in [Dwarven Mines](loc:dwarven).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true,
+    "blackHole": true
+   }
+  ]
+ },
+ "golden ghoul": {
+  "details": "When killing mobs, additionally grants §a+1§r coin per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fGolden Ghoul§r](cmd:/bestiary Golden Ghoul) - a common mob living in [Crypts](loc:crypts) in [Hub](loc:hub).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ },
+ "goldfin": {
+  "details": "Reduces the fishing cooldown of [§6Golden Fish§r](tip:Trophy Fish) by §a30 seconds§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "grove": {
+  "details": "Flat §cHealth§r stat: §a2§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "harpy": {
+  "details": "Increases the chance to encounter monsters from §6Tree Gifts§r: §a+5%§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fHarpy§r](cmd:/bestiary Harpy) - a mythological mob that can be found with a [§fSpade§r](tip:§9Ancestral Spade§r|§5Archaic Spade§r|§6Deific Spade§r) and an equipped §9Griffin Pet§r during the [§2Mythological Event§r](tip:Mayor Diana's perk).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "hellwisp": {
+  "details": "Grants a chance to get an extra §6Heavy Pearl§r when harvesting from the §bMatriarch's§r stomach. Increases the chance by §a2%§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§cHellwisp§r](cmd:/bestiary Tentacle|Hellwisp) - a mob living in [Magma Chamber](loc:magma_chamber) on [Crimson Isle](loc:crimson).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true,
+    "blackHole": true
+   },
+   {
+    "type": "trap",
+    "text": "Place traps in [Matriarch's Lair](loc:matriarchs_lair).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "chest",
+    "text": "Can be obtained as a chest reward after fighting §cFiery Kuudra§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": false
+   }
+  ]
+ },
+ "heron": {
+  "details": "Flat §2Sweep§r stat, applied to §6Mangrove Trees§r. Belongs to the §eSharpening§r category and is boosted by the [§9Echo of Sharpening§r](shard:gecko) attribute.",
+  "methods": [
+   {
+    "type": "purchase",
+    "text": "Can be bought at the §bAgatha's§r shop in [Murkwater Loch](loc:murkwater_loch).",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   }
+  ]
+ },
+ "hideonbox": {
+  "details": "Grants §eTuning Points§r: §a+1§r per level.",
+  "methods": [
+   {
+    "type": "chest",
+    "text": "Can be obtained as a chest reward after fighting §cInfernal Kuudra§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "hideoncave": {
+  "details": "Grants a chance to get an extra item from a Treasure Chest and Crystal Nucleus Run: §a5%§r per level. Belongs to the Box attribute category and can be boosted by the [§aEcho of Boxes§r](shard:cuboa) attribute.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "hideondra": {
+  "details": "Increases the chance to get an extra Kuudra tooth in paid chest rewards by §a5%§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "hideongeon": {
+  "details": "The attribute adds §a1 Quality§r per level to a boss reward chest — at level 10, §a+10§r.\n\nChest Quality is a budget, not a chance. Every item has its own Quality cost and its own §eWeight§r — its weight in the roll. If there isn't enough budget for an item, it doesn't take part in the roll at all.\n\nHere's how it's calculated: the chest's base Quality is multiplied by the score multiplier for S+, then by §eTreasure Accessories§r, and only then the §eBoss Luck§r perk and the Catacombs Box attribute are added. Your bonus comes as an addend at the very end, on top of all the multipliers.\n\n§6Necron's Handle§r costs §a360 Quality§r on §cFloor VII§r and §a380§r on §4Master Mode VII§r, with a weight of §a15§r and §a18§r. It only drops from the §8Bedrock Chest§r.\n\nBase chances: §a0.1094%§r on F7 — one handle per §a914§r runs. On M7 §a0.1296%§r, that is §a772§r runs. A fully upgraded S+ with all bonuses (this attribute among them) pulls M7 up to §a0.2003%§r — §a499§r runs, one and a half times less grind.\n\n[§aEcho of Boxes§r](shard:cuboa) boosts all Box attributes by §a2%§r per level. Level 10 turns your §a+10§r into §a+12 Quality§r, and with a level 10 [§6Echo of Echoes§r](shard:tiamat) attribute the bonus becomes §a+13§r.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "hideongift": {
+  "details": "Grants a chance to get an extra Winter Gift when finding one: §a2%§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "hideonleaf": {
+  "details": "Flat §6Block Fortune§r stat: §a5§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "On [Galatea](loc:galatea) you can encounter a Shulker-Box. Get close enough to \"wake\" it, then deflect its projectiles to weaken it. Once the Shulker-Box is weakened enough — you get the shard.",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "hideonring": {
+  "details": "Increases the number of slots in your Accessory Bag: §a+1§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "hideonsack": {
+  "details": "Increases the capacity of your [§fSacks§r](cmd:/sacks|-): §a1%§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "hummingbird": {
+  "details": "Grants a chance to chop an extra log: §a10%§r per level.",
+  "methods": [
+   {
+    "type": "foraging",
+    "text": "Can be obtained as a reward from §6Fig§r and §6Mangrove Tree Gifts§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "iguana": {
+  "details": "Boosts [§fAtomized§r](tip:boosts: §9Star Sentry§r, §9Thyst§r, §9Stalagmight§r) attributes by §a2%§r per level. Belongs to the Echo category, boosted by the Echo of Echoes attribute on [§6Tiamat Shard§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "inferno demonlord": {
+  "details": "Flat §eAttack Speed§r stat: §a+1§r per level.",
+  "methods": [
+   {
+    "type": "slayer",
+    "text": "Can drop from [§cInferno Demonlord II§r and above](cmd:/rngmeter slayer inferno).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "inferno koi": {
+  "details": "Increases the chance to find a §fVanquisher§r by §a2%§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§6Treasure Fishing§r in [Crimson Isle](loc:crimson).\nRequirements:\n- §6GOOD CATCH§r.\nTips:\n- Get HOTF 6 for the Hunter Fortune Perk, which grants up to §d+50 Hunter Fortune§r, and upgrade your §9David Cloak§r, which grants up to §d+30 Hunter Fortune§r\n- Use [§aWooden Bait§r](bz:Wooden Bait|Makes your next §6GOOD CATCH§r a rare fish shard). Bait can be bought from [§aRosemary§r](npc:Rosemary) for 100 [§dForest Essence§r](bz:forest essence)\nAttributes:\n1. [§fFisherman§r](shard:inkling)\n2. [§5Lucky Rod§r](shard:moray eel)\n3. [§9Great Karma§r](shard:lizard king)\n4. [§6Hunter's Karma§r](shard:megalith)\n- For more efficiency use the best lava fishing armor you have. §bFishing Speed§r becomes the priority stat, since the passive of §6Abyssal§r or §5Diver's Armor§r does not work here.\n  Gear: full §aBackwater Equipment§r or 2/4 + §9Frozen Amulet§r + §9David Cloak§r. Use this gear only if your §bFishing Speed§r is high enough. Otherwise use regular gear + §9David Cloak§r.\n- Rod: use the best lava rod you have. Apply the [§9Treasure Hook§r](tip:only allows catching items and treasures) modifier.\n- Pet:\n1. §dFlying Fish§r: Gives a huge fishing speed boost, enhances the flash enchantment.\n2. §6Hermit Crab§r: Used in a party of 6 players for the full effect of its passive ability and profit. Not recommended when hunting solo.\n3. §6Ammonite§r: A budget option for a stat boost.\n- You can also obtain this shard while doing §6Trophy Fishing§r or §cLava Fishing§r with at least a little §6Treasure Chance§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "fusing",
+    "text": ""
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap in the lava lakes of [Crimson Isle](loc:crimson).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "inkling": {
+  "details": "Grants a chance not to consume bait while fishing: §a1%§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fInkling§r](cmd:/seacreatureguide Inkling) - §auncommon§r mob you can catch while fishing in §dHotspot§r.\n\n[Requirements](cmd:/seacreatureguide Inkling) for §fInkling§r:\n- Fishing 7\n- §bWater§r\n- Any Island\n- §dHotspot§r",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "invisibug": {
+  "details": "Increases the chance of §9RARE§r and above §aGarden Visitors§r appearing: §a1%§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§fInvisibug§r - an invisible bug that emits special effects. Can be caught with [§eLasso§r](tip:§fAbysmal Lasso§r|§aVinerip Lasso§r|§9Entangler Lasso§r|§5Everstretch Lasso§r). Use the highlight feature.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "jormung": {
+  "details": "MULTIPLIER: it multiplies, it does not stack additively.\n\nThis percent multiplies the whole stat itself — together with everything gear, pets and reforges give you. At level 10, +1% means x1.01 of your stat.\n\nThat's how it differs from % damage attributes: those add into a shared pool and get weaker the beefier you are. This one works off your stat, so the bigger the stat, the bigger the gain.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "joydive": {
+  "details": "Flat §9Respiration§r stat: §a+5§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§9Joydive§r - a dolphin mob living in the deep waters of [Murkwater Depths](loc:murkwater_depths). Find the dolphin, use the [§fFishing Net§r](tip:§aBasic Fishing Net§r|§9Medium Fishing Net§r|§5Turbo Fishing Net§r) and follow it — it will lead you into one of the caves, where you can damage it with the net and obtain the shard.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap in [Murkwater Depths](loc:murkwater_depths).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "kada knight": {
+  "details": "This bonus is §7additive§r — its % goes into one shared damage pool with everything else (combat level, gear, enchants, other shards), not a separate multiplier. The more damage % you already have, the less each point adds.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§cKada Knight§r](cmd:/bestiary Kada Knight) - a mob living in the caves of §6Blazing Volcano§r on [Crimson Isle](loc:crimson).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "chest",
+    "text": "Can be obtained as a reward for §cBurning Kuudra§r and above.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "king cobra": {
+  "details": "Direct multiplier of §dHunting Fortune§r, applied to §bBlack Hole§r: §a1%§r per level. This effect does not apply to the Lasso or Fishing Net.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "king minos": {
+  "details": "Increases the coins gained from digging Griffin Burrows by §a1%§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§6King Minos§r](cmd:/bestiary King Minos) - an Elusive Mythological mob that can be found with a [§fSpade§r](tip:§9Ancestral Spade§r|§5Archaic Spade§r|§6Deific Spade§r) and an equipped §6Griffin Pet§r during the [§2Mythological Event§r](tip:Mayor Diana's perk).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "kiwi": {
+  "details": "Reduces your pet's upgrade time at §dKat§r: §a1%§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "komodo dragon": {
+  "details": "Boosts [§aEssence§r](tip:boosts: §9Glacite Walker§r, §9Arachne§r, §9Revenant§r, §9Dreadwing§r, §9Draconic§r, §9Wither§r) attributes by §a2%§r per level. Belongs to the Echo category, boosted by the Echo of Echoes attribute on [§6Tiamat Shard§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "kraken": {
+  "details": "Flat §4Vitality§r stat: §a1§r per level.",
+  "methods": [
+   {
+    "type": "chest",
+    "text": "Can be obtained as a chest reward after fighting §cBasic Kuudra§r and above.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "ladybug": {
+  "details": "Increases the §6Copper§r gained from §aGarden Visitors§r by §a1%§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "lapis creeper": {
+  "details": "§3Enchanting Wisdom§r — experience multiplier for [§6Enchanting§r](tip:Skyblock Skill): §a0.5%§r per level. Belongs to the §3Wisdom§r attributes and can be boosted by the Echo of Wisdom attribute on [§6Wyvern Shard§r](shard:wyvern).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "lapis skeleton": {
+  "details": "Grants an additional §a2%§r chance per level to find level 6+ books in §dSuperpairs§r.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "lapis zombie": {
+  "details": "Increases the amount of experience orbs gained from killing mobs by §a10%§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fLapis Zombie§r](cmd:/bestiary Lapis Zombie) - a common mob living in [Lapis Quarry](loc:lapis_quarry) on [Deep Caverns](loc:deep).",
+    "warp": "/warp deep",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ },
+ "lava flame": {
+  "details": "Flat §cMagic Find§r stat on §cMagmatic§r mobs: §a1§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§9Lava Flame§r](cmd:/seacreatureguide Lava Flame) - a mob you can catch while doing §cLava Fishing§r on [Crimson Isle](loc:crimson).\n\n[Requirements](cmd:/seacreatureguide Lava Flame) for §9Lava Flame§r:\n- Fishing 33\n- §cLava§r\n- §cCrimson Isle§r",
+    "warp": "/warp crimson",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap under the lava on [Crimson Isle](loc:crimson).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "chest",
+    "text": "Can be obtained as a chest reward after fighting §cBurning Kuudra§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "leatherback": {
+  "details": "§3Hunting Wisdom§r — experience multiplier for [§6Hunting§r](tip:Skyblock Skill): §a0.5%§r per level. Belongs to the §3Wisdom§r attributes and can be boosted by the Echo of Wisdom attribute on [§6Wyvern Shard§r](shard:wyvern).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "leviathan": {
+  "details": "Flat §dHunting Fortune§r stat, applied to §5Epic§r shards. This means the bonus applies to an obtained shard only if the shard's rarity is §5Epic§r — for example [§5Flare Shard§r](shard:flare). Increases Hunting Fortune by §a1§r per level. Belongs to the §eHunter§r category and is boosted by the [§5Echo of Hunter§r](shard:sea serpent) attribute.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "littlefoot": {
+  "details": "Increases your §eGemstone Spread§r for every §b20–30§r §bCold Resistance§r you have: §a+0.5§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§6Littlefoot§r](cmd:/bestiary Littlefoot) - an §dElusive §rmob that has a §a1%§r chance to replace a regular mob in the §fGlacite Mineshafts§r, or a §a100%§r chance to appear as the only mob in the §fLittlefoot's Den§r structure variant. §fGlacite Mineshafts§r are separate locations, accessed by mining resources in §bGlacite Tunnels§r.\n§7Kill tips:\n- Like other §r§fGlacite§r mobs, Littlefoot can only be attacked with a pickaxe or §fDrill§r. The higher the Breaking Power, the more damage.\n- Has high damage and running speed: on first encounter it flees, but after §a2§r hits it goes into a rage. Use the §5Gyrokinetic Wand§r to control it and quickly drop its HP below §a10%§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ },
+ "lizard king": {
+  "details": "Flat §dHunting Fortune§r stat, applied to §9Rare§r shards. This means the bonus applies to an obtained shard only if the shard's rarity is §9Rare§r — for example [§9Glacite Walker Shard§r](shard:glacite walker). Increases Hunting Fortune by §a1§r per level. Belongs to the §eHunter§r category and is boosted by the [§5Echo of Hunter§r](shard:sea serpent) attribute.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "loch emperor": {
+  "details": "§3Fishing Wisdom§r — experience multiplier for [§6Fishing§r](tip:Skyblock Skill): §a0.5%§r per level. Belongs to the §3Wisdom§r attributes and can be boosted by the Echo of Wisdom attribute on [§6Wyvern Shard§r](shard:wyvern).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§6The Loch Emperor§r](cmd:/bestiary The Loch Emperor) - a §dElusive §rmob you can catch while fishing in [Moonglade Marsh](loc:moonglade_marsh).\n\n§c*Only use Pocket Black Hole if the shard is your only goal — otherwise it's better to kill the mob with a Looting V + Magic Find build. Don't use it on someone else's Elusive mob.§r\n\n[Requirements](cmd:/seacreatureguide The Loch Emperor) for §6The Loch Emperor§r:\n- Fishing 20\n- §bWater§r\n- [Galatea](loc:galatea)",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true,
+    "blackHole": true
+   }
+  ]
+ },
+ "lord jawbus": {
+  "details": "Flat §9Double Hook Chance§r stat while the player is on [Crimson Isle](loc:crimson): §a0.5§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§dLord Jawbus§r](cmd:/bestiary Lord Jawbus) — a mythical mob that you can catch while doing §cLava Fishing§r on [Crimson Isle](loc:crimson).\n\n§c*Only use Pocket Black Hole if the shard is your only goal — otherwise it's better to kill the mob with a Looting V + Magic Find build. Don't use it on someone else's Elusive mob.§r\n\n[Requirements](cmd:/seacreatureguide Lord Jawbus) for §dLord Jawbus§r:\n- Fishing 45\n- §cLava§r\n- [Crimson Isle](loc:crimson)\n-§f Adept Trophy Fisher: Catch all silver trophy fish.§r",
+    "warp": "/warp crimson",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "chest",
+    "text": "Can be obtained from a chest after fighting [§cInfernal Kuudra§r](tip:Kuudra Tier 5).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "lotum": {
+  "details": "Flat §dTracking§r stat on §aExploding Lily Pads§r on [Lotus Atoll](loc:lotus): §a+1§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§aLotum§r - a frog living on [Lotus Atoll](loc:lotus). If you click on the Lotum, it gains a glow and hops away with a trail of green particles — up to §a4§r times per click. After the 4th hop, the Lotum Shard drops. The number of hops can be reduced by 1 with the [§9Frog Legs§r](shard:toad) attribute.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap underwater or on the ground in [Lotus Atoll](loc:lotus).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "lotusfish": {
+  "details": "Flat §6Trophy Chance§r stat on [Lotus Atoll](loc:lotus): §a+1§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§fLotusfish§r - a small fish living in the waters of [Lotus Atoll](loc:lotus). Use [§fFishing Net§r](tip:§aBasic Fishing Net§r|§9Medium Fishing Net§r|§5Turbo Fishing Net§r), to catch it and obtain the shard.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap underwater in [Lotus Atoll](loc:lotus).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "lumisquid": {
+  "details": "Flat §9Pressure Resistance§r stat: §a+5§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§9Lumisquid§r - a mob living in [Squid Cave](loc:squid_cave) on [Galatea](loc:galatea). Use the [§fFishing Net§r](tip:§aBasic Fishing Net§r|§9Medium Fishing Net§r|§5Turbo Fishing Net§r) to attack it. After each attack it shrinks in size (up to §a3§r times) and tries to flee.\n\n§7Tips:\n- Lives deep underwater — use armor with high §9Pressure Resistance§r, e.g. §5Diver's Armor§r and the §fDepth Strider III§r enchantment.\n- Gear: §9David Cloak§r for Hunter Fortune.\n- §aHOTF 6§r Hunter Fortune and §eHOTF 4§r Deep Waters.\n\n§7Useful attributes: Great Karma, Hunter's Karma, Eelastic, Echo of Echoes.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap in [Squid Cave](loc:squid_cave).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   }
+  ]
+ },
+ "lunar moth": {
+  "details": "Flat §6Farming Fortune§r stat during the nighttime: §a5§r Fortune per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "magma slug": {
+  "details": "Increases the chance to catch corrupted Sea Creatures: §a+0.2%§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§aMagma Slug§r](cmd:/seacreatureguide Magma Slug) - a mob you can catch while doing §cLava Fishing§r on [Crimson Isle](loc:crimson).\n\n[Requirements](cmd:/seacreatureguide Magma Slug) for §aMagma Slug§r:\n- Fishing 27\n- §cLava§r\n- §cCrimson Isle§r",
+    "warp": "/warp crimson",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap under the lava on [Crimson Isle](loc:crimson).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "chest",
+    "text": "Can be obtained as a reward for §cHot Kuudra§r and above.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "matcho": {
+  "details": "Increases the duration of fire damage you inflict on enemies: §a+30%§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§9Matcho§r](cmd:/bestiary Matcho) - a mob that spawns on [Crimson Isle](loc:crimson) after the eruption of the §6Blazing Volcano§r. About every §a2–2.5 hours§r the lava pool rises until it fills the volcano, and it starts erupting blocks. If you find a lobby with an eruption — watch where the coal blocks fall: Matcho spawn where they land.",
+    "warp": "/warp crimson",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "chest",
+    "text": "Can be obtained as a reward for §cBurning Kuudra§r and above.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "megalith": {
+  "details": "Flat §dHunting Fortune§r stat: §a1§r per level. Belongs to the §eHunter§r category and is boosted by the [§5Echo of Hunter§r](shard:sea serpent) attribute.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "mimic": {
+  "details": "Increases the power of §5Dungeon Blessings§r by §a1%§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "The shard can be obtained with [Charm](tip:Charm chance scales with Hunting level) when killing [§5Mimic§r](cmd:/bestiary Mimic) in §7Dungeons§r. §bPocket Black Hole§r does not work in dungeons.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "miner zombie": {
+  "details": "Flat §6Mining Speed§r stat: §a+3§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fMiner Zombie§r](cmd:/bestiary Miner Zombie) - a common mob living in [Diamond Reserve](loc:diamond_reserve) on [Deep Caverns](loc:deep).",
+    "warp": "/warp deep",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ },
+ "minotaur": {
+  "details": "Increases §bMagic Find§r against Mythological mobs by §a0.5§r per level. A flat stat applied to mythological mobs.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§2Minotaur§r](cmd:/bestiary Minotaur) - a Mythological mob that can be found with a [§fSpade§r](tip:§9Ancestral Spade§r|§5Archaic Spade§r|§6Deific Spade§r) and an equipped §5Griffin Pet§r during the [§2Mythological Event§r](tip:Mayor Diana's perk).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "mist": {
+  "details": "Flat §bIntelligence§r stat: §a1§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "mochibear": {
+  "details": "Increases your axe's §2Sweep§r while chopping: §a+3§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "Head to [Galatea](loc:galatea) and find the entrance to [Tranquility Sanctum](loc:tranquility_sanctum). Inside the cave you'll find pandas. Break the bamboo growing there (§a40–44§r pieces) with any sword and feed it to a panda — you get the shard. If no pandas are left in the cave — switch servers.\n\n§7Note: Mochibear can only be obtained in §r§6Autumn§r or §bWinter§r season. In §aSpring§r or §eSummer§r — only [§aBambuleaf§r](shard:bambuleaf).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap in §bTranquility Sanctum§r in §6Autumn§r or §eSummer§r season.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   }
+  ]
+ },
+ "moltenfish": {
+  "details": "Grants a chance to catch a [§9Shinyfish§r](shard:shinyfish): §a0.1%§r per level. Without this attribute the chance to catch Shinyfish is 0.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   },
+   {
+    "type": "chest",
+    "text": "Can be obtained as a chest reward after fighting [§cInfernal Kuudra§r](tip:Kuudra Tier 5).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "molthorn": {
+  "details": "Boosts [§aUnlimited§r](tip:boosts: §6Endstone Protector§r, §6Taurus§r, §6Jormung§r, §6Etherdrake§r) attributes by §a5%§r per level. Belongs to the Echo category, boosted by the Echo of Echoes attribute on [§6Tiamat Shard§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "moray eel": {
+  "details": "Increases the chance to catch a §eTreasure Shard§r while fishing by §a1%§r per level. Applies to [§fCod§r](shard:cod), [§fVerdant§r](shard:verdant), [§9Inferno Koi§r](shard:inferno koi), [§6Shinyfish§r](shard:shinyfish), [§9Abyssal Lanternfish§r](shard:abyssal lanternfish), [§9Piranha§r](shard:piranha), [§9Eel§r](shard:eel), [§9SilentDepth§r](shard:silentdepth).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "mossybit": {
+  "details": "Increases the catch speed of Forest Shards with traps by §a1%§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§aMossy§r - a frog living in [Murkwater Loch](loc:murkwater_loch). If you click on the Mossy, it gains a glow and hops away with a trail of green particles — up to §a4§r times per click. After the 4th hop, the Mossybit Shard drops. The number of hops can be reduced by 1 with the [§9Frog Legs§r](shard:toad) attribute.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap on the ground in [Murkwater Loch](loc:murkwater_loch).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "mudworm": {
+  "details": "§aGarden Visitors§r appear faster: by §a1%§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "Can be found in the grass in [Galatea](loc:galatea).",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Place traps on the ground in [Galatea](loc:galatea).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "naga": {
+  "details": "Flat stat §bCharm Chance§r: 0.05 per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "nessie": {
+  "details": "Flat §9Double Hook Chance§r stat while the player is on [§aForaging Islands§r](tip:§2Galatea§r|§eThe Park§r): §a0.5§r per attribute level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§dNessie§r](cmd:/bestiary Nessie) - a mythical mob you can catch while fishing in [Murkwater Loch](loc:murkwater_loch).\n\n§c*Only use Pocket Black Hole if the shard is your only goal — otherwise it's better to kill the mob with a Looting V + Magic Find build. Don't use it on someone else's Elusive mob.§r\n\n[Requirements](cmd:/seacreatureguide Nessie) for §dNessie§r:\n- Fishing 25\n- §bWater§r\n- §2Galatea§r",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true,
+    "blackHole": true
+   }
+  ]
+ },
+ "newt": {
+  "details": "Flat §dHunting Fortune§r stat, applied to §fCommon§r shards. This means the bonus applies to an obtained shard only if the shard's rarity is §fCommon§r — for example [§fGolden Ghoul Shard§r](shard:golden ghoul). Increases Hunting Fortune by §a1§r per level. Belongs to the §eHunter§r category and is boosted by the [§5Echo of Hunter§r](shard:sea serpent) attribute.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "obsidian defender": {
+  "details": "Flat Speed stat: §a+1§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§aObsidian Defender§r](cmd:/bestiary Obsidian Defender) - a mob living in [Dragon's Nest](loc:dragons_nest) on the island of §dThe End§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true,
+    "blackHole": true
+   }
+  ]
+ },
+ "pandarai": {
+  "details": "§3Foraging Wisdom§r — experience multiplier for [§6Foraging§r](tip:Skyblock Skill): §a0.5%§r per level. Belongs to the §3Wisdom§r attributes and can be boosted by the Echo of Wisdom attribute on [§6Wyvern Shard§r](shard:wyvern).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "phanflare": {
+  "details": "Flat §6Fig§r and §6Mangrove Fortune§r stat: §a10§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§fPhanflare§r - a mob that has a §a7.1%§r chance to appear from a chopped tree on [Galatea](loc:galatea). Use the [§eLasso§r](tip:§fAbysmal Lasso§r|§aVinerip Lasso§r|§9Entangler Lasso§r|§5Everstretch Lasso§r), to obtain the shard.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "foraging",
+    "text": "Can be obtained from §6Fig§r or §6Mangrove Tree Gifts§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap on the ground in [Galatea](loc:galatea).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "phanpyre": {
+  "details": "Flat §2Sweep§r stat during the nighttime: §a1§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§fPhanpyre§r - a mob that has a §a11.8%§r chance to appear from a chopped tree on [Galatea](loc:galatea). Use the [§eLasso§r](tip:§fAbysmal Lasso§r|§aVinerip Lasso§r|§9Entangler Lasso§r|§5Everstretch Lasso§r), to obtain the shard.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "foraging",
+    "text": "Can be obtained from §6Fig§r or §6Mangrove Tree Gifts§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap on the ground in [Galatea](loc:galatea).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "piranha": {
+  "details": "Increases the chance to find rare items in Tree Gifts when chopping Fig and Mangrove Trees in [Galatea](loc:galatea) by §a2%§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§6Treasure Fishing§r in [Moonglade Marsh](loc:moonglade_marsh).\nRequirements:\n- §6GOOD CATCH§r.\nTips:\n- Get HOTF 6 for the Hunter Fortune Perk, which grants up to §d+50 Hunter Fortune§r, and upgrade your §9David Cloak§r, which grants up to §d+30 Hunter Fortune§r\n- Use [§aWooden Bait§r](bz:Wooden Bait|Makes your next §6GOOD CATCH§r a rare fish shard). Bait can be bought from [§aRosemary§r](npc:Rosemary) for 100 [§dForest Essence§r](bz:forest essence)\n- [Tomb Floodway](loc:tomb_floodway) has a hidden §6+10 Treasure Chance§r bonus. If your goal is the Piranha shard, disable the [§6Star Bait§r](shard:moltenfish) attribute.\nAttributes:\n1. [§fFisherman§r](shard:inkling)\n2. [§5Lucky Rod§r](shard:moray eel)\n3. [§9Great Karma§r](shard:lizard king)\n4. [§6Hunter's Karma§r](shard:megalith)\n- For more efficiency use §5Diver's Armor§r or §6Abyssal Armor§r.\n  Gear: full §aBackwater Equipment§r or 2/4 + §9Frozen Amulet§r + §9David Cloak§r. Use this gear only if your §bFishing Speed§r is high enough. Otherwise use regular gear + §9David Cloak§r.\n- Rod: use the best rod you have. Apply the [§9Treasure Hook§r](tip:only allows catching items and treasures) modifier.\n- Pet:\n1. §dFlying Fish§r: Boosts the stats of your Diver's or Abyssal Armor and gives a huge fishing speed boost, enhances the flash enchantment.\n2. §6Hermit Crab§r: Used in a party of 6 players for the full effect of its passive ability and profit.\n3. §6Ammonite§r: A budget option for a stat boost.",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap underwater in [Murkwater Shallows](loc:murkwater_shallows) or [Murkwater Depths](loc:murkwater_depths).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   }
+  ]
+ },
+ "power dragon": {
+  "details": "This bonus is §7additive§r — its % goes into one shared damage pool with everything else (combat level, gear, enchants, other shards), not a separate multiplier. The more damage % you already have, the less each point adds.",
+  "methods": [
+   {
+    "type": "chest",
+    "text": "Can be obtained as a reward for completing §cMaster Mode 7§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "praying mantis": {
+  "details": "Your [§fVacuum§r](tip:§fVacuum§r|§aTurbo Vacuum§r|§9Hyper Vacuum§r|§5InfiniVacuum§r|§6InfiniVacuum Ho0verius§r) deals extra damage to §aPest§r: §a10%§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "prince": {
+  "details": "Killing a §5Prince§r during a dungeon run has a chance to give an extra score point. Maximum §a1§r.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "The shard can be obtained with [Charm](tip:Charm chance scales with Hunting level) when killing [§5Prince§r](tip:§5Prince Bernhard§r|§5Prince Christian§r|§5Prince Pieter§r|§5Prince Nicholas§r|§5Prince Alexander§r|§5Prince Marius§r|§5Prince Valentin§r|§5Prince Friedrich§r) in §7Dungeons§r. §bPocket Black Hole§r does not work in dungeons.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "python": {
+  "details": "Increases the capture speed of mobs by your §bBlack Hole§r by §a5%§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "quake": {
+  "details": "Flat §cStrength§r stat: §a1§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "quartzfang": {
+  "details": "MULTIPLIER: it multiplies, it does not stack additively.\n\nThis percent multiplies the whole stat itself — together with everything gear, pets and reforges give you. At level 10, +1% means x1.01 of your stat.\n\nThat's how it differs from % damage attributes: those add into a shared pool and get weaker the beefier you are. This one works off your stat, so the bigger the stat, the bigger the gain.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": false
+   }
+  ]
+ },
+ "rain slime": {
+  "details": "Each time you deal damage to a mob you restore mana: §a1§r per level. Cooldown §a0.5 seconds§r.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§aRain Slime§r](cmd:/bestiary Rain Slime) - a mob living in [Spider's Den](loc:spider).",
+    "warp": "/warp spider",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true,
+    "blackHole": true
+   }
+  ]
+ },
+ "rana": {
+  "details": "Flat §cStrength§r stat for your §6Frog Pet§r: §a+3§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "revenant": {
+  "details": "Increases the amount of §dUndead Essence§r from all sources by §a1%§r per level. Belongs to the Essence attributes and can be boosted by the Echo of Essence attribute on [§5Komodo Dragon Shard§r](shard:komodo dragon).",
+  "methods": [
+   {
+    "type": "slayer",
+    "text": "Can drop as an §dRNG Drop§r from [§cRevenant Horror III§r and above](cmd:/rngmeter slayer revenant).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "salamander": {
+  "details": "Flat §dHunting Fortune§r stat, applied to §aUncommon§r shards. This means the bonus applies to an obtained shard only if the shard's rarity is §aUncommon§r — for example [§aPest Shard§r](shard:pest). Increases Hunting Fortune by §a1§r per level. Belongs to the §eHunter§r category and is boosted by the [§5Echo of Hunter§r](shard:sea serpent) attribute.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "salmon": {
+  "details": "Grants a §a+0.1%§r chance to find a §9Wet Book§r when fishing up a §eTreasure§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§aSalmon§r - a fish that spawns in the water all over [Murkwater Loch](loc:murkwater_loch), alone or in groups. Cast the [§fFishing Net§r](tip:§aBasic Fishing Net§r|§9Medium Fishing Net§r|§5Turbo Fishing Net§r) — the fish slows down and gains a ⁂ symbol. After §a4 ⁂§r the Salmon gets exhausted and drops the shard.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap underwater in [Murkwater Shallows](loc:murkwater_shallows) or [Murkwater Depths](loc:murkwater_depths).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "scarf": {
+  "details": "Increases the §aDungeons Class Experience§r you gain: §a2%§r per level.",
+  "methods": [
+   {
+    "type": "chest",
+    "text": "Can be obtained as a reward for completing §cMaster Mode 2§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "sea serpent": {
+  "details": "Boosts [§dHunter§r](tip:boosts: §aViper§r, §9Python§r, §9King Cobra§r, §5Basilisk§r, §9Fire Eel§r, §6Megalith§r) attributes by §a2%§r per level. Belongs to the Echo category, boosted by the Echo of Echoes attribute on [§6Tiamat Shard§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "seagull": {
+  "details": "Increases your §6Mangrove Fortune§r by §a1–10§r for every digit in your §6Mangrove Collection§r. Example: at §a1,000,000§r Mangrove Collection the bonus is §a70§r at attribute level 10, and at §a10,000,000§r it is the maximum §a80§r.",
+  "methods": [
+   {
+    "type": "crafting",
+    "text": "§aSeagull Shard§r is a crafting shard; the [recipe](cmd:/recipe Seagull Shard) unlocks upon reaching §6Mangrove Collection VII§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "seashine": {
+  "details": "Multiplicative bonus. Increases your chance to roll a §bDiamond Trophy Frog§r: §a0.5%§r per level. The final chance with this attribute at level 10 is §a0.21%§r.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§9Seashine§r](cmd:/bestiary Seashine) - an §dElusive §rmob that has a §a25%§r chance to appear from an §aExploding Lily Pad§r. Combine the small lily pads in the water on [Lotus Atoll](loc:lotus) into one big one to explode it, get rewards and spawn various mobs. Use [§fFishing Net§r](tip:§9Medium Fishing Net§r|§5Turbo Fishing Net§r) on §9Seashine§r, to obtain the shard.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "seer": {
+  "details": "This bonus is §7additive§r — its % goes into one shared damage pool with everything else (combat level, gear, enchants, other shards), not a separate multiplier. The more damage % you already have, the less each point adds.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§aSeer§r](cmd:/bestiary Seer) - a mob living in [Dragon's Nest](loc:dragons_nest) on the island of §dThe End§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true,
+    "blackHole": true
+   }
+  ]
+ },
+ "shellwise": {
+  "details": "Grants a chance to negate knockback: §a10%§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§5Shellwise§r - a turtle mob living in [Murkwater Depths](loc:murkwater_depths). Has a §a50%§r chance to spawn at the start of each [Skyblock hour](tip:≈ 0.0138 real hours). At once — up to §a3§r creatures. Use [§fFishing Net§r](tip:§aBasic Fishing Net§r|§9Medium Fishing Net§r|§5Turbo Fishing Net§r), to catch it and obtain the shard.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap underwater in [Murkwater Depths](loc:murkwater_depths).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "shinyfish": {
+  "details": "Flat §cHealth Regen§r stat: §a1.25§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§6Treasure Fishing§r in [§bPrecursor Remnants§r](loc:precursor_remnants), [Tomb Floodway](loc:tomb_floodway), [§6Goblin Hideout§r](loc:goblin_hideout) and other locations.\nRequirements:\n- §6GOOD CATCH§r.\n- [§6Star Bait§r](shard:moltenfish) Attribute.\nTips:\n- Get HOTF 6 for the Hunter Fortune Perk, which grants up to §d+50 Hunter Fortune§r, and upgrade your §9David Cloak§r, which grants up to §d+30 Hunter Fortune§r\n- Use [§aWooden Bait§r](bz:Wooden Bait|Makes your next §6GOOD CATCH§r a rare fish shard). Bait can be bought from [§aRosemary§r](npc:Rosemary) for 100 [§dForest Essence§r](bz:forest essence)\n- [Tomb Floodway](loc:tomb_floodway) has a hidden §6+10 Treasure Chance§r bonus.\nAttributes:\n1. [§fFisherman§r](shard:inkling)\n2. [§5Lucky Rod§r](shard:moray eel)\n3. [§6Hunter's Karma§r](shard:megalith)\n4. [§6Star Bait§r](shard:moltenfish)\n- For more efficiency use §5Diver's Armor§r or §6Abyssal Armor§r.\n  Gear: full §aBackwater Equipment§r or 2/4 + §9Frozen Amulet§r + §9David Cloak§r. Use this gear only if your §bFishing Speed§r is high enough. Otherwise use regular gear + §9David Cloak§r.\n- Rod: use the best rod you have. Apply the [§9Treasure Hook§r](tip:only allows catching items and treasures) modifier.\n- Pet:\n1. §dFlying Fish§r: Boosts the stats of your Diver's or Abyssal Armor and gives a huge fishing speed boost, enhances the flash enchantment.\n2. §6Hermit Crab§r: Used in a party of 6 players for the full effect of its passive ability and profit.\n3. §6Ammonite§r: A budget option for a stat boost.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap in [Tomb Floodway](loc:tomb_floodway).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   }
+  ]
+ },
+ "silentdepth": {
+  "details": "Increases the chance to double the reward from a §6Treasure Chest§r in Crystal Hollows by §a1%§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§6Treasure Fishing§r in [Crystal Hollows](loc:crystal).\nRequirements:\n- §6GOOD CATCH§r.\nTips:\n- Get HOTF 6 for the Hunter Fortune Perk, which grants up to §d+50 Hunter Fortune§r, and upgrade your §9David Cloak§r, which grants up to §d+30 Hunter Fortune§r\n- Head to [§5Crystal Hollows§r](warp:/warp crystals) and find a body of water, or ask players in chat for the coordinates of water pools in [§6Goblin Hideout§r](loc:goblin_hideout) or [§bPrecursor Remnant§r](loc:precursor_remnants). If you can't find a body of water, head to the Jungle location and find any lake.\n- Use [§aWooden Bait§r](bz:Wooden Bait|Makes your next §6GOOD CATCH§r a rare fish shard). Bait can be bought from [§aRosemary§r](npc:Rosemary) for 100 [§dForest Essence§r](bz:forest essence)\nAttributes:\n1. [§fFisherman§r](shard:inkling)\n2. [§5Lucky Rod§r](shard:moray eel)\n3. [§9Great Karma§r](shard:lizard king)\n4. [§6Hunter's Karma§r](shard:megalith)\n- For more efficiency use §5Diver's Armor§r or §6Abyssal Armor§r.\n  Gear: full §aBackwater Equipment§r or 2/4 + §9Frozen Amulet§r + §9David Cloak§r. Use this gear only if your §bFishing Speed§r is high enough. Otherwise use regular gear + §9David Cloak§r.\n- Rod: use the best rod you have. The [§9Treasure Hook§r](tip:only allows catching items and treasures) modifier will disable catching mobs.\n- Pet:\n1. §dFlying Fish§r: Boosts the stats of your Diver's or Abyssal Armor and gives a huge fishing speed boost, enhances the flash enchantment.\n2. §6Hermit Crab§r: Used in a party of 6 players for the full effect of its passive ability and profit.\n3. §6Ammonite§r: A budget option for a stat boost. At HOTM 10 and without a [§9Treasure Hook§r](tip:only allows catching items and treasures), this can be the best fishing option specifically in Crystal Hollows, however Double Hook Chance does not work on Treasure Catch.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap in the bodies of water of Crystal Hollows.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "skeletor": {
+  "details": "This bonus is §7additive§r — its % goes into one shared damage pool with everything else (combat level, gear, enchants, other shards), not a separate multiplier. The more damage % you already have, the less each point adds.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": false
+   },
+   {
+    "type": "hunting",
+    "text": "The shard can be obtained with Charm when killing [Skeletor ](cmd:skeletor )in Dungeons. Pocket Black Hole does not work in dungeons.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": false
+   }
+  ]
+ },
+ "snowfin": {
+  "details": "Increases the chance to find rare items in §fWinter Gifts§r: §a+2%§r per level.",
+  "methods": [
+   {
+    "type": "trap",
+    "text": "Place a trap in [Jerry's Workshop](loc:jerry).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "soul of the alpha": {
+  "details": "This bonus is §7additive§r — its % goes into one shared damage pool with everything else (combat level, gear, enchants, other shards), not a separate multiplier. The more damage % you already have, the less each point adds.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§3Soul of the Alpha§r](cmd:/bestiary Soul of the Alpha) - a mob living in §bHowling Cave§r, §bSpirit Cave§r and §bSoul Cave§r on [The Park](loc:park).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true,
+    "blackHole": true
+   },
+   {
+    "type": "trap",
+    "text": "Place trap in §bHowling Cave§r",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   }
+  ]
+ },
+ "sparrow": {
+  "details": "Increases your §6Fig Fortune§r by §a1–10§r for every digit in your §6Fig Collection§r. Example: at §a1,000,000§r Fig Collection the bonus is §a70§r at attribute level 10, and at §a10,000,000§r it is the maximum §a80§r.",
+  "methods": [
+   {
+    "type": "crafting",
+    "text": "§aSparrow Shard§r is a crafting shard; the recipe [/recipe Sparrow Shard](cmd:/recipe Sparrow Shard) unlocks upon reaching §6Fig Collection VII§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "sphinx": {
+  "details": "Increases the §dTracking§r applied to Griffin Burrows when digging by §a0.5§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§dSphinx§r](cmd:/bestiary Sphinx) - an Elusive Mythological mob that can be found with a [§fSpade§r](tip:§9Ancestral Spade§r|§5Archaic Spade§r|§6Deific Spade§r) and an equipped §6Griffin Pet§r during the [§2Mythological Event§r](tip:Mayor Diana's perk).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "spike": {
+  "details": "This bonus is §7additive§r — its % goes into one shared damage pool with everything else (combat level, gear, enchants, other shards), not a separate multiplier. The more damage % you already have, the less each point adds.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "Caught with the [§fFishing Net§r](tip:§aBasic Fishing Net§r|§9Medium Fishing Net§r|§5Turbo Fishing Net§r) in [Murkwater Depths](loc:murkwater_depths) and [Kelpwoven Tunnels](loc:kelpwoven_tunnels). You must be 10 or more blocks away to attack the §6Spike§r with the net. Otherwise it will deflect the net.\nTips:\n- The best place for efficient hunting is [Kelpwoven Tunnels](loc:kelpwoven_tunnels). You can get there quickly by diving into the well at the very start of §2Galatea§r. It's deep underwater, so use armor with high §9Pressure Resistance§r, for example §5Diver's Armor§r and the §fDepth Strider III§r enchantment.\n- Gear: §9David Cloak§r for Hunter Fortune.\n- HOTF 6 §aHunter Fortune§r and HOTF 4 §eDeep Waters Perk§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap in [Murkwater Depths](loc:murkwater_depths) or [Kelpwoven Tunnels](loc:kelpwoven_tunnels).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   }
+  ]
+ },
+ "stalagmight": {
+  "details": "Increases the §bGlacite Powder§r gained from all sources by §a1%§r per level. Belongs to the Atomized category, boosted by the Echo of Atomized attribute on [§5Iguana Shard§r](shard:iguana).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "star sentry": {
+  "details": "Increases the §2Mithril Powder§r gained from all sources by §a1%§r per level. Belongs to the Atomized category, boosted by the Echo of Atomized attribute on [§5Iguana Shard§r](shard:iguana).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fStar Sentry§r](cmd:/bestiary Star Sentry) is found near a §6Fallen Star§r in [Dwarven Mines](loc:dwarven).",
+    "warp": "/warp dwarves",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ },
+ "starborn": {
+  "details": "Boosts [§eElemental§r](tip:boosts: §fGrove§r, §fMist§r, §fFlash§r, §aBramble§r, §aTide§r, §aQuake§r, §9Sylvan§r, §9Cascade§r, §9Bolt§r, §5Terra§r, §5Cryo§r, §5Aero§r, §6Tenebris§r, §6Blizzard§r, §6Tempest§r) attributes by §a2%§r per level. Belongs to the Echo category, boosted by the Echo of Echoes attribute on [§6Tiamat Shard§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "stridersurfer": {
+  "details": "This bonus is §7additive§r — its % goes into one shared damage pool with everything else (combat level, gear, enchants, other shards), not a separate multiplier. The more damage % you already have, the less each point adds.\n\nBelongs to the §cRuler§r category and is boosted by the [§5Echo of Ruler§r](shard:caiman) attribute, which is itself amplified by [§6Echo of Echoes§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§9Stridersurfer§r](cmd:/seacreatureguide Stridersurfer) - a rare mob living in §6Stride-Ember Fissure§r on [Galatea](loc:galatea). The mob can also be caught while §cLava Fishing§r on [Galatea](loc:galatea).\n\n[Requirements](cmd:/seacreatureguide Stridersurfer) for §9Stridersurfer§r:\n- Fishing 17\n- §cLava§r\n- [Galatea](loc:galatea)",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "weapon": "Axes",
+    "blackHole": true
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap in §6Stride-Ember Fissure§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "sun fish": {
+  "details": "The effect of §dStarborn Temples§r on you is stronger: §a1%§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "sycophant": {
+  "details": "Killing a mob restores up to §a1%§r of your §cMax Health§r: §a0.1%§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§cSycophant§r](tip:§cRevenant Sycophant§r|§cRevenant Champion§r|§cAtoned Champion§r|§4Atoned Revenant§r) - a miniboss that can be summoned during a §7Tier III Revenant Slayer§r quest or above.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ },
+ "sylvan": {
+  "details": "Flat §cHealth§r stat: §a2§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "tadgang": {
+  "details": "Grants §2Sweep§r for every unique §fCommon§r attribute you own: §a+0.02§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fTadgang§r](cmd:/bestiary Tadgang) - a mob you can catch while fishing on [Galatea](loc:galatea). When caught, it splits into small fry — kill them to summon the Tadgang.",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap underwater in [Murkwater Shallows](loc:murkwater_shallows) or [Murkwater Depths](loc:murkwater_depths).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "tank zombie": {
+  "details": "Increases §aDefense§r against Undead mobs by §a4§r per level. The shard belongs to the Resistance category and can be boosted by the Echo of Resistance attribute on [§5Alligator Shard§r](shard:alligator).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§aTank Zombie§r](cmd:/bestiary Tank Zombie) - a mob living in §7Dungeons§r. The shard can be obtained with [Charm](tip:Charm chance scales with Hunting level) when killing the mob. §bPocket Black Hole§r does not work in dungeons.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "taurus": {
+  "details": "MULTIPLIER: it multiplies, it does not stack additively.\n\nThis percent multiplies the whole stat itself — together with everything gear, pets and reforges give you. At level 10, +1% means x1.01 of your stat.\n\nThat's how it differs from % damage attributes: those add into a shared pool and get weaker the beefier you are. This one works off your stat, so the bigger the stat, the bigger the gain.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§5Taurus§r](cmd:/bestiary Taurus) — an epic mob that you can catch while doing §cLava Fishing§r on [Crimson Isle](loc:crimson).\n\n[Requirements](cmd:/seacreatureguide Taurus) for §5Taurus§r:\n- Fishing 35\n- §cLava§r\n- [Crimson Isle](loc:crimson)",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "chest",
+    "text": "Can be obtained as a chest reward after fighting §cInfernal Kuudra§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "tempest": {
+  "details": "Flat §cStrength§r stat: §a1§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "tenebris": {
+  "details": "Flat §cHealth§r stat: §a2§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "terra": {
+  "details": "Flat §cHealth§r stat: §a2§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "tewtil": {
+  "details": "Punching §aExploding Lily Pads§r applies §a+5%§r more force per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§aTewtil§r](cmd:/bestiary Tewtil) - a turtle mob living in the water of [Lotus Atoll](loc:lotus), mainly in the Tewtil Tunnel and Lotus Eater's Cave. Feed the turtle §63 Bronze§r or §7Silver§r §6Trophy Frog§r, to obtain the shard.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap underwater in [Lotus Atoll](loc:lotus).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "thorn": {
+  "details": "This bonus is §7additive§r — its % goes into one shared damage pool with everything else (combat level, gear, enchants, other shards), not a separate multiplier. The more damage % you already have, the less each point adds.",
+  "methods": [
+   {
+    "type": "chest",
+    "text": "Can be obtained as a reward for completing §cMaster Mode 4§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "thyst": {
+  "details": "Increases the §dGemstone Powder§r gained from all sources by §a1%§r per level. Belongs to the Atomized category, boosted by the Echo of Atomized attribute on [§5Iguana Shard§r](shard:iguana).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fThyst§r](cmd:/bestiary Thyst) has a 20% chance to spawn when mining §5Amethyst Gemstone§r in [Crystal Hollows](loc:crystal).",
+    "warp": "/warp crystals",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap in the Jungle biome in [Crystal Hollows](loc:crystal).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "tiamat": {
+  "details": "Boosts the effect of [§7Echo§r](tip:All Echo attributes: Echo of Ruler, Resistance, Atomized, Essence, Hunter, Wisdom, Sharpening, Box, Elemental) attributes by §a5%§r per level.\n\nFor example: Echo of Atomized at level 10 boosts Atomized Mithril on [§9Star Sentry§r](shard:star sentry) by §a+2%..20%§r, and Tiamat boosts Echo of Atomized itself by another §a+5%..50%§r.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "tide": {
+  "details": "Flat §bIntelligence§r stat: §a1§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "titanoboa": {
+  "details": "Flat §9Double Hook Chance§r stat while the player is on [Backwater Bayou](loc:bayou): §a0.5§r per attribute level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§dTitanoboa§r](cmd:/bestiary Titanoboa) - a mythical mob you can catch while fishing in [Backwater Bayou](loc:bayou).\n\n§c*Only use Pocket Black Hole if the shard is your only goal — otherwise it's better to kill the mob with a Looting V + Magic Find build. Don't use it on someone else's Elusive mob.§r\n\n[Requirements](cmd:/seacreatureguide Titanoboa) for §dTitanoboa§r:\n- Fishing 30\n- §bWater§r\n- §2Bayou§r",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ },
+ "toad": {
+  "details": "Frogs are 1 less likely to jump: §a10%§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "tortoise": {
+  "details": "Boosts your §9David Cloak§r by adding §f1 True Defense§r per level.",
+  "methods": [
+   {
+    "type": "chest",
+    "text": "Can be obtained as a chest reward after fighting §cInfernal Kuudra§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "toucan": {
+  "details": "§5Exp Share§r gives your pet more experience: §a1%§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "troglobyte": {
+  "details": "Commissions grant more §5HOTM Exp§r: §a1%§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "verdant": {
+  "details": "Flat §bFishing Speed§r stat on §aForaging Islands§r: §a+3§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§fVerdant§r - a fish that spawns in the water all over [Galatea](loc:galatea). Verdant swims around, then goes still. Cast the [§fFishing Net§r](tip:§aBasic Fishing Net§r|§9Medium Fishing Net§r|§5Turbo Fishing Net§r) to catch it and obtain the shard.",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap underwater in [Murkwater Shallows](loc:murkwater_shallows) or [Murkwater Depths](loc:murkwater_depths).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "viper": {
+  "details": "Increases the inherited stats of your [§eHunting Axe§r](tip:§fWorn Huntaxe§r — Genesis (common)|§aSharpened Huntaxe§r — Dominus (uncommon)|§9Reinforced Huntaxe§r — Cursus (rare)|§5Savage Huntaxe§r — Praedator (epic)|§6Prime Huntaxe§r — Nex Titanum (legendary)) by §a1%§r per level.",
+  "methods": [
+   {
+    "type": "purchase",
+    "text": "Can be bought up to 11 per day at [§aKiara's§r](loc:kiara).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "voracious spider": {
+  "details": "Increases §aDefense§r against Arthropod mobs by §a4§r per level. The shard belongs to the Resistance category and can be boosted by the Echo of Resistance attribute on [§5Alligator Shard§r](shard:alligator).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fVoracious Spider§r](cmd:/bestiary Voracious Spider) - a mob living in [§4Arachne's Burrow§r](loc:arachnes_burrow), located in [Spider's Den](loc:spider).",
+    "warp": "/warp spider",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ },
+ "wartybug": {
+  "details": "[§5Warty§r](bz:Warty) - a rare drop when farming §fNether Wart§r in the §aGarden§r with §6Wart Eater§r at least level 1. Increases the chance by §a0.01%§r per level. Without this attribute the chance is 0.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "water hydra": {
+  "details": "Flat §aFishing Speed§r stat: §a+3§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§6Water Hydra §r- an §dElusive§r mob you can catch while fishing on [§9Basic§r](tip:Islands without their own dedicated mob pool) islands.\n\n§c*Only use Pocket Black Hole if the shard is your only goal — otherwise it's better to kill the mob with a Looting V + Magic Find build. Don't use it on someone else's Elusive mob.§r\n\n[Requirements](cmd:/seacreatureguide Water Hydra) for §6Water Hydra§r:\n- Fishing 19\n- §bWater§r\n- [§9Basic§r](tip:Islands without their own dedicated mob pool)",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ },
+ "wither": {
+  "details": "Increases the amount of §dWither Essence§r from all sources by §a1%§r per level. Belongs to the Essence attributes and can be boosted by the Echo of Essence attribute on [§5Komodo Dragon Shard§r](shard:komodo dragon).",
+  "methods": [
+   {
+    "type": "chest",
+    "text": "Can be obtained as a reward for completing §cThe Catacombs Floor VII§r / §4Master Mode VII§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": false
+   }
+  ]
+ },
+ "wyvern": {
+  "details": "Boosts [§bWisdom§r](tip:boosts: §5Pandarai§r, §5Loch Emperor§r, §5Leatherback§r, §5Cavernshade§r, §5Dragonfly§r, §6Lapis Creeper§r, §6Condor§r) attributes by §a2%§r per level. Belongs to the Echo category, boosted by the Echo of Echoes attribute on [§6Tiamat Shard§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "xyz": {
+  "details": "MULTIPLIER: it multiplies, it does not stack additively.\n\nThis percent multiplies the whole stat itself — together with everything gear, pets and reforges give you. At level 10, +1% means x1.01 of your stat.\n\nThat's how it differs from % damage attributes: those add into a shared pool and get weaker the beefier you are. This one works off your stat, so the bigger the stat, the bigger the gain.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "In [Mystic Marsh](loc:mystic_marsh) on Crimson Isle you can find atoms: Exe, Wai and Zee. Use a Lasso on them to get the shard.",
+    "warp": "/warp crimson",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "trap",
+    "text": "Place a trap in [Mystic Marsh](loc:mystic_marsh).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "chest",
+    "text": "Can be obtained as a chest reward after fighting §cFiery Kuudra§r or higher.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": false
+   }
+  ]
+ },
+ "yog": {
+  "details": "Flat Heat Resistance stat: §a1§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fYog§r](cmd:/bestiary Yog) - a hostile mob living in the §cMagma Fields§r and§b Khazad-dûm§r in [Crystal Hollows](loc:crystal).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ },
+ "zealot": {
+  "details": "Increases §aDefense§r against Ender mobs by §a4§r per level. The shard belongs to the Resistance category and can be boosted by the Echo of Resistance attribute on [§5Alligator Shard§r](shard:alligator).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§5Zealot§r](cmd:/bestiary Zealot) - a mob living in [Dragon's Nest](loc:dragons_nest) on the island of §dThe End§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true,
+    "track": true
+   }
+  ]
+ },
+ "zombie soldier": {
+  "details": "This bonus is §7additive§r — its % goes into one shared damage pool with everything else (combat level, gear, enchants, other shards), not a separate multiplier. The more damage % you already have, the less each point adds.\n\nBelongs to the §cRuler§r category and is boosted by the [§5Echo of Ruler§r](shard:caiman) attribute, which is itself amplified by [§6Echo of Echoes§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§aZombie Soldier§r](cmd:/bestiary Zombie Soldier) - a type of mob that lives in §7Dungeons§r. The shard can be obtained with [Charm](tip:Charm chance scales with Hunting level) when killing the mob. §bPocket Black Hole§r does not work in dungeons.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "howling spirit": {
+  "details": "",
+  "methods": []
+ },
+ "dumpster diver": {
+  "details": "",
+  "methods": []
+ },
+ "fly": {
+  "details": "",
+  "methods": []
+ },
+ "rabbit mafioso": {
+  "details": "",
+  "methods": []
+ },
+ "locust": {
+  "details": "",
+  "methods": []
+ },
+ "stag beetle": {
+  "details": "",
+  "methods": []
+ },
+ "flitter": {
+  "details": "",
+  "methods": []
+ },
+ "tepid": {
+  "details": "",
+  "methods": []
+ },
+ "ant": {
+  "details": "",
+  "methods": []
+ },
+ "cavernfish": {
+  "details": "",
+  "methods": []
+ },
+ "strongarm": {
+  "details": "",
+  "methods": []
+ },
+ "hideonsun": {
+  "details": "",
+  "methods": []
+ },
+ "haggard": {
+  "details": "",
+  "methods": []
+ },
+ "honeyhog": {
+  "details": "",
+  "methods": []
+ },
+ "shyworm": {
+  "details": "",
+  "methods": []
+ },
+ "brineling": {
+  "details": "",
+  "methods": []
+ },
+ "foxtrot": {
+  "details": "",
+  "methods": []
+ },
+ "firefox": {
+  "details": "",
+  "methods": []
+ },
+ "groundhog": {
+  "details": "",
+  "methods": []
+ },
+ "timil": {
+  "details": "",
+  "methods": []
+ },
+ "blue jay": {
+  "details": "",
+  "methods": []
+ },
+ "bunbun": {
+  "details": "",
+  "methods": []
+ },
+ "honeybuzz": {
+  "details": "",
+  "methods": []
+ },
+ "pollendart": {
+  "details": "",
+  "methods": []
+ },
+ "field mouse": {
+  "details": "Flat §eOverbloom§r: §a2§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§aPest§r](cmd:/bestiary Pest) - pests spawn while farming crops in §aThe Garden§r. Kill them to obtain the shard.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "wetwing": {
+  "details": "",
+  "methods": []
+ },
+ "sea witch": {
+  "details": "",
+  "methods": []
+ },
+ "cricket": {
+  "details": "",
+  "methods": []
+ },
+ "treasure hoarder": {
+  "details": "",
+  "methods": []
+ },
+ "zealot bruiser": {
+  "details": "This bonus is §7additive§r — its % goes into one shared damage pool with everything else (combat level, gear, enchants, other shards), not a separate multiplier. The more damage % you already have, the less each point adds.\n\nBelongs to the §cRuler§r category and is boosted by the [§5Echo of Ruler§r](shard:caiman) attribute, which is itself amplified by [§6Echo of Echoes§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§cZealot Bruiser§r](cmd:/bestiary Zealot Bruiser) - a mob living in [Bruiser's Hideout](loc:bruisers_hideout) on the island of §dThe End§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true,
+    "blackHole": true
+   }
+  ]
+ },
+ "earthworm": {
+  "details": "Grants a flat §6Farming Fortune§r stat if there is currently a pest on your plot: §a3§r Farming Fortune per level. If you are on a plot with no pests, the attribute does not work.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "polaris": {
+  "details": "",
+  "methods": []
+ },
+ "treefrog": {
+  "details": "",
+  "methods": []
+ },
+ "bayou sludge": {
+  "details": "",
+  "methods": []
+ },
+ "areita": {
+  "details": "",
+  "methods": []
+ },
+ "bluebird": {
+  "details": "",
+  "methods": []
+ },
+ "osedax": {
+  "details": "",
+  "methods": []
+ },
+ "duplico": {
+  "details": "",
+  "methods": []
+ },
+ "litterbug": {
+  "details": "",
+  "methods": []
+ },
+ "water snake": {
+  "details": "",
+  "methods": []
+ },
+ "gazer": {
+  "details": "",
+  "methods": []
+ },
+ "honeybug": {
+  "details": "",
+  "methods": []
+ },
+ "shuddersquid": {
+  "details": "",
+  "methods": []
+ },
+ "solsnatcher": {
+  "details": "",
+  "methods": []
+ },
+ "sepialot": {
+  "details": "",
+  "methods": []
+ },
+ "honey badger": {
+  "details": "",
+  "methods": []
+ },
+ "driftling": {
+  "details": "",
+  "methods": []
+ },
+ "minos hunter": {
+  "details": "",
+  "methods": []
+ },
+ "woodchucker": {
+  "details": "",
+  "methods": []
+ },
+ "solar": {
+  "details": "",
+  "methods": []
+ },
+ "parched": {
+  "details": "",
+  "methods": []
+ },
+ "bloodbat": {
+  "details": "",
+  "methods": []
+ },
+ "dustybit": {
+  "details": "",
+  "methods": []
+ },
+ "woodlouse": {
+  "details": "",
+  "methods": []
+ },
+ "ember": {
+  "details": "",
+  "methods": []
+ },
+ "cheeky tiki": {
+  "details": "",
+  "methods": []
+ },
+ "red panda": {
+  "details": "",
+  "methods": []
+ },
+ "sprawl": {
+  "details": "",
+  "methods": []
+ },
+ "sneaky tiki": {
+  "details": "",
+  "methods": []
+ },
+ "shrieky tiki": {
+  "details": "",
+  "methods": []
+ },
+ "woodpecker": {
+  "details": "",
+  "methods": []
+ },
+ "honeymite": {
+  "details": "",
+  "methods": []
+ },
+ "queen ant": {
+  "details": "",
+  "methods": []
+ },
+ "hawk": {
+  "details": "",
+  "methods": []
+ },
+ "june bug": {
+  "details": "",
+  "methods": []
+ },
+ "dung beetle": {
+  "details": "",
+  "methods": []
+ },
+ "rat": {
+  "details": "",
+  "methods": []
+ },
+ "keeled slug": {
+  "details": "",
+  "methods": []
+ },
+ "mite": {
+  "details": "",
+  "methods": []
+ },
+ "moth": {
+  "details": "",
+  "methods": []
+ },
+ "mosquito": {
+  "details": "",
+  "methods": []
+ },
+ "rabbit cat": {
+  "details": "",
+  "methods": []
+ },
+ "beetle": {
+  "details": "Flat §eOverbloom§r: §a1§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "vulture": {
+  "details": "",
+  "methods": []
+ },
+ "lava leech": {
+  "details": "",
+  "methods": []
+ },
+ "wither spectre": {
+  "details": "If you haven't taken damage in the last 5 seconds or more, your mana costs are reduced: §a+1%§r per level.",
+  "methods": [
+   {
+    "type": "chest",
+    "text": "Can be obtained as a reward for [§cBurning Kuudra§r](npc:Kuudra) and above.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "hunting",
+    "text": "[§9Wither Specter§r](cmd:/bestiary Wither Specter) - a mob living in [Stronghold](loc:stronghold) on [Crimson Isle](loc:crimson).",
+    "warp": "/warp crimson",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ },
+ "badger": {
+  "details": "",
+  "methods": []
+ },
+ "wild hog": {
+  "details": "",
+  "methods": []
+ },
+ "hewver": {
+  "details": "",
+  "methods": []
+ },
+ "wiki tiki": {
+  "details": "",
+  "methods": []
+ },
+ "hivethief": {
+  "details": "",
+  "methods": []
+ },
+ "maggot": {
+  "details": "",
+  "methods": []
+ },
+ "snoozle": {
+  "details": "",
+  "methods": []
+ },
+ "parakeet": {
+  "details": "",
+  "methods": []
+ },
+ "thunder": {
+  "details": "",
+  "methods": []
+ },
+ "rockmite": {
+  "details": "",
+  "methods": []
+ },
+ "anteater": {
+  "details": "",
+  "methods": []
+ },
+ "scrappy": {
+  "details": "",
+  "methods": []
+ },
+ "hideyho": {
+  "details": "",
+  "methods": []
+ },
+ "mantis shrimp": {
+  "details": "",
+  "methods": []
+ },
+ "chuckwalla": {
+  "details": "",
+  "methods": []
+ },
+ "hideonfloor": {
+  "details": "",
+  "methods": []
+ },
+ "gimmiegold": {
+  "details": "",
+  "methods": []
+ },
+ "billygoat": {
+  "details": "",
+  "methods": []
+ },
+ "hideonwall": {
+  "details": "",
+  "methods": []
+ },
+ "nozzlenose": {
+  "details": "",
+  "methods": []
+ },
+ "stoneworm": {
+  "details": "",
+  "methods": []
+ },
+ "fluffling": {
+  "details": "",
+  "methods": []
+ },
+ "stingray": {
+  "details": "",
+  "methods": []
+ },
+ "zombuddy": {
+  "details": "",
+  "methods": []
+ },
+ "puck": {
+  "details": "",
+  "methods": []
+ },
+ "troodon": {
+  "details": "",
+  "methods": []
+ },
+ "black widow": {
+  "details": "",
+  "methods": []
+ },
+ "pangolin": {
+  "details": "",
+  "methods": []
+ },
+ "giant water bug": {
+  "details": "",
+  "methods": []
+ },
+ "murkbat": {
+  "details": "",
+  "methods": []
+ },
+ "goldolot": {
+  "details": "",
+  "methods": []
+ },
+ "rabbit neighbor": {
+  "details": "",
+  "methods": []
+ },
+ "torrid": {
+  "details": "",
+  "methods": []
+ },
+ "drybark": {
+  "details": "",
+  "methods": []
+ },
+ "abyssal miner": {
+  "details": "",
+  "methods": []
+ },
+ "special zealot": {
+  "details": "",
+  "methods": []
+ },
+ "murderwing": {
+  "details": "",
+  "methods": []
+ },
+ "blue crab": {
+  "details": "",
+  "methods": []
+ },
+ "wolverine": {
+  "details": "",
+  "methods": []
+ },
+ "dive ghast": {
+  "details": "",
+  "methods": []
+ },
+ "silkbreeze": {
+  "details": "",
+  "methods": []
+ },
+ "gemzie": {
+  "details": "",
+  "methods": []
+ },
+ "rabbit godmother": {
+  "details": "",
+  "methods": []
+ },
+ "giant isopod": {
+  "details": "",
+  "methods": []
+ },
+ "queen bee": {
+  "details": "",
+  "methods": []
+ },
+ "bonzo": {
+  "details": "",
+  "methods": []
+ },
+ "beeheemoth": {
+  "details": "",
+  "methods": []
+ },
+ "mountain goat": {
+  "details": "",
+  "methods": []
+ },
+ "scatha": {
+  "details": "",
+  "methods": []
+ },
+ "nilbog": {
+  "details": "",
+  "methods": []
+ },
+ "end stone protector": {
+  "details": "MULTIPLIER: it multiplies, it does not stack additively.\n\nThis percent multiplies the whole stat itself — together with everything gear, pets and reforges give you. At level 10, +1% means x1.01 of your stat.\n\nThat's how it differs from % damage attributes: those add into a shared pool and get weaker the beefier you are. This one works off your stat, so the bigger the stat, the bigger the gain.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "Drops as a reward when killing the boss §cEndstone Protector§r in [Dragon's Nest](loc:dragons_nest).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "rabbit godfather": {
+  "details": "",
+  "methods": []
+ },
+ "doomspiral": {
+  "details": "",
+  "methods": []
+ },
+ "macaw": {
+  "details": "",
+  "methods": []
+ },
+ "queen snake": {
+  "details": "",
+  "methods": []
+ },
+ "ghost crab": {
+  "details": "",
+  "methods": []
+ },
+ "grizzly bear": {
+  "details": "",
+  "methods": []
+ },
+ "primordial": {
+  "details": "",
+  "methods": []
+ },
+ "rainbug": {
+  "details": "",
+  "methods": []
+ },
+ "paragon": {
+  "details": "",
+  "methods": []
+ },
+ "timestalk clone": {
+  "details": "",
+  "methods": []
+ },
+ "wumpa": {
+  "details": "",
+  "methods": []
+ },
+ "bruiser": {
+  "details": "This bonus is §7additive§r — its % goes into one shared damage pool with everything else (combat level, gear, enchants, other shards), not a separate multiplier. The more damage % you already have, the less each point adds.\n\nBelongs to the §cRuler§r category and is boosted by the [§5Echo of Ruler§r](shard:caiman) attribute, which is itself amplified by [§6Echo of Echoes§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§cZealot Bruiser§r](cmd:/bestiary Zealot Bruiser) - a mob living in [Bruiser's Hideout](loc:bruisers_hideout) on the island of §dThe End§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true,
+    "blackHole": true
+   }
+  ]
+ },
+ "cropeetle": {
+  "details": "Flat §eOverbloom§r: §a1§r per level.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "endstone protector": {
+  "details": "MULTIPLIER: it multiplies, it does not stack additively.\n\nThis percent multiplies the whole stat itself — together with everything gear, pets and reforges give you. At level 10, +1% means x1.01 of your stat.\n\nThat's how it differs from % damage attributes: those add into a shared pool and get weaker the beefier you are. This one works off your stat, so the bigger the stat, the bigger the gain.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "Drops as a reward when killing the boss §cEndstone Protector§r in [Dragon's Nest](loc:dragons_nest).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "pest": {
+  "details": "Flat §eOverbloom§r: §a2§r per level.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§aPest§r](cmd:/bestiary Pest) - pests spawn while farming crops in §aThe Garden§r. Kill them to obtain the shard.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "termite": {
+  "details": "Grants a flat §6Farming Fortune§r stat if there is currently a pest on your plot: §a3§r Farming Fortune per level. If you are on a plot with no pests, the attribute does not work.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "wither specter": {
+  "details": "If you haven't taken damage in the last 5 seconds or more, your mana costs are reduced: §a+1%§r per level.",
+  "methods": [
+   {
+    "type": "chest",
+    "text": "Can be obtained as a reward for §cBurning Kuudra§r and above.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "hunting",
+    "text": "[§9Wither Specter§r](cmd:/bestiary Wither Specter) - a mob living in [Stronghold](loc:stronghold) on [Crimson Isle](loc:crimson).",
+    "warp": "/warp crimson",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ }
+}

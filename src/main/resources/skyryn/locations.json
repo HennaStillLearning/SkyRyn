@@ -1,0 +1,323 @@
+{
+  "_comment": [
+    "Справочник локаций: цвет, варп, координаты.",
+    "",
+    "В тексте гайда пишешь [Tomb Floodway](loc:tomb_floodway) — мод покрасит,",
+    "повесит клик на варп и поставит вейпоинт при отслеживании.",
+    "",
+    "  name   — как показывать",
+    "  warp   — команда целиком. Пусто = варпа нет.",
+    "  color  — §-код: §2 тёмно-зелёный, §5 фиолетовый, §b голубой, §a светло-",
+    "           зелёный, §c красный, §4 тёмно-красный, §6 золотой, §d розовый",
+    "  coords — 'x y z'. Именно сюда смотрит отслеживание, ставя вейпоинт.",
+    "  note   — вторая строка подсказки, необязательна",
+    "",
+    "Свои локации добавляй в config/skyryn-locations.json — он перекрывает",
+    "этот файл, и обновление мода твои правки не тронет."
+  ],
+  "dwarven": {
+    "name": "Dwarven Mines",
+    "warp": "/warp dwarves",
+    "color": "§2"
+  },
+  "crystal": {
+    "name": "Crystal Hollows",
+    "warp": "/warp crystals",
+    "color": "§5"
+  },
+  "nucleus": {
+    "name": "Crystal Nucleus",
+    "warp": "/warp nucleus",
+    "color": "§5",
+    "note": "Центр Crystal Hollows"
+  },
+  "lotus": {
+    "name": "Lotus Atoll",
+    "warp": "/warp lotus",
+    "color": "§3"
+  },
+  "bayou": {
+    "name": "Backwater Bayou",
+    "warp": "/warp bayou",
+    "color": "§2"
+  },
+  "galatea": {
+    "name": "Galatea",
+    "warp": "/warp galatea",
+    "color": "§2"
+  },
+  "crimson": {
+    "name": "Crimson Isle",
+    "warp": "/warp crimson",
+    "color": "§c"
+  },
+  "hub": {
+    "name": "Hub",
+    "warp": "/warp hub",
+    "color": "§e"
+  },
+  "spider": {
+    "name": "Spider's Den",
+    "warp": "/warp spider",
+    "color": "§c"
+  },
+  "end": {
+    "name": "The End",
+    "warp": "/warp end",
+    "color": "§d",
+    "warpMvp": "/warp drag",
+    "scroll": "drag"
+  },
+  "deep": {
+    "name": "Deep Caverns",
+    "warp": "/warp deep",
+    "color": "§8"
+  },
+  "park": {
+    "name": "The Park",
+    "warp": "/warp park",
+    "color": "§a"
+  },
+  "gold": {
+    "name": "Gold Mine",
+    "warp": "/warp gold",
+    "color": "§6"
+  },
+  "barn": {
+    "name": "The Barn",
+    "warp": "/warp barn",
+    "color": "§a"
+  },
+  "dungeon_hub": {
+    "name": "Dungeon Hub",
+    "warp": "/warp dungeon_hub",
+    "color": "§9"
+  },
+  "murkwater_shallows": {
+    "name": "Murkwater Shallows",
+    "warp": "/warp galatea",
+    "color": "§3",
+    "coords": "-662 84 34",
+    "warpMvp": "/warp murkwater",
+    "scroll": "murkwater",
+    "warpMvpHere": false
+  },
+  "murkwater_depths": {
+    "name": "Murkwater Depths",
+    "warp": "/warp galatea",
+    "color": "§3",
+    "coords": "-658 65 -7",
+    "warpMvp": "/warp murkwater",
+    "scroll": "murkwater",
+    "warpMvpHere": false
+  },
+  "tomb_floodway": {
+    "name": "Tomb Floodway",
+    "warp": "/warp galatea",
+    "color": "§c",
+    "coords": "-577 92 24"
+  },
+  "tranquility_sanctum": {
+    "name": "Tranquility Sanctum",
+    "warp": "/warp galatea",
+    "color": "§b",
+    "note": "Пещера с пандами (за водопадом)",
+    "coords": "-737 95 6"
+  },
+  "moonglade_beacon": {
+    "name": "Moonglade Beacon",
+    "warp": "/warp galatea",
+    "color": "§b",
+    "coords": "-686 129 65"
+  },
+  "stronghold": {
+    "name": "Stronghold",
+    "warp": "/warp crimson",
+    "color": "§5",
+    "note": "Верхние этажи"
+  },
+  "arachnes_burrow": {
+    "name": "Arachne's Burrow",
+    "warp": "/warp spider",
+    "color": "§4",
+    "note": "В Spider's Den",
+    "warpMvp": "/warp arachne",
+    "scroll": "arachne"
+  },
+  "arachne_altar": {
+    "name": "Arachne Altar",
+    "warp": "/warp spider",
+    "color": "§4",
+    "note": "в Arachne's Burrow",
+    "coords": "-282 49 -179",
+    "warpMvp": "/warp arachne",
+    "scroll": "arachne"
+  },
+  "kiara": {
+    "name": "Kiara's",
+    "warp": "/warp galatea",
+    "color": "§a",
+    "note": "NPC-магазин",
+    "coords": "-653 113 -69"
+  },
+  "moonglade_marsh": {
+    "name": "Moonglade Marsh",
+    "warp": "/warp galatea",
+    "color": "§2"
+  },
+  "precursor_remnants": {
+    "name": "Precursor Remnants",
+    "warp": "/warp nucleus",
+    "color": "§b"
+  },
+  "goblin_hideout": {
+    "name": "Goblin Hideout",
+    "warp": "/warp crystals",
+    "color": "§6"
+  },
+  "smoldering_tomb": {
+    "name": "Smoldering Tomb",
+    "warp": "/warp crimson",
+    "color": "§c",
+    "warpMvp": "/warp smold",
+    "scroll": "smold"
+  },
+  "kelpwoven_tunnels": {
+    "name": "Kelpwoven Tunnels",
+    "warp": "/warp galatea",
+    "color": "§3",
+    "coords": "-590 60 -9.345"
+  },
+  "dragons_nest": {
+    "name": "Dragon's Nest",
+    "warp": "/warp end",
+    "color": "§5",
+    "coords": "-606 22 -275",
+    "warpMvp": "/warp drag",
+    "scroll": "drag",
+    "warpMvpHere": true
+  },
+  "bruisers_hideout": {
+    "name": "Bruiser's Hideout",
+    "warp": "/warp end",
+    "color": "§5",
+    "coords": "-614 5 -270",
+    "warpMvp": "/warp drag",
+    "scroll": "drag"
+  },
+  "magma_chamber": {
+    "name": "Magma Chamber",
+    "warp": "/warp crimson",
+    "color": "§4",
+    "coords": "-427.3 58 -855.87",
+    "warpMvp": "/warp skull",
+    "scroll": "skull"
+  },
+  "matriarchs_lair": {
+    "name": "Matriarch's Lair",
+    "warp": "/warp crimson",
+    "color": "§6",
+    "coords": "-513.61 43 -887.58",
+    "warpMvp": "/warp skull",
+    "scroll": "skull"
+  },
+  "mystic_marsh": {
+    "name": "Mystic Marsh",
+    "warp": "/warp crimson",
+    "color": "§d"
+  },
+  "wyrmgrove_tomb": {
+    "name": "Wyrmgrove Tomb",
+    "warp": "/warp galatea",
+    "color": "§b",
+    "coords": "-593.18 90 -1.74"
+  },
+  "murkwater_loch": {
+    "name": "Murkwater Loch",
+    "warp": "/warp galatea",
+    "color": "§2",
+    "coords": "-651.63 89.5 35.39",
+    "warpMvp": "/warp murkwater",
+    "scroll": "murkwater",
+    "warpMvpHere": false
+  },
+  "crypts": {
+    "name": "Crypts",
+    "warp": "/warp hub",
+    "color": "§c",
+    "coords": "-128.84 42 -134.64",
+    "warpMvp": "/warp crypts",
+    "scroll": "crypts"
+  },
+  "great_ice_wall": {
+    "name": "Great Ice Wall",
+    "warp": "/warp dwarves",
+    "color": "§b",
+    "coords": "1.01 128 148.41"
+  },
+  "tranquility_entrance": {
+    "name": "Enterance",
+    "warp": "/warp galatea",
+    "color": "§d",
+    "note": "Вход в пещеру за водопадом",
+    "coords": "-717 94 -16"
+  },
+  "community_center": {
+    "name": "Community Center",
+    "warp": "/warp hub",
+    "color": "§b",
+    "note": "Магазин Elizabeth (bits)",
+    "coords": "-5 79 18"
+  },
+  "the_mist": {
+    "name": "The Mist",
+    "warp": "/warp dwarves",
+    "color": "§7",
+    "note": "Туманная зона Dwarven Mines"
+  },
+  "drowned_reliquary": {
+    "name": "Drowned Reliquary",
+    "warp": "/warp galatea",
+    "color": "§c",
+    "coords": "-699.64 50.8 12.68"
+  },
+  "lapis_quarry": {
+    "name": "Lapis Quarry",
+    "warp": "/warp deep",
+    "color": "§b",
+    "coords": ""
+  },
+  "diamond_reserve": {
+    "name": "Diamond Reserve",
+    "warp": "/warp deep",
+    "color": "§b",
+    "coords": ""
+  },
+  "squid_cave": {
+    "name": "Squid Cave",
+    "warp": "/warp galatea",
+    "color": "§b",
+    "coords": "-612.63 30.88 -12.61"
+  },
+  "jerry": {
+    "name": "Jerry's Workshop",
+    "warp": "/warp jerry",
+    "color": "§b",
+    "coords": ""
+  },
+  "glacite_tunnels": {
+    "name": "Glacite Tunnels",
+    "warp": "/warp glacite",
+    "color": "§2",
+    "coords": ""
+  },
+  "torrhus_canyon": {
+    "name": "Torrhus Canyon",
+    "warp": "/warp canyon"
+  },
+  "spring_depths": {
+    "name": "Spring Depths",
+    "warp": "/warp spring",
+    "note": "в Torrhus Canyon"
+  }
+}

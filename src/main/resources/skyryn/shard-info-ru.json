@@ -1,0 +1,3663 @@
+{
+ "_comment": [
+  "ТВОЙ файл. Мод его только читает и НИКОГДА не перезаписывает.",
+  "",
+  "Ключ = имя шарда в нижнем регистре, как в списке /sr shards.",
+  "Все поля необязательные: чего нет — того экран не покажет.",
+  "",
+  "  details  — секция 'Подробнее': что шард даёт и как работает.",
+  "  hunting  — метод 'Охота'. Пусто = где искать, ещё не написано.",
+  "      how    — где водится моб, чем бить, что брать с собой",
+  "      warp   — куда телепортироваться, например '/warp crimson'",
+  "      coords — координаты спота, например '-274 68 -412'",
+  "      images — ссылки на скрины, открываются в браузере",
+  "      video  — ссылка на видео",
+  "",
+  "Методы мод определяет сам: ловится шард или только фьюзится — это в",
+  "данных. Фьюз и базар тоже показывает сам. Писать их не надо.",
+  "",
+  "Переносы строк — обычный \n."
+ ],
+ "abyssal lanternfish": {
+  "details": "§6Golden§r и §bDiamond Goblin§r - мобы, которые могут заспавниться при копании в [Dwarven Mines](loc:dwarven) или [Crystal Hollows](loc:crystal). Могут быть призваны с помощью гоблинских яиц",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§6Treasure Fishing§r в [Dwarven Mines](loc:dwarven).\nНеобходимые условия:\n- §6GOOD CATCH§r.\nСоветы:\n- Получите HOTF 6 для Hunter Fortune Perk который даёт до §d+50 Hunter Fortune§r и улучшите ваш §9David Cloak§r который даёт до §d+30 Hunter Fortune§r\n- Используйте [§aWooden Bait§r](bz:Wooden Bait|Обеспечивает ваш следующий §6GOOD CATCH§r редким fish shard). Наживку можно купить у [§aRosemary§r](npc:Rosemary) за 100 [§dForest Essence§r](bz:forest essence)\nАттрибуты:\n1. [§fFisherman§r](shard:inkling)\n2. [§5Lucky Rod§r](shard:moray eel)\n3. [§9Great Karma§r](shard:lizard king)\n4. [§6Hunter's Karma§r](shard:megalith)\n- Для большей эффективности используйте §5Diver's Armor§r или §6Abyssal Armor§r.\n  Экипировка: full §aBackwater Equipment§r или 2/4 + §9Frozen Amulet§r + §9David Cloak§r. Используйте эту экипировку только в том случае если ваш §bFishing Speed§r достаточно высок. В противном случае используйте регулярную экипировку + §9David Cloak§r.\n- Удочка: используйте лучшую удочку что у вас есть. Модификатор [§9Treasure Hook§r](tip:разрешает ловить только items и treasures) запретит ловлю мобов.\n- Питомец:\n1. §dFlying Fish§r: Повышает характеристики вашей Diver's или Abyssal Armor и даёт огромный буст fishing speed, усиливает зачарование flash.\n2. §6Hermit Crab§r: Используется в пати из 6 игроков для полного эффекта пассивной способности и прибыли.\n3. §6Ammonite§r: Бюджетный вариант для буста статов.",
+    "warp": "/warp dwarves",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "trap",
+    "text": "Установите ловушку под водой в [Dwarven Mines](loc:dwarven).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   }
+  ]
+ },
+ "aero": {
+  "details": "Плоский стат §cсилы§r: §a1§r за уровень. Относится к семейству Elemental и может быть усилен аттрибутом Echo of Elemental на [§6Starborn Shard§r](shard:starborn)",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "alligator": {
+  "details": "Усиливает [§cResistance§r](tip:усиливает: §fVoracious Spider§r, §fTank Zombie§r, §fZealot§r, §fBezal§r, §fCretan Bull§r) аттрибуты на §a2%§r за уровень. Относится к категории Echo, усиливается аттрибутом Echo of Echoes на [§6Tiamat Shard§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§6Alligator§r](cmd:/bestiary Alligator) — легендарный моб, которого вы можете поймать занимаясь §eFishing§r в [Backwater Bayou](loc:bayou).\n\n§c*Используй Black Hole, только если тебе нужен исключительно шард — в остальных случаях лучше убить моба билдом на Looting V + Magic Find. Не используй Black Hole на чужих Elusive-мобах.§r\n\n[Требования](cmd:/seacreatureguide Alligator) для §6Alligator§r:\n- Fishing 20\n- Water\n- [Backwater Bayou](loc:bayou)",
+    "warp": "/warp bayou",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "trap",
+    "text": "Установите ловушку под водой в [Backwater Bayou](loc:bayou).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "ananke": {
+  "details": "Ananke Feather выпадает с шансом §60.36%§r (1 из 277.71 забегов) из платного сундука награды [§cInfernal Kuudra§r](tip:Kuudra Tier 5). Этот шанс можно поднять на §a+2%..20%§r аттрибутом Wings of Destiny.",
+  "methods": [
+   {
+    "type": "chest",
+    "text": "Может быть получен в качестве награды в сундуке после боя с [§cInfernal Kuudra§r](tip:Kuudra Tier 5)",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "apex dragon": {
+  "details": "§3Combat Wisdom§r — множитель опыта [§6Combat§r](tip:Skyblock Skill): §a1%§r за уровень.",
+  "methods": [
+   {
+    "type": "chest",
+    "text": "Может быть получен в качестве награды за прохождение §cMaster Mode 7§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "arachne": {
+  "details": "Увеличивает количество получаемой §dSpider Essence§r из всех источников на §a1%§r за уровень. Относится к Essence аттрибутам и может быть усилен аттрибутом Echo of Essence на [§5Komodo Dragon Shard§r](shard:komodo dragon)",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "Шард может быть получен в качестве награды с босса [§cArachne§r](warp:/warp arachne), который находится в [Arachne's Burrow](loc:arachnes_burrow) в локации [Spider's Den](loc:spider).\nДля призыва босса установите в [Алтарь](loc:arachne_altar) 4 [§9Arachne's Calling§r](bz:Arachne's Calling).",
+    "warp": "/warp spider",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "azure": {
+  "details": "Даёт §a+5..50§r ❁ Strength на Foraging-островах.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "Используйте [§fFishing Net§r](tip:§aBasic Fishing Net§r|§9Medium Fishing Net§r|§5Turbo Fishing Net§r) на §fAzure Fish§r в воде в локациях [Tomb Floodway](loc:tomb_floodway), [Murkwater Shallows](loc:murkwater_shallows) и [Murkwater Depths](loc:murkwater_depths), чтобы получить шард.",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Установите ловушку под водой в [Murkwater Shallows](loc:murkwater_shallows) или [Murkwater Depths](loc:murkwater_depths).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "bal": {
+  "details": "Каждый добытый блок с шансом §a+1%..10%§r даёт дополнительный ✧ Pristine.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "Можно получить после победы над мини-боссом [§cBal§r](cmd:/bestiary Bal) в локации §bKhazad-Dum§r с помощью [charm](tip:Шанс charm растёт от уровня Hunting). Локацию ищите в [Crystal Nucleus](loc:nucleus).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "bambloom": {
+  "details": "Плоский стат §6Foraging Fortune§r. Увеличивает показатель ff на §a10§r единиц за уровень аттрибута.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "bambuleaf": {
+  "details": "Увеличивает §2Sweep§r топора при рубке на §a3§r единицы за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "Отправьтесь в [Galatea](loc:galatea) и найдите вход в пещеру за водопадом. Внутри — [Tranquility Sanctum](loc:tranquility_sanctum) с пандами. Сломайте растущий там бамбук любым мечом и накормите им панду — получите шард. Если панд в пещере не осталось — смените сервер.\nBambuleaf шард может быть получен только в §aSpring§r or §eSummer§r Season. В ином случае вы получите [Mochibear.](shard:mochibear)",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "trap",
+    "text": "Установите ловушку в [Tranquility Sanctum](loc:tranquility_sanctum) в §aВесенний§r или §eЛетний§r сезон.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   }
+  ]
+ },
+ "barbarian duke x": {
+  "details": "Этот бонус §7аддитивный§r — его % падает в один общий пул урона со всем остальным (уровень боя, шмот, чары, другие шарды), а не отдельный множитель. Чем больше % урона у тебя уже есть, тем меньше даёт каждый следующий пункт.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "Можно получить после победы над мини-боссом [§5Barbarian Duke X§r](cmd:/bestiary Barbarian Duke X). Используйте §bPocket Black Hole§r на 10% хп и менее для получения шарда. Шард так же можно получить при победе над мини-боссом с помощью [charm](tip:Шанс charm растёт от уровня Hunting).",
+    "warp": "/warp skull",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "chest",
+    "text": "Может быть получен в качестве награды при прохождении [§cKuudra§r](tip:Crimson Isle). Падает только с §6Fiery§r тира и выше — с меньших шард не выпадает.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": false
+   }
+  ]
+ },
+ "basilisk": {
+  "details": "Лассо истощает выносливость моба на §a2%§r быстрее за уровень аттрибута.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "beaconmite": {
+  "details": "Увеличивает получаемые бонусы от стаков Moonglade Beacon. Выполнив испытание маяка, игроки получают 1 стак на 20 минут, которые дают §6Fig§r и §6Mangrove Fortune§r. До 5 стаков.\nИгрок так же может прокачать силу сигнала до 10 уровня, используя §6Signal Enhancer§r, выпадающий с Tree Gifts.",
+  "methods": [
+   {
+    "type": "tuning",
+    "text": "Вы можете получить этот шард, выполнив Тюнинг [Moonglade Beacon](loc:moonglade_beacon).",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "bezal": {
+  "details": "Увеличивает §aDefense§r против Infernal мобов на §a4§r единицы за уровень. Шард относится к категории Resistance и может быть усилен аттрибутом Echo of Resistance на [§5Alligator Shard§r](shard:alligator)",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§cBezal§r](cmd:/bestiary Bezal) - моб, обитающий на верхних этажах [§5Stronghold§r](loc:stronghold) на [Crimson Isle](loc:crimson).",
+    "warp": "/warp crimson",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true,
+    "track": true
+   },
+   {
+    "type": "chest",
+    "text": "Может быть получен в качестве награды при прохождении [§cKuudra§r](tip:Crimson Isle).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": false
+   }
+  ]
+ },
+ "birries": {
+  "details": "Даёт шанс удвоенного выпадения Berries и Sea Lumines: §a10%§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§fBirries§r - моб, который с §a10%§r шансом может быть заспавнен при добыче §6Berries Bush§r в [Galatea](loc:galatea). Используйте [§fРыболовной Сети§r](tip:§aBasic Fishing Net§r|§9Medium Fishing Net§r|§5Turbo Fishing Net§r) или [§eLasso§r](tip:§fAbysmal Lasso§r|§aVinerip Lasso§r|§9Entangler Lasso§r|§5Everstretch Lasso§r), чтобы получить шард.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Разместите ловушку на земле в [Galatea](loc:galatea).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "bitbug": {
+  "details": "При съедении §6Booster Cookie§r вы получаете часть доступных §bBits§r мгновенно: §a10%§r за уровень. Иными словами, съев печенье вам становится доступно 4000 bits, 2000 из которых вы получите мгновенно на 10 уровне аттрибута.",
+  "methods": [
+   {
+    "type": "purchase",
+    "text": "Можно купить за §bBits§r в магазине §dElizabeth§r, которая находится в [Community Center](loc:community_center).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "blizzard": {
+  "details": "Плоский стат §bИнтеллекта§r: §a1§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "bogged": {
+  "details": "§3Sea Creature Chance§r (плоский стат): §a5%§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fBogged§r](cmd:/bestiary Bogged) - обычный моб, которого вы можете поймать занимаясь fishing на [Galatea](loc:galatea).\n\n[Требования](cmd:/seacreatureguide Bogged) для §fBogged§r:\n- Fishing 5\n- Water\n- §2Galatea§r",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true,
+    "blackHole": true
+   }
+  ]
+ },
+ "bolt": {
+  "details": "Плоский стат §cСилы§r: §a1§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "boreal owl": {
+  "details": "Ваш питомец получает больше опыта при тренировке у §aFann§r: §a2%§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "bramble": {
+  "details": "Плоский стат §cЗдоровья§r: §a2§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "bullfrog": {
+  "details": "Даёт шанс удвоить очки §bAgatha's Starlyn Contest§r при сборе ягод: §a10%§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "caiman": {
+  "details": "Усиливает [§cRuler§r](tip:усиливает: §fChill§r, §aZombie Soldier§r, §aFlaming Spider§r, §aBruiser§r, §aStridersurfer§r, §9Drowned§r, §5Flare§r) аттрибуты на §a2%§r за уровень. Относится к категории Echo, усиливается аттрибутом Echo of Echoes на [§6Tiamat Shard§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "carrot king": {
+  "details": "§6Chocolate Factory§r производит больше шоколада в секунду: §a2§r единицы за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§9Carrot King§r](cmd:/bestiary Carrot King) - редкий моб, которого вы можете поймать занимаясь fishing на любом острове.\n\n[Требования](cmd:/seacreatureguide Carrot King) для §9Carrot King§r:\n- Fishing 14\n- §bWater§r\n- §fCarrot Bait§r",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ },
+ "cascade": {
+  "details": "Плоский стат §bИнтеллекта§r: §a1§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "cavernshade": {
+  "details": "§3Mining Wisdom§r — множитель опыта [§6Mining§r](tip:Skyblock Skill): §a0.5%§r за уровень. Относится к §3Wisdom§r аттрибутам и может быть усилен аттрибутом Echo of Wisdom на [§6Wyvern Shard§r](shard:wyvern).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "chameleon": {
+  "details": "У каждого шарда есть свой ID — буква редкости (C→U→R→E→L = Common→Legendary) и номер: §fGrove§r (§fC1§r), §aBramble§r (§aU1§r), §9Sylvan§r (§9R1§r), §5Terra§r (§5E1§r), §6Tenebris§r (§6L1§r).\n\nСкрестив §6Chameleon§r + шард с ID §fXn§r, на выходе получишь следующие 3 номера: X(n+1), X(n+2), X(n+3). Пример: §6Chameleon§r + §fGrove§r (§fC1§r) → §fC2§r, §fC3§r, §fC4§r.\n\nВ цепочках есть пробелы (нет некоторых номеров). Пробел или конец редкости заполняется первым шардом СЛЕДУЮЩЕЙ редкости, по счёту пробелов в окне. Пример: §6Chameleon §r+ §fChill§r (§fC12§r, нет §fC13§r) → §aU1§r, §fC14§r, §fC15§r. §6Chameleon §r+ §fCretan Bull§r (§fC39§r, конец Common) → §aU1§r, §aU2§r, §aU3§r. Legendary — потолок: там пробелы просто урезают выдачу.",
+  "methods": [
+   {
+    "type": "foraging",
+    "text": "Может быть найден в §6Fig§r и §6Mangrove Tree Gifts§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "chill": {
+  "details": "Этот бонус §7аддитивный§r — его % падает в один общий пул урона со всем остальным (уровень боя, шмот, чары, другие шарды), а не отдельный множитель. Чем больше % урона у тебя уже есть, тем меньше даёт каждый следующий пункт.\n\nОтносится к категории §cRuler§r и усиливается аттрибутом [§5Echo of Ruler§r](shard:caiman), который, в свою очередь, бустится [§6Echo of Echoes§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fChillshot§r](cmd:/bestiary Chill|Chillshot) и [§fChillblade§r](cmd:/bestiary Chill|Chillblade) - моб, обитающий в [Wyrmgrove Tomb](loc:wyrmgrove_tomb) на острове §2Galatea§r.",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true,
+    "weapon": "Топорами",
+    "track": true
+   },
+   {
+    "type": "trap",
+    "text": "Разместите ловушку в [Wyrmgrove Tomb](loc:wyrmgrove_tomb).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   }
+  ]
+ },
+ "cinderbat": {
+  "details": "Плоский стат §bMagic Find§r: §a0.5§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§6Cinderbat§r - легендарный моб, которого вы можете поймать с помощью [§eLasso§r](tip:§fAbysmal Lasso§r|§aVinerip Lasso§r|§9Entangler Lasso§r|§5Everstretch Lasso§r) в [Crimson Isle](loc:crimson).\n\nАльтернативный метод: Опустите здоровье моба до 10% или ниже и используйте §bPocket Black Hole§r. Здоровье Cinderbat — §c5m HP§r. Не рекомендуется использовать Black Hole если у вас нет оружия способного быстро опустить здоровье цели до 10% и ниже.\n\nШард так же может быть получен с помощью [Charm](tip:Шанс charm растёт от уровня Hunting).",
+    "warp": "/warp crimson",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "chest",
+    "text": "Может быть получен в сундуке после боя с [§cInfernal Kuudra§r](tip:Kuudra Tier 5).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": false
+   }
+  ]
+ },
+ "cocoaleech": {
+  "details": "Даёт шанс получить вторую Vinyl при убийстве §aPest§r: §a2.5%§r за уровень.",
+  "methods": [
+   {
+    "type": "crafting",
+    "text": "У шарда есть крафтовый рецепт — [/recipe cocoaleech](cmd:/recipe cocoaleech).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "cod": {
+  "details": "Увеличивает получаемые коины с §6Treasure Fishing§r: §a1%§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§fCod§r - маленькая рыба, которая обитает в водоёмах [Galatea](loc:galatea). Используйте [§fРыболовной Сети§r](tip:§aBasic Fishing Net§r|§9Medium Fishing Net§r|§5Turbo Fishing Net§r) и доведите §eSpin Meter§r до §a90%§r или выше, но не 100 — иначе Cod взорвётся.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Разместите ловушку в воде [Galatea](loc:galatea).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "condor": {
+  "details": "§3Taming Wisdom§r — множитель опыта [§6Taming§r](tip:Skyblock Skill): §a0.5%§r за уровень. Относится к §3Wisdom§r аттрибутам и может быть усилен аттрибутом Echo of Wisdom на [§6Wyvern Shard§r](shard:wyvern).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "coralot": {
+  "details": "Даёт шанс получить дополнительный §fChums§r: §a5%§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§fCoralot§r - редкая рыба, которая обитает в водоёмах [Galatea](loc:galatea). Найдите рыбу и некоторое время не двигайтесь, смотря на неё. Используйте [§fРыболовной Сети§r](tip:§aBasic Fishing Net§r|§9Medium Fishing Net§r|§5Turbo Fishing Net§r) или [§eLasso§r](tip:§fAbysmal Lasso§r|§aVinerip Lasso§r|§9Entangler Lasso§r|§5Everstretch Lasso§r), когда знак §e<!>§r над головой моба исчезнет.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Разместите ловушку в [Murkwater Depths](loc:murkwater_depths).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "cretan bull": {
+  "details": "Увеличивает §aDefense§r против Mythological мобов на §a4§r единицы за уровень. Шард относится к категории Resistance и может быть усилен аттрибутом Echo of Resistance на [§5Alligator Shard§r](shard:alligator)",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fCretan Bull§r](cmd:/bestiary Cretan Bull) - Мифологический моб, который может быть найден с помощью  [§fSpade§r](tip:§9Ancestral Spade§r|§5Archaic Spade§r|§6Deific Spade§r) и экипированного §aGriffin Pet§r во время [§2Mythological Ritual§r](tip:Перк мэра Дианы).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "crocodile": {
+  "details": "Даёт шанс получить дополнительный шард семьи §5Reptile§r при Fusing: §a2%§r за уровень.",
+  "methods": [
+   {
+    "type": "purchase",
+    "text": "Можно купить до §a7 штук§r в день в магазине [§aKiara's§r](loc:kiara).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "crow": {
+  "details": "Плоский стат §2Sweep§r, применяемый к §6Fig Trees§r. Относится к категории §eSharpening§r и усиливается аттрибутом [§9Echo of Sharpening§r](shard:gecko).",
+  "methods": [
+   {
+    "type": "purchase",
+    "text": "Можно купить в магазине §bAgatha's§r в [Murkwater Loch](loc:murkwater_loch).",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   }
+  ]
+ },
+ "cryo": {
+  "details": "Плоский стат §bИнтеллекта§r: §a1§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "cuboa": {
+  "details": "Усиливает [§aBox§r](tip:усиливает: §fHideonleaf§r, §fHideongift§r, §aHideoncave§r, §9Hideongeon§r, §9Hideondra§r, §6Hideonbox§r) аттрибуты на §a2%§r за уровень. Относится к категории Echo, усиливается аттрибутом Echo of Echoes на [§6Tiamat Shard§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "daemon": {
+  "details": "В игре есть система [§dRNG§r](cmd:/rng). Выбрав предмет и выполняя определённые действия вы заполняете §dRNG METER§r. Данный шард увеличивает получаемый rng meter на §a1%§r за уровень.",
+  "methods": [
+   {
+    "type": "chest",
+    "text": "Может быть получен в качестве награды в сундуке после боя с §cInfernal Kuudra§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "dodo": {
+  "details": "Плоский стат §dPet Luck§r: §a1§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "draconic": {
+  "details": "Увеличивает количество получаемой §dDragon Essence§r из всех источников на §a1%§r за уровень. Относится к §dEssence§r аттрибутам и может быть усилен аттрибутом Echo of Essence на [§5Komodo Dragon Shard§r](shard:komodo dragon).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "Может быть получен в качестве награды с босса §5Ender Dragon§r. Босс призывается с помощью §a8§r §5Summoning Eye§r на Алтаре в [Dragon's Nest](loc:dragons_nest).",
+    "warp": "/warp end",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   }
+  ]
+ },
+ "dragonfly": {
+  "details": "§3Farming Wisdom§r — множитель опыта [§6Farming§r](tip:Skyblock Skill): §a0.5%§r за уровень. Относится к §3Wisdom§r аттрибутам и может быть усилен аттрибутом Echo of Wisdom на [§6Wyvern Shard§r](shard:wyvern).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "dreadwing": {
+  "details": "Увеличивает количество получаемой §dForest Essence§r из всех источников на §a1%§r за уровень. Относится к §dEssence§r аттрибутам и может быть усилен аттрибутом Echo of Essence на [§5Komodo Dragon Shard§r](shard:komodo dragon).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§9Dreadwing§r - редкий моб, который имеет §a1.2%§r шанс появиться из срубленного дерева на [Galatea](loc:galatea). Используйте [§eLasso§r](tip:§fAbysmal Lasso§r|§aVinerip Lasso§r|§9Entangler Lasso§r|§5Everstretch Lasso§r).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "foraging",
+    "text": "Может быть получен с §6Fig§r или §6Mangrove Tree Gifts§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Установите ловушку на земле в [Galatea](loc:galatea).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "drowned": {
+  "details": "Этот бонус §7аддитивный§r — его % падает в один общий пул урона со всем остальным (уровень боя, шмот, чары, другие шарды), а не отдельный множитель. Чем больше % урона у тебя уже есть, тем меньше даёт каждый следующий пункт.\n\nОтносится к категории §cRuler§r и усиливается аттрибутом [§5Echo of Ruler§r](shard:caiman), который, в свою очередь, бустится [§6Echo of Echoes§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fTidetot§r](cmd:/bestiary Tidetot) - семейство мобов, обитающее в [Drowned Reliquary](loc:drowned_reliquary).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "trap",
+    "text": "Установите ловушку в [Drowned Reliquary](loc:drowned_reliquary).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "eel": {
+  "details": "Увеличивает урон, наносимый с помощью [§fРыболовной Сети§r](tip:§aBasic Fishing Net§r|§9Medium Fishing Net§r|§5Turbo Fishing Net§r), на §a1§r единицу за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§6Treasure Fishing§r в [Tomb Floodway](loc:tomb_floodway).\nНеобходимые условия:\n- §6GOOD CATCH§r.\nСоветы:\n- Получите HOTF 6 для Hunter Fortune Perk который даёт до §d+50 Hunter Fortune§r и улучшите ваш §9David Cloak§r который даёт до §d+30 Hunter Fortune§r\n- Используйте [§aWooden Bait§r](bz:Wooden Bait|Обеспечивает ваш следующий §6GOOD CATCH§r редким fish shard). Наживку можно купить у [§aRosemary§r](npc:Rosemary) за 100 [§dForest Essence§r](bz:forest essence)\n- В [Tomb Floodway](loc:tomb_floodway) действует скрытый бонус §6+10 Treasure Chance§r. Если ваша цель — Eel шард, отключите аттрибут [§6Star Bait§r](shard:moltenfish).\nАттрибуты:\n1. [§fFisherman§r](shard:inkling)\n2. [§5Lucky Rod§r](shard:moray eel)\n3. [§9Great Karma§r](shard:lizard king)\n4. [§6Hunter's Karma§r](shard:megalith)\n- Для большей эффективности используйте §5Diver's Armor§r или §6Abyssal Armor§r.\n  Экипировка: full §aBackwater Equipment§r или 2/4 + §9Frozen Amulet§r + §9David Cloak§r. Используйте эту экипировку только в том случае если ваш §bFishing Speed§r достаточно высок. В противном случае используйте регулярную экипировку + §9David Cloak§r.\n- Удочка: используйте лучшую удочку что у вас есть. Установите модификатор [§9Treasure Hook§r](tip:разрешает ловить только items и treasures).\n- Питомец:\n1. §dFlying Fish§r: Повышает характеристики вашей Diver's или Abyssal Armor и даёт огромный буст fishing speed, усиливает зачарование flash.\n2. §6Hermit Crab§r: Используется в пати из 6 игроков для полного эффекта пассивной способности и прибыли.\n3. §6Ammonite§r: Бюджетный вариант для буста статов.",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "purchase",
+    "text": "Можно купить до 7 штук в день в магазине [§aKiara's§r](loc:kiara).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   }
+  ]
+ },
+ "ent": {
+  "details": "Этот бонус §7аддитивный§r — его % падает в один общий пул урона со всем остальным (уровень боя, шмот, чары, другие шарды), а не отдельный множитель. Чем больше % урона у тебя уже есть, тем меньше даёт каждый следующий пункт.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true,
+    "weapon": "Топорами",
+    "track": false
+   },
+   {
+    "type": "trap",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": false
+   }
+  ]
+ },
+ "etherdrake": {
+  "details": "МНОЖИТЕЛЬ: умножает, а не складывается.\n\nЭтот процент умножает сам стат целиком — вместе со всем, что тебе дают шмот, петы и рефоржи. На 10 уровне +1% значит x1.01 от твоего стата.\n\nТем и отличается от %-аттрибутов на урон: те досыпаются в общую кучу и тем слабее, чем ты жирнее. Этот работает от твоего стата, так что чем больше стат, тем больше прибавка.\n\nЗамерено в игре: Crit Damage 1214.77% -> 1226.92%, ровно x1.01.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "falcon": {
+  "details": "Ваш питомец получает больше опыта с §7Combat Exp§r: §a1%§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "fenlord": {
+  "details": "Увеличивает длительность [Salts](bz:lushlilac|§aLushlilac§r|§aLushlilac Bonbon§r|§aPrime Lushlilac Bonbon§r|§aExalted Lushlilac Bonbon§r) на §a1%§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Установите ловушку на земле в [Galatea](loc:galatea).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "fire eel": {
+  "details": "Плоский стат §6Trophy Chance§r: §a2%§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§9Fire Eel§r](cmd:/bestiary Fire Eel) - редкий моб, которого вы можете поймать занимаясь §cLava Fishing§r на [Crimson Isle](loc:crimson).\n\n[Требования](cmd:/seacreatureguide Fire Eel) для §9Fire Eel§r:\n- Fishing 34\n- §cLava§r\n- §cCrimson Isle§r",
+    "warp": "/warp crimson",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "chest",
+    "text": "Может быть получен в качестве награды в сундуке после боя с §cFiery Kuudra§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "firefly": {
+  "details": "Плоский стат §6Farming Fortune§r в дневное время: §a5§r Fortune за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "flaming spider": {
+  "details": "Этот бонус §7аддитивный§r — его % падает в один общий пул урона со всем остальным (уровень боя, шмот, чары, другие шарды), а не отдельный множитель. Чем больше % урона у тебя уже есть, тем меньше даёт каждый следующий пункт.\n\nОтносится к категории §cRuler§r и усиливается аттрибутом [§5Echo of Ruler§r](shard:caiman), который, в свою очередь, бустится [§6Echo of Echoes§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§cFlaming Spider§r](cmd:/bestiary Flaming Spider) - моб, обитающий в §eBurning Desert§r на [Crimson Isle](loc:crimson).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ },
+ "flare": {
+  "details": "Этот бонус §7аддитивный§r — его % падает в один общий пул урона со всем остальным (уровень боя, шмот, чары, другие шарды), а не отдельный множитель. Чем больше % урона у тебя уже есть, тем меньше даёт каждый следующий пункт.\n\nОтносится к категории §cRuler§r и усиливается аттрибутом [§5Echo of Ruler§r](shard:caiman), который, в свою очередь, бустится [§6Echo of Echoes§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§5Flare§r](cmd:/bestiary Flare) - моб, обитающий в §cMagma Chamber§r на [Crimson Isle](loc:crimson).",
+    "warp": "/warp crimson",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true,
+    "blackHole": true
+   },
+   {
+    "type": "trap",
+    "text": "Разместите ловушки в §cMagma Chamber§r.",
+    "warp": "/warp crimson",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "chest",
+    "text": "Может быть получен в качестве награды в сундуке после боя с §cFiery Kuudra§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": false
+   }
+  ]
+ },
+ "flash": {
+  "details": "Плоский стат §cСилы§r: §a1§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "flipflopper": {
+  "details": "Multiplicative bonus. Увеличивает ваш шанс зароллить §6Gold Trophy Frog§r: §a0.5%§r за уровень. Итоговый шанс с этим аттрибутом 10 уровня — §a2.1%§r.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§aFlipflopper§r](cmd:/bestiary Flipflopper) - моб-дельфин, который имеет §a50%§r шанс появиться из §aExploding Lily Pad§r. Соединяйте маленькие кувшинки в воде на [Lotus Atoll](loc:lotus) в одну большую, чтобы взорвать её, получить награды и заспавнить различных мобов. Используйте [§fFishing Net§r](tip:§9Medium Fishing Net§r|§5Turbo Fishing Net§r) на §aFlipflopper§r, чтобы получить шард.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "fungloom": {
+  "details": "Даёт шанс получить дополнительный заряд в Fossil Excavator: §a10%§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "galaxy fish": {
+  "details": "Плоский стат §6Fortune§r. Увеличивает §6Mining Fortune§r, §6Farming Fortune§r и §6Foraging Fortune§r на §a1§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "gecko": {
+  "details": "Усиливает [§cSharpening§r](tip:усиливает: §fCrow§r, §aHeron§r) аттрибуты на §a2%§r за уровень. Относится к категории Echo, усиливается аттрибутом Echo of Echoes на [§6Tiamat Shard§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "purchase",
+    "text": "Можно купить до §a5 штук§r в день в магазине [§aKiara's§r](loc:kiara).",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "ghost": {
+  "details": "Плоский стат §fTrue Defense§r: §a1§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§5Ghost§r](cmd:/bestiary Ghost) - заряженные криперы, обитающие в [The Mist](loc:the_mist) в [Dwarven Mines](loc:dwarven).",
+    "warp": "/warp dwarves",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true,
+    "blackHole": true
+   }
+  ]
+ },
+ "glacite walker": {
+  "details": "Увеличивает количество получаемой §bIce Essence§r из всех источников на §a1%§r за уровень. Относится к §dEssence§r аттрибутам и может быть усилен аттрибутом Echo of Essence на [§5Komodo Dragon Shard§r](shard:komodo dragon).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§9Glacite Walker§r](cmd:/bestiary Glacite Walker) - моб, обитающий в [Great Ice Wall](loc:great_ice_wall) в [Dwarven Mines](loc:dwarven).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true,
+    "blackHole": true
+   }
+  ]
+ },
+ "golden ghoul": {
+  "details": "При убийстве мобов дополнительно даёт §a+1§r коин за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fGolden Ghoul§r](cmd:/bestiary Golden Ghoul) - обычный моб, обитающий в [Crypts](loc:crypts) в [Hub](loc:hub).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ },
+ "goldfin": {
+  "details": "Снижает перезарядку ловли [§6Golden Fish§r](tip:Trophy Fish): на §a30 секунд§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "grove": {
+  "details": "Плоский стат §cЗдоровья§r: §a2§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "harpy": {
+  "details": "Увеличивает шанс встретить монстров из §6Tree Gifts§r: §a+5%§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fHarpy§r](cmd:/bestiary Harpy) - мифологический моб, которого можно найти с помощью [§fSpade§r](tip:§9Ancestral Spade§r|§5Archaic Spade§r|§6Deific Spade§r) и экипированного §9Griffin Pet§r во время [§2Mythological Event§r](tip:Перк мэра Дианы).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "hellwisp": {
+  "details": "Даёт шанс получить дополнительный §6Heavy Pearl§r при сборке из желудка §bМатриарха§r. Увеличивает шанс на §a2%§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§cHellwisp§r](cmd:/bestiary Tentacle|Hellwisp) - моб, обитающий в [Magma Chamber](loc:magma_chamber) на [Crimson Isle](loc:crimson).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true,
+    "blackHole": true
+   },
+   {
+    "type": "trap",
+    "text": "Разместите ловушки в локации [Matriarch's Lair](loc:matriarchs_lair).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "chest",
+    "text": "Может быть получен в качестве награды в сундуке после боя с §cFiery Kuudra§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": false
+   }
+  ]
+ },
+ "heron": {
+  "details": "Плоский стат §2Sweep§r, применяемый к §6Mangrove Trees§r. Относится к категории §eSharpening§r и усиливается аттрибутом [§9Echo of Sharpening§r](shard:gecko).",
+  "methods": [
+   {
+    "type": "purchase",
+    "text": "Можно купить в магазине §bAgatha's§r в [Murkwater Loch](loc:murkwater_loch).",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   }
+  ]
+ },
+ "hideonbox": {
+  "details": "Даёт §eTuning Points§r: §a+1§r за уровень.",
+  "methods": [
+   {
+    "type": "chest",
+    "text": "Может быть получен в качестве награды в сундуке после боя с §cInfernal Kuudra§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "hideoncave": {
+  "details": "Даёт шанс получить дополнительный предмет из Treasure Chest и Crystal Nucleus Run: §a5%§r за уровень. Относится к категории Box-аттрибутов и может быть усилен аттрибутом [§aEcho of Boxes§r](shard:cuboa).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "hideondra": {
+  "details": "Увеличивает шанс получить дополнительный зуб Kuudra в платных наградах сундука на §a5%§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "hideongeon": {
+  "details": "Аттрибут добавляет §a1 Quality§r за уровень сундуку с наградой босса — на 10 уровне §a+10§r.\n\nQuality сундука это бюджет, а не шанс. У каждого предмета своя цена в Quality и свой §eWeight§r — вес в розыгрыше. Не хватило бюджета на предмет — он в ролле вообще не участвует.\n\nСчитается так: базовый Quality сундука множится на score-множитель за S+, потом на §eTreasure Accessories§r, и уже к этому прибавляются перк §eBoss Luck§r и аттрибут Catacombs Box. Твоя прибавка идёт слагаемым в самом конце, поверх всех множителей.\n\n§6Necron's Handle§r стоит §a360 Quality§r на §cFloor VII§r и §a380§r на §4Master Mode VII§r при весе §a15§r и §a18§r. Выпадает только из §8Bedrock Chest§r.\n\nБазовые шансы: §a0.1094%§r на F7 — одна рукоять на §a914§r ранов. На M7 §a0.1296%§r, то есть §a772§r рана. Полностью прокачанный S+ со всеми бонусами (этот аттрибут в их числе) вытягивает M7 до §a0.2003%§r — §a499§r ранов, в полтора раза меньше гринда.\n\n[§aEcho of Boxes§r](shard:cuboa) усиливает все «Box»-аттрибуты на §a2%§r за уровень. Десятый превращает твои §a+10§r в §a+12 Quality§r, а при наличии 10 уровня аттрибута [§6Echo of Echoes§r](shard:tiamat) прибавка составит §a+13§r.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "hideongift": {
+  "details": "Даёт шанс получить дополнительный Winter Gift при его нахождении: §a2%§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "hideonleaf": {
+  "details": "Плоский стат §6Block Fortune§r: §a5§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "На [Galatea](loc:galatea) вы можете встретить Shulker-Box. Подойдите достаточно близко, чтобы «разбудить» его, и отбивайте его снаряды, чтобы ослабить. Когда Shulker-Box достаточно ослабнет — вы получите шард.",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "hideonring": {
+  "details": "Увеличивает количество слотов в вашем Accessory Bag: §a+1§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "hideonsack": {
+  "details": "Увеличивает вместимость ваших [§fSacks§r](cmd:/sacks|-): §a1%§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "hummingbird": {
+  "details": "Даёт шанс срубить дополнительное бревно: §a10%§r за уровень.",
+  "methods": [
+   {
+    "type": "foraging",
+    "text": "Может быть получен в качестве награды за §6Fig§r и §6Mangrove Tree Gifts§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "iguana": {
+  "details": "Усиливает [§fAtomized§r](tip:усиливает: §9Star Sentry§r, §9Thyst§r, §9Stalagmight§r) аттрибуты на §a2%§r за уровень. Относится к категории Echo, усиливается аттрибутом Echo of Echoes на [§6Tiamat Shard§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "inferno demonlord": {
+  "details": "Плоский стат §eAttack Speed§r: §a+1§r за уровень.",
+  "methods": [
+   {
+    "type": "slayer",
+    "text": "Может выпасть с [§cInferno Demonlord II§r и выше](cmd:/rngmeter slayer inferno).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "inferno koi": {
+  "details": "Увеличивает шанс найти §fVanquisher§r на §a2%§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§6Treasure Fishing§r в [Crimson Isle](loc:crimson).\nНеобходимые условия:\n- §6GOOD CATCH§r.\nСоветы:\n- Получите HOTF 6 для Hunter Fortune Perk который даёт до §d+50 Hunter Fortune§r и улучшите ваш §9David Cloak§r который даёт до §d+30 Hunter Fortune§r\n- Используйте [§aWooden Bait§r](bz:Wooden Bait|Обеспечивает ваш следующий §6GOOD CATCH§r редким fish shard). Наживку можно купить у [§aRosemary§r](npc:Rosemary) за 100 [§dForest Essence§r](bz:forest essence)\nАттрибуты:\n1. [§fFisherman§r](shard:inkling)\n2. [§5Lucky Rod§r](shard:moray eel)\n3. [§9Great Karma§r](shard:lizard king)\n4. [§6Hunter's Karma§r](shard:megalith)\n- Для большей эффективности используйте лучшую броню для лавовой рыбалки что у вас есть. Приоритетным статом становится §bFishing Speed§r т.к. пассивка §6Abyssal§r или §5Diver's Armor§r здесь не работает.\n  Экипировка: full §aBackwater Equipment§r или 2/4 + §9Frozen Amulet§r + §9David Cloak§r. Используйте эту экипировку только в том случае если ваш §bFishing Speed§r достаточно высок. В противном случае используйте регулярную экипировку + §9David Cloak§r.\n- Удочка: используйте лучшую лавовую удочку что у вас есть. Установите модификатор [§9Treasure Hook§r](tip:разрешает ловить только items и treasures).\n- Питомец:\n1. §dFlying Fish§r: Даёт огромный буст fishing speed, усиливает зачарование flash.\n2. §6Hermit Crab§r: Используется в пати из 6 игроков для полного эффекта пассивной способности и прибыли. Не рекомендуется использовать при соло охоте.\n3. §6Ammonite§r: Бюджетный вариант для буста статов.\n- Вы так же можете получить этот шард занимаясь §6Trophy Fishing§r или §cLava Fishing§r имея хотя бы немного §6Treasure Chance§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "fusing",
+    "text": ""
+   },
+   {
+    "type": "trap",
+    "text": "Установите ловушку в лавовых озёрах [Crimson Isle](loc:crimson).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "inkling": {
+  "details": "Даёт шанс не потратить наживку при рыбалке: §a1%§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fInkling§r](cmd:/seacreatureguide Inkling) - §auncommon§r моб, которого можно поймать, занимаясь Fishing в §dHotspot§r.\n\n[Требования](cmd:/seacreatureguide Inkling) для §fInkling§r:\n- Fishing 7\n- §bWater§r\n- Any Island\n- §dHotspot§r",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "invisibug": {
+  "details": "Увеличивает шанс появления §9RARE§r и выше §aGarden Visitors§r: §a1%§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§fInvisibug§r - невидимый жук, излучающий особые эффекты. Можно поймать с помощью [§eLasso§r](tip:§fAbysmal Lasso§r|§aVinerip Lasso§r|§9Entangler Lasso§r|§5Everstretch Lasso§r). Используйте функцию highlight.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "jormung": {
+  "details": "МНОЖИТЕЛЬ: умножает, а не складывается.\n\nЭтот процент умножает сам стат целиком — вместе со всем, что тебе дают шмот, петы и рефоржи. На 10 уровне +1% значит x1.01 от твоего стата.\n\nТем и отличается от %-аттрибутов на урон: те досыпаются в общую кучу и тем слабее, чем ты жирнее. Этот работает от твоего стата, так что чем больше стат, тем больше прибавка.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "joydive": {
+  "details": "Плоский стат §9Respiration§r: §a+5§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§9Joydive§r - моб-дельфин, обитающий в глубоких водоёмах [Murkwater Depths](loc:murkwater_depths). Найдите дельфина, используйте [§fFishing Net§r](tip:§aBasic Fishing Net§r|§9Medium Fishing Net§r|§5Turbo Fishing Net§r) и следуйте за ним — он приведёт вас в одну из пещер, где сетью можно нанести ему урон и получить шард.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Разместите ловушку в [Murkwater Depths](loc:murkwater_depths).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "kada knight": {
+  "details": "Этот бонус §7аддитивный§r — его % падает в один общий пул урона со всем остальным (уровень боя, шмот, чары, другие шарды), а не отдельный множитель. Чем больше % урона у тебя уже есть, тем меньше даёт каждый следующий пункт.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§cKada Knight§r](cmd:/bestiary Kada Knight) - моб, обитающий в пещерах §6Blazing Volcano§r на [Crimson Isle](loc:crimson).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "chest",
+    "text": "Может быть получен как награда за §cBurning Kuudra§r и выше.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "king cobra": {
+  "details": "Прямой множитель §dHunting Fortune§r, применяемый к §bBlack Hole§r: §a1%§r за уровень. На Lasso и Fishing Net этот эффект не распространяется.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "king minos": {
+  "details": "Увеличивает количество получаемых монет при раскопках Griffin Burrows на §a1%§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§6King Minos§r](cmd:/bestiary King Minos) - Elusive Мифологический моб, который может быть найден с помощью [§fSpade§r](tip:§9Ancestral Spade§r|§5Archaic Spade§r|§6Deific Spade§r) и экипированного §6Griffin Pet§r во время [§2Mythological Event§r](tip:Перк мэра Дианы).\n\n§c*Используй Black Hole, только если тебе нужен исключительно шард — в остальных случаях лучше убить моба билдом на Looting V + Magic Find. Не используй Black Hole на чужих Elusive-мобах.§r",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "kiwi": {
+  "details": "Уменьшает время апгрейда вашего питомца у §dKat§r: §a1%§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "komodo dragon": {
+  "details": "Усиливает [§aEssence§r](tip:усиливает: §9Glacite Walker§r, §9Arachne§r, §9Revenant§r, §9Dreadwing§r, §9Draconic§r, §9Wither§r) аттрибуты на §a2%§r за уровень. Относится к категории Echo, усиливается аттрибутом Echo of Echoes на [§6Tiamat Shard§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "kraken": {
+  "details": "Плоский стат §4Vitality§r: §a1§r за уровень.",
+  "methods": [
+   {
+    "type": "chest",
+    "text": "Может быть получен в качестве награды в сундуке после боя с §cBasic Kuudra§r и выше.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "ladybug": {
+  "details": "Увеличивает получаемый §6Copper§r с §aGarden Visitors§r: на §a1%§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "lapis creeper": {
+  "details": "§3Enchanting Wisdom§r — множитель опыта [§6Enchanting§r](tip:Skyblock Skill): §a0.5%§r за уровень. Относится к §3Wisdom§r аттрибутам и может быть усилен аттрибутом Echo of Wisdom на [§6Wyvern Shard§r](shard:wyvern).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "lapis skeleton": {
+  "details": "Даёт дополнительный §a2%§r шанс за уровень найти книги 6 уровня и выше в §dSuperpairs§r.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "lapis zombie": {
+  "details": "Увеличивает количество получаемых сфер опыта с убийства мобов: §a10%§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fLapis Zombie§r](cmd:/bestiary Lapis Zombie) - обычный моб, обитающий в [Lapis Quarry](loc:lapis_quarry) на [Deep Caverns](loc:deep).",
+    "warp": "/warp deep",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ },
+ "lava flame": {
+  "details": "Плоский стат §cMagic Find§r на §cMagmatic§r-мобах: §a1§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§9Lava Flame§r](cmd:/seacreatureguide Lava Flame) - моб, которого можно поймать, занимаясь §cLava Fishing§r на [Crimson Isle](loc:crimson).\n\n[Требования](cmd:/seacreatureguide Lava Flame) для §9Lava Flame§r:\n- Fishing 33\n- §cLava§r\n- §cCrimson Isle§r",
+    "warp": "/warp crimson",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "trap",
+    "text": "Разместите ловушку под лавой на [Crimson Isle](loc:crimson).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "chest",
+    "text": "Может быть получен в качестве награды в сундуке после боя с §cBurning Kuudra§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "leatherback": {
+  "details": "§3Hunting Wisdom§r — множитель опыта [§6Hunting§r](tip:Skyblock Skill): §a0.5%§r за уровень. Относится к §3Wisdom§r аттрибутам и может быть усилен аттрибутом Echo of Wisdom на [§6Wyvern Shard§r](shard:wyvern).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "leviathan": {
+  "details": "Плоский стат §dHunting Fortune§r, применяемый к §5Epic§r-шардам. Это значит, что бонус применяется к полученному шарду только если у шарда редкость §5Epic§r — например [§5Flare Shard§r](shard:flare). Увеличивает Hunting Fortune на §a1§r за уровень. Относится к категории §eHunter§r и усиливается аттрибутом [§5Echo of Hunter§r](shard:sea serpent).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "littlefoot": {
+  "details": "Увеличивает ваш §eGemstone Spread§r за каждые §b20–30§r §bCold Resistance§r, которыми вы обладаете: §a+0.5§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§6Littlefoot§r](cmd:/bestiary Littlefoot) - §5Elusive§r моб, который с §a1%§r шансом заменяет обычного моба в §fGlacite Mineshafts§r или со §a100%§r шансом появляется единственным мобом в варианте структуры §fLittlefoot's Den§r. §fGlacite Mineshafts§r — отдельные локации, доступ к которым осуществляется добычей ресурсов в §bGlacite Tunnels§r.\n§7Советы по убийству:\n- Как и другие §r§fGlacite§r-мобы, Littlefoot атакуется только киркой или §fDrill§r. Чем выше Breaking Power, тем больше урон.\n- Обладает высоким уроном и скоростью бега: при первой встрече убегает, но после §a2§r ударов впадает в ярость. Используйте §5Gyrokinetic Wand§r, чтобы законтролить его и быстро опустить HP ниже §a10%§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ },
+ "lizard king": {
+  "details": "Плоский стат §dHunting Fortune§r, применяемый к §9Rare§r-шардам. Это значит, что бонус применяется к полученному шарду только если у шарда редкость §9Rare§r — например [§9Glacite Walker Shard§r](shard:glacite walker). Увеличивает Hunting Fortune на §a1§r за уровень. Относится к категории §eHunter§r и усиливается аттрибутом [§5Echo of Hunter§r](shard:sea serpent).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "loch emperor": {
+  "details": "§3Fishing Wisdom§r — множитель опыта [§6Fishing§r](tip:Skyblock Skill): §a0.5%§r за уровень. Относится к §3Wisdom§r аттрибутам и может быть усилен аттрибутом Echo of Wisdom на [§6Wyvern Shard§r](shard:wyvern).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§6The Loch Emperor§r](cmd:/bestiary The Loch Emperor) - §dElusive§r моб, которого вы можете поймать занимаясь §bFishing §rв [Moonglade Marsh](loc:moonglade_marsh).\n\n§c*Используй Black Hole, только если тебе нужен исключительно шард — в остальных случаях лучше убить моба билдом на Looting V + Magic Find. Не используй Black Hole на чужих Elusive-мобах.§r\n\n[Требования](cmd:/seacreatureguide The Loch Emperor) для §6The Loch Emperor§r:\n- Fishing 20\n- §bWater\n§r- [Galatea](loc:galatea)",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true,
+    "blackHole": true
+   }
+  ]
+ },
+ "lord jawbus": {
+  "details": "Плоский стат §9Double Hook Chance§r пока игрок на [Crimson Isle](loc:crimson): §a0.5§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§dLord Jawbus§r](cmd:/bestiary Lord Jawbus) — мифический моб, которого вы можете поймать занимаясь §cLava Fishing§r на [Crimson Isle](loc:crimson).\n\n§c*Используй Black Hole, только если тебе нужен исключительно шард — в остальных случаях лучше убить моба билдом на Looting V + Magic Find. Не используй Black Hole на чужих Elusive-мобах.§r\n\n[Требования](cmd:/seacreatureguide Lord Jawbus) для §dLord Jawbus§r:\n- Fishing 45\n- §cLava§r\n- [Crimson Isle](loc:crimson)\n- Adept Trophy Fisher: Поймать всех silver trophy fish.",
+    "warp": "/warp crimson",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "chest",
+    "text": "Может быть получен в сундуке после боя с [§cInfernal Kuudra§r](tip:Kuudra Tier 5).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "lotum": {
+  "details": "Плоский стат §dTracking§r на §aExploding Lily Pads§r на [Lotus Atoll](loc:lotus): §a+1§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§aLotum§r - лягушка, обитающая на [Lotus Atoll](loc:lotus). Если кликнуть по Lotum, она получает свечение и отпрыгивает со следом из зелёных частиц — до §a4§r раз за клик. После 4-го прыжка выпадает Lotum Shard. Количество прыжков можно снизить на 1 аттрибутом [§9Frog Legs§r](shard:toad).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Установите ловушку под водой или на земле в [Lotus Atoll](loc:lotus).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "lotusfish": {
+  "details": "Плоский стат §6Trophy Chance§r на [Lotus Atoll](loc:lotus): §a+1§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§fLotusfish§r - маленькая рыба, обитающая в водоёмах [Lotus Atoll](loc:lotus). Используйте [§fFishing Net§r](tip:§aBasic Fishing Net§r|§9Medium Fishing Net§r|§5Turbo Fishing Net§r), чтобы поймать её и получить шард.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Установите ловушку под водой в [Lotus Atoll](loc:lotus).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "lumisquid": {
+  "details": "Плоский стат §9Pressure Resistance§r: §a+5§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§9Lumisquid§r (без бестиария) - моб, обитающий в [Squid Cave](loc:squid_cave) на [Galatea](loc:galatea). Используйте [§fFishing Net§r](tip:§aBasic Fishing Net§r|§9Medium Fishing Net§r|§5Turbo Fishing Net§r), чтобы атаковать его. После каждой атаки он уменьшается в размерах (до §a3§r раз) и пытается убежать.\n\n§7Советы:\n- Обитает глубоко под водой — используйте броню с высоким §9Pressure Resistance§r, напр. §5Diver's Armor§r и зачарование §fDepth Strider III§r.\n- Экипировка: §9David Cloak§r для Hunter Fortune.\n- §aHOTF 6§r Hunter Fortune и §eHOTF 4§r Deep Waters.\n\n§7Полезные аттрибуты: Great Karma, Hunter's Karma, Eelastic, Echo of Echoes.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "trap",
+    "text": "Установите ловушку в [Squid Cave](loc:squid_cave).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   }
+  ]
+ },
+ "lunar moth": {
+  "details": "Плоский стат §6Farming Fortune§r в ночное время: §a5§r Fortune за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "magma slug": {
+  "details": "Увеличивает шанс поймать испорченных (corrupted) морских существ: §a+0.2%§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§aMagma Slug§r](cmd:/seacreatureguide Magma Slug) - моб, которого можно поймать, занимаясь §cLava Fishing§r на [Crimson Isle](loc:crimson).\n\n[Требования](cmd:/seacreatureguide Magma Slug) для §aMagma Slug§r:\n- Fishing 27\n- §cLava§r\n- §cCrimson Isle§r",
+    "warp": "/warp crimson",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "trap",
+    "text": "Установите ловушку под лавой на [Crimson Isle](loc:crimson).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "chest",
+    "text": "Может быть получен в качестве награды за §cHot Kuudra§r и выше.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "matcho": {
+  "details": "Увеличивает длительность урона от огня, наносимого вами врагам: §a+30%§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§9Matcho§r](cmd:/bestiary Matcho) - моб, спавнящийся на [Crimson Isle](loc:crimson) после извержения §6Blazing Volcano§r. Примерно каждые §a2–2.5 часа§r лавовый бассейн поднимается, пока не заполнит вулкан, и тот начинает извергать блоки. Если нашли лобби с извержением — смотрите, куда падают угольные блоки: на их месте спавнятся Matcho.",
+    "warp": "/warp crimson",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "chest",
+    "text": "Может быть получен в качестве награды за §cBurning Kuudra§r и выше.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "megalith": {
+  "details": "Плоский стат §dHunting Fortune§r: §a1§r за уровень. Относится к категории §eHunter§r и усиливается аттрибутом [§5Echo of Hunter§r](shard:sea serpent).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "mimic": {
+  "details": "Увеличивает силу §5Dungeon Blessings§r на §a1%§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "Шард можно получить с помощью [Charm](tip:Шанс charm растёт от уровня Hunting) при убийстве [§5Mimic§r](cmd:/bestiary Mimic) в §7Dungeons§r. §bPocket Black Hole§r в данжах не работает.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "miner zombie": {
+  "details": "Плоский стат §6Mining Speed§r: §a+3§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fMiner Zombie§r](cmd:/bestiary Miner Zombie) - обычный моб, обитающий в [Diamond Reserve](loc:diamond_reserve) на [Deep Caverns](loc:deep).",
+    "warp": "/warp deep",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ },
+ "minotaur": {
+  "details": "Увеличивает §bMagic Find§r против Mythological мобов на §a0.5§r за уровень. Плоский стат, применяемый к мифологическим мобам.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§2Minotaur§r](cmd:/bestiary Minotaur) - Мифологический моб, который может быть найден с помощью [§fSpade§r](tip:§9Ancestral Spade§r|§5Archaic Spade§r|§6Deific Spade§r) и экипированного §5Griffin Pet§r во время [§2Mythological Event§r](tip:Перк мэра Дианы).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "mist": {
+  "details": "Плоский стат §bИнтеллекта§r: §a1§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "mochibear": {
+  "details": "Увеличивает §2Sweep§r топора при рубке: §a+3§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "Отправляйтесь на [Galatea](loc:galatea), найдите вход в [Tranquility Sanctum](loc:tranquility_sanctum). Внутри пещеры вы найдёте панд. Сломайте растущий там бамбук (§a40–44§r шт) любым мечом и накормите им панду — получите шард. Если панд в пещере не осталось — смените сервер.\n\n§7Примечание: Mochibear можно получить только в §r§6Осенний§r или §bЗимний§r сезон. В §aВесенний§r или §eЛетний§r — только [§aBambuleaf§r](shard:bambuleaf).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "trap",
+    "text": "Локализуй с англ версии.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   }
+  ]
+ },
+ "moltenfish": {
+  "details": "Даёт шанс выловить [§9Shinyfish§r](shard:shinyfish): §a0.1%§r за уровень. Без этого аттрибута шанс поимки Shinyfish равен 0.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   },
+   {
+    "type": "chest",
+    "text": "Может быть получен в качестве награды в сундуке после боя с [§cInfernal Kuudra§r](tip:Kuudra Tier 5).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "molthorn": {
+  "details": "Усиливает [§aUnlimited§r](tip:усиливает: §6Endstone Protector§r, §6Taurus§r, §6Jormung§r, §6Etherdrake§r) аттрибуты на §a5%§r за уровень. Относится к категории Echo, усиливается аттрибутом Echo of Echoes на [§6Tiamat Shard§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "moray eel": {
+  "details": "Увеличивает шанс поймать §eTreasure Shard§r при рыбалке на §a1%§r за уровень. Распространяется на [§fCod§r](shard:cod), [§fVerdant§r](shard:verdant), [§9Inferno Koi§r](shard:inferno koi), [§6Shinyfish§r](shard:shinyfish), [§9Abyssal Lanternfish§r](shard:abyssal lanternfish), [§9Piranha§r](shard:piranha), [§9Eel§r](shard:eel), [§9SilentDepth§r](shard:silentdepth).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "mossybit": {
+  "details": "Увеличивает скорость поимки Forest Shards ловушками: §a1%§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§aMossy§r - лягушка, обитающая в [Murkwater Loch](loc:murkwater_loch). Если кликнуть по Mossy, она получает свечение и отпрыгивает со следом из зелёных частиц — до §a4§r раз за клик. После 4-го прыжка выпадает Mossybit Shard. Количество прыжков можно снизить на 1 аттрибутом [§9Frog Legs§r](shard:toad).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Установите ловушку на земле в [Murkwater Loch](loc:murkwater_loch).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "mudworm": {
+  "details": "§aGarden Visitors§r появляются быстрее: на §a1%§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "Можно найти в траве в [Galatea](loc:galatea).",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Установите ловушки на земле в [Galatea](loc:galatea).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "naga": {
+  "details": "Плоский стат §bCharm Chance§r: 0.05 за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "nessie": {
+  "details": "Плоский стат §9Double Hook Chance§r пока игрок находится на [§aForaging Islands§r](tip:§2Galatea§r|§eThe Park§r): §a0.5§r единиц за уровень аттрибута.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§dNessie§r](cmd:/bestiary Nessie) - мифический моб, которого вы можете поймать занимаясь §eFishing§r в [Murkwater Loch](loc:murkwater_loch).\n\n§c*Используй Black Hole, только если тебе нужен исключительно шард — в остальных случаях лучше убить моба билдом на Looting V + Magic Find. Не используй Black Hole на чужих Elusive-мобах.§r\n\n[Требования](cmd:/seacreatureguide Nessie) для §dNessie§r:\n- Fishing 25\n- §bWater§r\n- §2Galatea§r",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true,
+    "blackHole": true
+   }
+  ]
+ },
+ "newt": {
+  "details": "Плоский стат §dHunting Fortune§r, применяемый к §fCommon§r-шардам. Это значит, что бонус применяется к полученному шарду только если у шарда редкость §fCommon§r — например [§fGolden Ghoul Shard§r](shard:golden ghoul). Увеличивает Hunting Fortune на §a1§r за уровень. Относится к категории §eHunter§r и усиливается аттрибутом [§5Echo of Hunter§r](shard:sea serpent).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "obsidian defender": {
+  "details": "Плоский стат Speed: §a+1§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§aObsidian Defender§r](cmd:/bestiary Obsidian Defender) - моб, обитающий в [Dragon's Nest](loc:dragons_nest) на острове §dThe End§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true,
+    "blackHole": true
+   }
+  ]
+ },
+ "pandarai": {
+  "details": "§3Foraging Wisdom§r — множитель опыта [§6Foraging§r](tip:Skyblock Skill): §a0.5%§r за уровень. Относится к §3Wisdom§r аттрибутам и может быть усилен аттрибутом Echo of Wisdom на [§6Wyvern Shard§r](shard:wyvern).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "phanflare": {
+  "details": "Плоский стат §6Fig§r и §6Mangrove Fortune§r: §a10§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§fPhanflare§r - моб, который имеет §a7.1%§r шанс появиться из срубленного дерева на [Galatea](loc:galatea). Используйте [§eLasso§r](tip:§fAbysmal Lasso§r|§aVinerip Lasso§r|§9Entangler Lasso§r|§5Everstretch Lasso§r), чтобы получить шард.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "foraging",
+    "text": "Может быть получен с §6Fig§r или §6Mangrove Tree Gifts§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Установите ловушку на земле в [Galatea](loc:galatea).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "phanpyre": {
+  "details": "Плоский стат §2Sweep§r в ночное время: §a1§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§fPhanpyre§r - моб, который имеет §a11.8%§r шанс появиться из срубленного дерева на [Galatea](loc:galatea). Используйте [§eLasso§r](tip:§fAbysmal Lasso§r|§aVinerip Lasso§r|§9Entangler Lasso§r|§5Everstretch Lasso§r), чтобы получить шард.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "foraging",
+    "text": "Может быть получен с §6Fig§r или §6Mangrove Tree Gifts§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Установите ловушку на земле в [Galatea](loc:galatea).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "piranha": {
+  "details": "Увеличивает шанс найти редкие предметы в Tree Gifts при рубке Fig и Mangrove Trees в [Galatea](loc:galatea) на §a2%§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§6Treasure Fishing§r в [Moonglade Marsh](loc:moonglade_marsh).\nНеобходимые условия:\n- §6GOOD CATCH§r.\nСоветы:\n- Получите HOTF 6 для Hunter Fortune Perk который даёт до §d+50 Hunter Fortune§r и улучшите ваш §9David Cloak§r который даёт до §d+30 Hunter Fortune§r\n- Используйте [§aWooden Bait§r](bz:Wooden Bait|Обеспечивает ваш следующий §6GOOD CATCH§r редким fish shard). Наживку можно купить у [§aRosemary§r](npc:Rosemary) за 100 [§dForest Essence§r](bz:forest essence)\n- В [Tomb Floodway](loc:tomb_floodway) действует скрытый бонус §6+10 Treasure Chance§r. Если ваша цель — Piranha шард, отключите аттрибут [§6Star Bait§r](shard:moltenfish).\nАттрибуты:\n1. [§fFisherman§r](shard:inkling)\n2. [§5Lucky Rod§r](shard:moray eel)\n3. [§9Great Karma§r](shard:lizard king)\n4. [§6Hunter's Karma§r](shard:megalith)\n- Для большей эффективности используйте §5Diver's Armor§r или §6Abyssal Armor§r.\n  Экипировка: full §aBackwater Equipment§r или 2/4 + §9Frozen Amulet§r + §9David Cloak§r. Используйте эту экипировку только в том случае если ваш §bFishing Speed§r достаточно высок. В противном случае используйте регулярную экипировку + §9David Cloak§r.\n- Удочка: используйте лучшую удочку что у вас есть. Установите модификатор [§9Treasure Hook§r](tip:разрешает ловить только items и treasures).\n- Питомец:\n1. §dFlying Fish§r: Повышает характеристики вашей Diver's или Abyssal Armor и даёт огромный буст fishing speed, усиливает зачарование flash.\n2. §6Hermit Crab§r: Используется в пати из 6 игроков для полного эффекта пассивной способности и прибыли.\n3. §6Ammonite§r: Бюджетный вариант для буста статов.",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "trap",
+    "text": "Установите ловушку под водой в [Murkwater Shallows](loc:murkwater_shallows) или [Murkwater Depths](loc:murkwater_depths).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   }
+  ]
+ },
+ "power dragon": {
+  "details": "Этот бонус §7аддитивный§r — его % падает в один общий пул урона со всем остальным (уровень боя, шмот, чары, другие шарды), а не отдельный множитель. Чем больше % урона у тебя уже есть, тем меньше даёт каждый следующий пункт.",
+  "methods": [
+   {
+    "type": "chest",
+    "text": "Может быть получен в качестве награды за прохождение §cMaster Mode 7§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "praying mantis": {
+  "details": "Ваш [§fVacuum§r](tip:§fVacuum§r|§aTurbo Vacuum§r|§9Hyper Vacuum§r|§5InfiniVacuum§r|§6InfiniVacuum Ho0verius§r) наносит дополнительный урон по §aPest§r: §a10%§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "prince": {
+  "details": "Убийство §5Prince§r во время зачистки dungeons имеет шанс дать дополнительное очко счёта. Максимум §a1§r.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "Шард можно получить с помощью [Charm](tip:Шанс charm растёт от уровня Hunting) при убийстве [§5Prince§r](tip:§5Prince Bernhard§r|§5Prince Christian§r|§5Prince Pieter§r|§5Prince Nicholas§r|§5Prince Alexander§r|§5Prince Marius§r|§5Prince Valentin§r|§5Prince Friedrich§r) в §7Dungeons§r. §bPocket Black Hole§r в данжах не работает.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "python": {
+  "details": "Увеличивает скорость захвата мобов вашим §bBlack Hole§r: на §a5%§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "quake": {
+  "details": "Плоский стат §cСилы§r: §a1§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "quartzfang": {
+  "details": "МНОЖИТЕЛЬ: умножает, а не складывается.\n\nЭтот процент умножает сам стат целиком — вместе со всем, что тебе дают шмот, петы и рефоржи. На 10 уровне +1% значит x1.01 от твоего стата.\n\nТем и отличается от %-аттрибутов на урон: те досыпаются в общую кучу и тем слабее, чем ты жирнее. Этот работает от твоего стата, так что чем больше стат, тем больше прибавка.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": false
+   }
+  ]
+ },
+ "rain slime": {
+  "details": "Каждый раз, нанося урон мобу, вы восстанавливаете ману: §a1§r за уровень. Перезарядка §a0.5 секунды§r.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§aRain Slime§r](cmd:/bestiary Rain Slime) - моб, обитающий в [Spider's Den](loc:spider).",
+    "warp": "/warp spider",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true,
+    "blackHole": true
+   }
+  ]
+ },
+ "rana": {
+  "details": "Плоский стат §cStrength§r для вашего §6Frog Pet§r: §a+3§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "revenant": {
+  "details": "Увеличивает количество получаемой §dUndead Essence§r из всех источников на §a1%§r за уровень. Относится к Essence аттрибутам и может быть усилен аттрибутом Echo of Essence на [§5Komodo Dragon Shard§r](shard:komodo dragon).",
+  "methods": [
+   {
+    "type": "slayer",
+    "text": "Может выпасть в качестве §dRNG Drop§r с [§cRevenant Horror III§r и выше](cmd:/rngmeter slayer revenant).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "salamander": {
+  "details": "Плоский стат §dHunting Fortune§r, применяемый к §aUncommon§r-шардам. Это значит, что бонус применяется к полученному шарду только если у шарда редкость §aUncommon§r — например [§aPest Shard§r](shard:pest). Увеличивает Hunting Fortune на §a1§r за уровень. Относится к категории §eHunter§r и усиливается аттрибутом [§5Echo of Hunter§r](shard:sea serpent).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "salmon": {
+  "details": "Даёт §a+0.1%§r шанс найти §9Wet Book§r при вылове §eTreasure§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§aSalmon§r - рыба, спавнящаяся в воде по всей [Murkwater Loch](loc:murkwater_loch), поодиночке или стайками. Бросьте [§fFishing Net§r](tip:§aBasic Fishing Net§r|§9Medium Fishing Net§r|§5Turbo Fishing Net§r) — рыба замедлится и получит символ ⁂. После §a4 ⁂§r Salmon выдыхается и выпадает шард.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Установите ловушку под водой в [Murkwater Shallows](loc:murkwater_shallows) или [Murkwater Depths](loc:murkwater_depths).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "scarf": {
+  "details": "Увеличивает получаемый §aDungeons Class Experience§r: §a2%§r за уровень.",
+  "methods": [
+   {
+    "type": "chest",
+    "text": "Может быть получен в качестве награды за прохождение §cMaster Mode 2§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "sea serpent": {
+  "details": "Усиливает [§dHunter§r](tip:усиливает: §aViper§r, §9Python§r, §9King Cobra§r, §5Basilisk§r, §9Fire Eel§r, §6Megalith§r) аттрибуты на §a2%§r за уровень. Относится к категории Echo, усиливается аттрибутом Echo of Echoes на [§6Tiamat Shard§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "seagull": {
+  "details": "Увеличивает ваш §6Mangrove Fortune§r на §a1–10§r единиц за каждую цифру в вашей §6Mangrove Collection§r. Пример: при §a1.000.000§r Mangrove Collection бонус — §a70§r единиц на 10 уровне аттрибута, а при §a10.000.000§r — максимум §a80§r единиц.",
+  "methods": [
+   {
+    "type": "crafting",
+    "text": "§aSeagull Shard§r — крафтовый шард; [рецепт](cmd:/recipe Seagull Shard) открывается при достижении §6Mangrove Collection VII§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "seashine": {
+  "details": "Multiplicative bonus. Увеличивает ваш шанс зароллить §bDiamond Trophy Frog§r: §a0.5%§r за уровень. Итоговый шанс с этим аттрибутом 10 уровня — §a0.21%§r.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§9Seashine§r](cmd:/bestiary Seashine) - §dElusive §rмоб, который с §a25%§r шансом появляется из §aExploding Lily Pad§r. Соединяйте маленькие кувшинки в воде на [Lotus ](loc:lotus)§3Atoll §rв одну большую, чтобы взорвать её, получить награды и заспавнить различных мобов. Используйте [§fFishing Net§r](tip:§9Medium Fishing Net§r|§5Turbo Fishing Net§r) на §9Seashine§r, чтобы получить шард.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "seer": {
+  "details": "Этот бонус §7аддитивный§r — его % падает в один общий пул урона со всем остальным (уровень боя, шмот, чары, другие шарды), а не отдельный множитель. Чем больше % урона у тебя уже есть, тем меньше даёт каждый следующий пункт.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§aSeer§r](cmd:/bestiary Seer) - моб, обитающий в [Dragon's Nest](loc:dragons_nest) на острове §dThe End§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true,
+    "blackHole": true
+   }
+  ]
+ },
+ "shellwise": {
+  "details": "Даёт шанс избежать отбрасывания: §a10%§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§5Shellwise§r - моб-черепаха, обитающий в [Murkwater Depths](loc:murkwater_depths). С шансом §a50%§r спавнится в начале каждого [Skyblock-часа](tip:≈ 0.0138 реального часа). Одновременно — до §a3§r существ. Используйте [§fFishing Net§r](tip:§aBasic Fishing Net§r|§9Medium Fishing Net§r|§5Turbo Fishing Net§r), чтобы поймать и получить шард.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Установите ловушку под водой в [Murkwater Depths](loc:murkwater_depths).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "shinyfish": {
+  "details": "Плоский стат §cHealth Regen§r: §a1.25§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§6Treasure Fishing§r в [§bPrecursor Remnants§r](loc:precursor_remnants), [Tomb Floodway](loc:tomb_floodway), [§6Goblin Hideout§r](loc:goblin_hideout) и других локациях.\nНеобходимые условия:\n- §6GOOD CATCH§r.\n- [§6Star Bait§r](shard:moltenfish) Attribute.\nСоветы:\n- Получите HOTF 6 для Hunter Fortune Perk который даёт до §d+50 Hunter Fortune§r и улучшите ваш §9David Cloak§r который даёт до §d+30 Hunter Fortune§r\n- Используйте [§aWooden Bait§r](bz:Wooden Bait|Обеспечивает ваш следующий §6GOOD CATCH§r редким fish shard). Наживку можно купить у [§aRosemary§r](npc:Rosemary) за 100 [§dForest Essence§r](bz:forest essence)\n- В [Tomb Floodway](loc:tomb_floodway) действует скрытый бонус §6+10 Treasure Chance§r.\nАттрибуты:\n1. [§fFisherman§r](shard:inkling)\n2. [§5Lucky Rod§r](shard:moray eel)\n3. [§6Hunter's Karma§r](shard:megalith)\n4. [§6Star Bait§r](shard:moltenfish)\n- Для большей эффективности используйте §5Diver's Armor§r или §6Abyssal Armor§r.\n  Экипировка: full §aBackwater Equipment§r или 2/4 + §9Frozen Amulet§r + §9David Cloak§r. Используйте эту экипировку только в том случае если ваш §bFishing Speed§r достаточно высок. В противном случае используйте регулярную экипировку + §9David Cloak§r.\n- Удочка: используйте лучшую удочку что у вас есть. Установите модификатор [§9Treasure Hook§r](tip:разрешает ловить только items и treasures).\n- Питомец:\n1. §dFlying Fish§r: Повышает характеристики вашей Diver's или Abyssal Armor и даёт огромный буст fishing speed, усиливает зачарование flash.\n2. §6Hermit Crab§r: Используется в пати из 6 игроков для полного эффекта пассивной способности и прибыли.\n3. §6Ammonite§r: Бюджетный вариант для буста статов.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "trap",
+    "text": "Установите ловушку в [Tomb Floodway](loc:tomb_floodway).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   }
+  ]
+ },
+ "silentdepth": {
+  "details": "Увеличивает шанс удвоить награду с §6Treasure Chest§r в Crystal Hollows на §a1%§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§6Treasure Fishing§r в [Crystal Hollows](loc:crystal).\nНеобходимые условия:\n- §6GOOD CATCH§r.\nСоветы:\n- Получите HOTF 6 для Hunter Fortune Perk который даёт до §d+50 Hunter Fortune§r и улучшите ваш §9David Cloak§r который даёт до §d+30 Hunter Fortune§r\n- Отправляйтесь в [§5Crystal Hollows§r](warp:/warp crystals) и найдите водоём или узнайте у игроков в чате координаты водоёмов в [§6Goblin Hideout§r](loc:goblin_hideout) или [§bPrecursor Remnant§r](loc:precursor_remnants). В случае если водоём найти не получается отправляйтесь в локацию Jungle и найдите любое озеро.\n- Используйте [§aWooden Bait§r](bz:Wooden Bait|Обеспечивает ваш следующий §6GOOD CATCH§r редким fish shard). Наживку можно купить у [§aRosemary§r](npc:Rosemary) за 100 [§dForest Essence§r](bz:forest essence)\nАттрибуты:\n1. [§fFisherman§r](shard:inkling)\n2. [§5Lucky Rod§r](shard:moray eel)\n3. [§9Great Karma§r](shard:lizard king)\n4. [§6Hunter's Karma§r](shard:megalith)\n- Для большей эффективности используйте §5Diver's Armor§r или §6Abyssal Armor§r.\n  Экипировка: full §aBackwater Equipment§r или 2/4 + §9Frozen Amulet§r + §9David Cloak§r. Используйте эту экипировку только в том случае если ваш §bFishing Speed§r достаточно высок. В противном случае используйте регулярную экипировку + §9David Cloak§r.\n- Удочка: используйте лучшую удочку что у вас есть. Модификатор [§9Treasure Hook§r](tip:разрешает ловить только items и treasures) запретит ловлю мобов.\n- Питомец:\n1. §dFlying Fish§r: Повышает характеристики вашей Diver's или Abyssal Armor и даёт огромный буст fishing speed, усиливает зачарование flash.\n2. §6Hermit Crab§r: Используется в пати из 6 игроков для полного эффекта пассивной способности и прибыли.\n3. §6Ammonite§r: Бюджетный вариант для буста статов. При HOTM 10 и отсутствии [§9Treasure Hook§r](tip:разрешает ловить только items и treasures) может стать лучшим вариантом для рыбалки именно в Crystal Hollows, однако Double Hook Chance не работает на Treasure Catch.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Разместите ловушку в водоёмах Crystal Hollows.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "skeletor": {
+  "details": "Этот бонус §7аддитивный§r — его % падает в один общий пул урона со всем остальным (уровень боя, шмот, чары, другие шарды), а не отдельный множитель. Чем больше % урона у тебя уже есть, тем меньше даёт каждый следующий пункт.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": false
+   },
+   {
+    "type": "hunting",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": false
+   }
+  ]
+ },
+ "snowfin": {
+  "details": "Увеличивает шанс найти редкие предметы в §fWinter Gifts§r: §a+2%§r за уровень.",
+  "methods": [
+   {
+    "type": "trap",
+    "text": "Установите ловушку в [Jerry's Workshop](loc:jerry).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "soul of the alpha": {
+  "details": "Этот бонус §7аддитивный§r — его % падает в один общий пул урона со всем остальным (уровень боя, шмот, чары, другие шарды), а не отдельный множитель. Чем больше % урона у тебя уже есть, тем меньше даёт каждый следующий пункт.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§3Soul of the Alpha§r](cmd:/bestiary Soul of the Alpha) - моб, обитающий в §bHowling Cave§r, §bSpirit Cave§r и §bSoul Cave§r в [The Park](loc:park).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "trap",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   }
+  ]
+ },
+ "sparrow": {
+  "details": "Увеличивает ваш §6Fig Fortune§r на §a1–10§r единиц за каждую цифру в вашей §6Fig Collection§r. Пример: при §a1.000.000§r Fig Collection бонус — §a70§r единиц на 10 уровне аттрибута, а при §a10.000.000§r — максимум §a80§r единиц.",
+  "methods": [
+   {
+    "type": "crafting",
+    "text": "§aSparrow Shard§r — крафтовый шард; рецепт [/recipe Sparrow Shard](cmd:/recipe Sparrow Shard) открывается при достижении §6Fig Collection VII§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "sphinx": {
+  "details": "Увеличивает применяемый §dTracking§r на Griffin Burrows при раскопках на §a0.5§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§dSphinx§r](cmd:/bestiary Sphinx) - Elusive Мифологический моб, который может быть найден с помощью [§fSpade§r](tip:§9Ancestral Spade§r|§5Archaic Spade§r|§6Deific Spade§r) и экипированного §6Griffin Pet§r во время [§2Mythological Event§r](tip:Перк мэра Дианы).\n\n§c*Используй Black Hole, только если тебе нужен исключительно шард — в остальных случаях лучше убить моба билдом на Looting V + Magic Find. Не используй Black Hole на чужих Elusive-мобах.§r",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "spike": {
+  "details": "Этот бонус §7аддитивный§r — его % падает в один общий пул урона со всем остальным (уровень боя, шмот, чары, другие шарды), а не отдельный множитель. Чем больше % урона у тебя уже есть, тем меньше даёт каждый следующий пункт.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "Ловится с помощью [§fРыболовной Сети§r](tip:§aBasic Fishing Net§r|§9Medium Fishing Net§r|§5Turbo Fishing Net§r) в [Murkwater Depths](loc:murkwater_depths) и [Kelpwoven Tunnels](loc:kelpwoven_tunnels). Вы должны находиться на расстоянии 10 блоков и более, чтобы атаковать §6Spike§r сетью. В противном случае он будет отбивать сеть.\nСоветы:\n- Лучшее место для эффективной охоты — [Kelpwoven Tunnels](loc:kelpwoven_tunnels). Вы можете быстро добраться туда, нырнув в колодец в самом начале §2Galatea§r. Находится глубоко под водой, поэтому используйте броню с высоким §9Pressure Resistance§r, например §5Diver's Armor§r и §fDepth Strider III§r зачарование.\n- Экипировка: §9David Cloak§r для Hunter Fortune.\n- HOTF 6 §aHunter Fortune§r и HOTF 4 §eDeep Waters Perk§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "trap",
+    "text": "Установите ловушку в [Murkwater Depths](loc:murkwater_depths) или [Kelpwoven Tunnels](loc:kelpwoven_tunnels).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   }
+  ]
+ },
+ "stalagmight": {
+  "details": "Увеличивает получаемую §bGlacite Powder§r из всех источников на §a1%§r за уровень. Относится к категории Atomized, усиливается аттрибутом Echo of Atomized на [§5Iguana Shard§r](shard:iguana).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "star sentry": {
+  "details": "Увеличивает получаемую §2Mithril Powder§r из всех источников на §a1%§r за уровень. Относится к категории Atomized, усиливается аттрибутом Echo of Atomized на [§5Iguana Shard§r](shard:iguana).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fStar Sentry§r](cmd:/bestiary Star Sentry) водится возле §6Fallen Star§r в [Dwarven Mines](loc:dwarven).",
+    "warp": "/warp dwarves",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ },
+ "starborn": {
+  "details": "Усиливает [§eElemental§r](tip:усиливает: §fGrove§r, §fMist§r, §fFlash§r, §aBramble§r, §aTide§r, §aQuake§r, §9Sylvan§r, §9Cascade§r, §9Bolt§r, §5Terra§r, §5Cryo§r, §5Aero§r, §6Tenebris§r, §6Blizzard§r, §6Tempest§r) аттрибуты на §a2%§r за уровень. Относится к категории Echo, усиливается аттрибутом Echo of Echoes на [§6Tiamat Shard§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "stridersurfer": {
+  "details": "Этот бонус §7аддитивный§r — его % падает в один общий пул урона со всем остальным (уровень боя, шмот, чары, другие шарды), а не отдельный множитель. Чем больше % урона у тебя уже есть, тем меньше даёт каждый следующий пункт.\n\nОтносится к категории §cRuler§r и усиливается аттрибутом [§5Echo of Ruler§r](shard:caiman), который, в свою очередь, бустится [§6Echo of Echoes§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§9Stridersurfer§r](cmd:/seacreatureguide Stridersurfer) - редкий моб, обитающий в §6Stride-Ember Fissure§r на [Galatea](loc:galatea). Моб так же может быть пойман при §cLava Fishing§r на [Galatea](loc:galatea).\n\n[Requirements](cmd:/seacreatureguide Stridersurfer) для §9Stridersurfer§r:\n- Fishing 17\n- §cLava§r\n- [Galatea](loc:galatea)",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "weapon": "Топорами",
+    "blackHole": true
+   },
+   {
+    "type": "trap",
+    "text": "Поставьте ловушку в §6Stride-Ember Fissure§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "sun fish": {
+  "details": "Эффект §dStarborn Temples§r на вас сильнее: §a1%§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "sycophant": {
+  "details": "Убийство моба восстанавливает до §a1%§r от §cMax Health§r: §a0.1%§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§cSycophant§r](tip:§cRevenant Sycophant§r|§cRevenant Champion§r|§cAtoned Champion§r|§4Atoned Revenant§r) - мини-босс, который может быть призван во время выполнения §7Tier III Revenant Slayer§r квеста и выше.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ },
+ "sylvan": {
+  "details": "Плоский стат §cЗдоровья§r: §a2§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "tadgang": {
+  "details": "Даёт §2Sweep§r за каждый уникальный §fCommon§r-аттрибут, которым вы владеете: §a+0.02§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fTadgang§r](cmd:/bestiary Tadgang) - моб, которого можно поймать, занимаясь Fishing на [Galatea](loc:galatea). При ловле он разбивается на маленьких мальков — убейте их, чтобы призвать Tadgang.",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "trap",
+    "text": "Установите ловушку под водой в [Murkwater Shallows](loc:murkwater_shallows) или [Murkwater Depths](loc:murkwater_depths).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "tank zombie": {
+  "details": "Увеличивает §aDefense§r против Undead мобов на §a4§r единицы за уровень. Шард относится к категории Resistance и может быть усилен аттрибутом Echo of Resistance на [§5Alligator Shard§r](shard:alligator)",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§aTank Zombie§r](cmd:/bestiary Tank Zombie) - моб, обитающий в §7Dungeons§r. Шард можно получить с помощью [Charm](tip:Шанс charm растёт от уровня Hunting) при убийстве моба. §bPocket Black Hole§r в данжах не работает.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "taurus": {
+  "details": "МНОЖИТЕЛЬ: умножает, а не складывается.\n\nЭтот процент умножает сам стат целиком — вместе со всем, что тебе дают шмот, петы и рефоржи. На 10 уровне +1% значит x1.01 от твоего стата.\n\nТем и отличается от %-аттрибутов на урон: те досыпаются в общую кучу и тем слабее, чем ты жирнее. Этот работает от твоего стата, так что чем больше стат, тем больше прибавка.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§5Taurus§r](cmd:/bestiary Taurus) — эпический моб, которого вы можете поймать занимаясь §cLava Fishing§r на [Crimson Isle](loc:crimson).\n\n[Требования](cmd:/seacreatureguide Taurus) для §5Taurus§r:\n- Fishing 35\n- §cLava§r\n- [Crimson Isle](loc:crimson)",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "chest",
+    "text": "Может быть получен в качестве награды в сундуке после боя с §cInfernal Kuudra§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "tempest": {
+  "details": "Плоский стат §cСилы§r: §a1§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "tenebris": {
+  "details": "Плоский стат §cЗдоровья§r: §a2§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "terra": {
+  "details": "Плоский стат §cЗдоровья§r: §a2§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "tewtil": {
+  "details": "Удары по §aExploding Lily Pads§r прикладывают §a+5%§r больше силы за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§aTewtil§r](cmd:/bestiary Tewtil) - моб-черепаха, обитающий в воде [Lotus Atoll](loc:lotus), в основном в Tewtil Tunnel и Lotus Eater's Cave. Накормите черепаху §63 Bronze§r или §7Silver§r §6Trophy Frog§r, чтобы получить шард.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Установите ловушку под водой в [Lotus Atoll](loc:lotus).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "thorn": {
+  "details": "Этот бонус §7аддитивный§r — его % падает в один общий пул урона со всем остальным (уровень боя, шмот, чары, другие шарды), а не отдельный множитель. Чем больше % урона у тебя уже есть, тем меньше даёт каждый следующий пункт.",
+  "methods": [
+   {
+    "type": "chest",
+    "text": "Может быть получен в качестве награды за прохождение §cMaster Mode 4§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "thyst": {
+  "details": "Увеличивает получаемую §dGemstone Powder§r из всех источников на §a1%§r за уровень. Относится к категории Atomized, усиливается аттрибутом Echo of Atomized на [§5Iguana Shard§r](shard:iguana).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fThyst§r](cmd:/bestiary Thyst) с шансом 20% спавнится при добыче §5Amethyst Gemstone§r в [Crystal Hollows](loc:crystal).",
+    "warp": "/warp crystals",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   },
+   {
+    "type": "trap",
+    "text": "Разместите ловушку в биоме Jungle в [Crystal Hollows](loc:crystal).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "tiamat": {
+  "details": "Усиливает эффект [§7Echo§r](tip:Все Echo-аттрибуты: Echo of Ruler, Resistance, Atomized, Essence, Hunter, Wisdom, Sharpening, Box, Elemental) аттрибутов на §a5%§r за уровень.\n\nНапример: Echo of Atomized на 10 ур. усиливает Atomized Mithril у [§9Star Sentry§r](shard:star sentry) на §a+2%..20%§r, а Tiamat усиливает сам Echo of Atomized ещё на §a+5%..50%§r.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "tide": {
+  "details": "Плоский стат §bИнтеллекта§r: §a1§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "titanoboa": {
+  "details": "Плоский стат §9Double Hook Chance§r пока игрок находится на [Backwater Bayou](loc:bayou): §a0.5§r единиц за уровень аттрибута.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§dTitanoboa§r](cmd:/bestiary Titanoboa) - мифический моб, которого вы можете поймать занимаясь §eFishing§r в [Backwater Bayou](loc:bayou).\n\n§c*Используй Black Hole, только если тебе нужен исключительно шард — в остальных случаях лучше убить моба билдом на Looting V + Magic Find. Не используй Black Hole на чужих Elusive-мобах.§r\n\n[Требования](cmd:/seacreatureguide Titanoboa) для §dTitanoboa§r:\n- Fishing 30\n- §bWater§r\n- §2Bayou§r",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ },
+ "toad": {
+  "details": "У лягушек вероятность прыгнуть на 1 раз меньше: §a10%§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "tortoise": {
+  "details": "Усиливает ваш §9David Cloak§r добавляя ему §f1 True Defense§r за уровень.",
+  "methods": [
+   {
+    "type": "chest",
+    "text": "Может быть получен в качестве награды в сундуке после боя с §cInfernal Kuudra§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "toucan": {
+  "details": "Функция §5Exp Share§r для вашего питомца даёт больше опыта: §a1%§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "troglobyte": {
+  "details": "Commissions дают больше §5HOTM Exp§r: §a1%§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "verdant": {
+  "details": "Плоский стат §bFishing Speed§r на §aForaging Islands§r: §a+3§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§fVerdant§r - рыба, спавнящаяся в воде по всей [Galatea](loc:galatea). Verdant плавает вокруг, затем замирает. Бросьте [§fFishing Net§r](tip:§aBasic Fishing Net§r|§9Medium Fishing Net§r|§5Turbo Fishing Net§r), чтобы поймать её и получить шард.",
+    "warp": "/warp galatea",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "trap",
+    "text": "Установите ловушку под водой в [Murkwater Shallows](loc:murkwater_shallows) или [Murkwater Depths](loc:murkwater_depths).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "viper": {
+  "details": "Увеличивает наследуемые статы вашего [§eHunting Axe§r](tip:§fWorn Huntaxe§r — Genesis (common)|§aSharpened Huntaxe§r — Dominus (uncommon)|§9Reinforced Huntaxe§r — Cursus (rare)|§5Savage Huntaxe§r — Praedator (epic)|§6Prime Huntaxe§r — Nex Titanum (legendary)): §a1%§r за уровень.",
+  "methods": [
+   {
+    "type": "purchase",
+    "text": "Можно купить до 11 штук в день в магазине [§aKiara's§r](loc:kiara).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "voracious spider": {
+  "details": "Увеличивает §aDefense§r против Arthropod мобов на §a4§r единицы за уровень. Шард относится к категории Resistance и может быть усилен аттрибутом Echo of Resistance на [§5Alligator Shard§r](shard:alligator)",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fVoracious Spider§r](cmd:/bestiary Voracious Spider) - моб, обитающий в [§4Arachne's Burrow§r](loc:arachnes_burrow), находящейся в локации [Spider's Den](loc:spider).",
+    "warp": "/warp spider",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ },
+ "wartybug": {
+  "details": "[§5Warty§r](bz:Warty) - редкий дроп при добыче §fNether Wart§r в §aGarden§r при наличии §6Wart Eater§r хотя бы 1 уровня. Увеличивает шанс на §a0.01%§r за уровень. Без этого аттрибута шанс равен 0.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "water hydra": {
+  "details": "Плоский стат §aFishing Speed§r: §a+3§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "§6Water Hydra §r- §dElusive§r моб, которого можно поймать, занимаясь Fishing на [§9Basic§r](tip:Острова без своего отдельного пула мобов)-островах.\n\n§c*Используй Black Hole, только если тебе нужен исключительно шард — в остальных случаях лучше убить моба билдом на Looting V + Magic Find. Не используй Black Hole на чужих Elusive-мобах.§r\n\n[Требования](cmd:/seacreatureguide Water Hydra) для §6Water Hydra§r :\n- Fishing 19\n- §bWater§r\n- [§9Basic§r](tip:Острова без своего отдельного пула мобов)",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ },
+ "wither": {
+  "details": "Увеличивает количество получаемой §dWither Essence§r из всех источников на §a1%§r за уровень. Относится к Essence аттрибутам и может быть усилен аттрибутом Echo of Essence на [§5Komodo Dragon Shard§r](shard:komodo dragon).",
+  "methods": [
+   {
+    "type": "chest",
+    "text": "Может быть получен в качестве награды за прохождение §cThe Catacombs Floor VII§r / §4Master Mode VII§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": false
+   }
+  ]
+ },
+ "wyvern": {
+  "details": "Усиливает [§bWisdom§r](tip:усиливает: §5Pandarai§r, §5Loch Emperor§r, §5Leatherback§r, §5Cavernshade§r, §5Dragonfly§r, §6Lapis Creeper§r, §6Condor§r) аттрибуты на §a2%§r за уровень. Относится к категории Echo, усиливается аттрибутом Echo of Echoes на [§6Tiamat Shard§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": ""
+   }
+  ]
+ },
+ "xyz": {
+  "details": "МНОЖИТЕЛЬ: умножает, а не складывается.\n\nЭтот процент умножает сам стат целиком — вместе со всем, что тебе дают шмот, петы и рефоржи. На 10 уровне +1% значит x1.01 от твоего стата.\n\nТем и отличается от %-аттрибутов на урон: те досыпаются в общую кучу и тем слабее, чем ты жирнее. Этот работает от твоего стата, так что чем больше стат, тем больше прибавка.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "В локации [Mystic Marsh](loc:mystic_marsh) на Crimson Isle можно найти атомы: Exe, Wai и Zee. Используйте на них Lasso, чтобы получить шард.",
+    "warp": "/warp crimson",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "trap",
+    "text": "Разместите ловушку в [Mystic Marsh](loc:mystic_marsh).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true
+   },
+   {
+    "type": "chest",
+    "text": "Может быть получен в качестве награды в сундуке после боя с §cFiery Kuudra§r и выше.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": false
+   }
+  ]
+ },
+ "yog": {
+  "details": "Плоский стат Heat Resistance: §a1§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§fYog§r](cmd:/bestiary Yog) - враждебный моб, обитающий в Magma Fields и Khazad-dûm в [Crystal Hollows](loc:crystal).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ },
+ "zealot": {
+  "details": "Увеличивает §aDefense§r против Ender мобов на §a4§r единицы за уровень. Шард относится к категории Resistance и может быть усилен аттрибутом Echo of Resistance на [§5Alligator Shard§r](shard:alligator)",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§5Zealot§r](cmd:/bestiary Zealot) - моб, обитающий в локации [Dragon's Nest](loc:dragons_nest) на острове §dThe End§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true,
+    "track": true
+   }
+  ]
+ },
+ "zombie soldier": {
+  "details": "Этот бонус §7аддитивный§r — его % падает в один общий пул урона со всем остальным (уровень боя, шмот, чары, другие шарды), а не отдельный множитель. Чем больше % урона у тебя уже есть, тем меньше даёт каждый следующий пункт.\n\nОтносится к категории §cRuler§r и усиливается аттрибутом [§5Echo of Ruler§r](shard:caiman), который, в свою очередь, бустится [§6Echo of Echoes§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§aZombie Soldier§r](cmd:/bestiary Zombie Soldier) - тип мобов, обитающих в §7Dungeons§r. Шард можно получить с помощью [Charm](tip:Шанс charm растёт от уровня Hunting) при убийстве моба. §bPocket Black Hole§r в данжах не работает.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "howling spirit": {
+  "details": "",
+  "methods": []
+ },
+ "dumpster diver": {
+  "details": "",
+  "methods": []
+ },
+ "fly": {
+  "details": "",
+  "methods": []
+ },
+ "rabbit mafioso": {
+  "details": "",
+  "methods": []
+ },
+ "locust": {
+  "details": "",
+  "methods": []
+ },
+ "stag beetle": {
+  "details": "",
+  "methods": []
+ },
+ "flitter": {
+  "details": "",
+  "methods": []
+ },
+ "tepid": {
+  "details": "",
+  "methods": []
+ },
+ "ant": {
+  "details": "",
+  "methods": []
+ },
+ "cavernfish": {
+  "details": "",
+  "methods": []
+ },
+ "strongarm": {
+  "details": "",
+  "methods": []
+ },
+ "hideonsun": {
+  "details": "",
+  "methods": []
+ },
+ "haggard": {
+  "details": "",
+  "methods": []
+ },
+ "honeyhog": {
+  "details": "",
+  "methods": []
+ },
+ "shyworm": {
+  "details": "",
+  "methods": []
+ },
+ "brineling": {
+  "details": "",
+  "methods": []
+ },
+ "foxtrot": {
+  "details": "",
+  "methods": []
+ },
+ "firefox": {
+  "details": "",
+  "methods": []
+ },
+ "groundhog": {
+  "details": "",
+  "methods": []
+ },
+ "timil": {
+  "details": "",
+  "methods": []
+ },
+ "blue jay": {
+  "details": "",
+  "methods": []
+ },
+ "bunbun": {
+  "details": "",
+  "methods": []
+ },
+ "honeybuzz": {
+  "details": "",
+  "methods": []
+ },
+ "pollendart": {
+  "details": "",
+  "methods": []
+ },
+ "field mouse": {
+  "details": "Плоский стат §eOverbloom§r: §a2§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§aPest§r](cmd:/bestiary Pest) - вредители появляются при фарме культур в §aThe Garden§r. Убивайте их, чтобы получить шард.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "wetwing": {
+  "details": "",
+  "methods": []
+ },
+ "sea witch": {
+  "details": "",
+  "methods": []
+ },
+ "cricket": {
+  "details": "",
+  "methods": []
+ },
+ "treasure hoarder": {
+  "details": "",
+  "methods": []
+ },
+ "zealot bruiser": {
+  "details": "Этот бонус §7аддитивный§r — его % падает в один общий пул урона со всем остальным (уровень боя, шмот, чары, другие шарды), а не отдельный множитель. Чем больше % урона у тебя уже есть, тем меньше даёт каждый следующий пункт.\n\nОтносится к категории §cRuler§r и усиливается аттрибутом [§5Echo of Ruler§r](shard:caiman), который, в свою очередь, бустится [§6Echo of Echoes§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§cZealot Bruiser§r](cmd:/bestiary Zealot Bruiser) - моб, обитающий в локации [Bruiser's Hideout](loc:bruisers_hideout) на острове §dThe End§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true,
+    "blackHole": true
+   }
+  ]
+ },
+ "earthworm": {
+  "details": "Даёт плоский стат §6Farming Fortune§r, если на вашем плоту в данный момент находится вредитель: §a3§r Farming Fortune за уровень. Если вы находитесь на грядке без вредителей — аттрибут не работает.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "polaris": {
+  "details": "",
+  "methods": []
+ },
+ "treefrog": {
+  "details": "",
+  "methods": []
+ },
+ "bayou sludge": {
+  "details": "",
+  "methods": []
+ },
+ "areita": {
+  "details": "",
+  "methods": []
+ },
+ "bluebird": {
+  "details": "",
+  "methods": []
+ },
+ "osedax": {
+  "details": "",
+  "methods": []
+ },
+ "duplico": {
+  "details": "",
+  "methods": []
+ },
+ "litterbug": {
+  "details": "",
+  "methods": []
+ },
+ "water snake": {
+  "details": "",
+  "methods": []
+ },
+ "gazer": {
+  "details": "",
+  "methods": []
+ },
+ "honeybug": {
+  "details": "",
+  "methods": []
+ },
+ "shuddersquid": {
+  "details": "",
+  "methods": []
+ },
+ "solsnatcher": {
+  "details": "",
+  "methods": []
+ },
+ "sepialot": {
+  "details": "",
+  "methods": []
+ },
+ "honey badger": {
+  "details": "",
+  "methods": []
+ },
+ "driftling": {
+  "details": "",
+  "methods": []
+ },
+ "minos hunter": {
+  "details": "",
+  "methods": []
+ },
+ "woodchucker": {
+  "details": "",
+  "methods": []
+ },
+ "solar": {
+  "details": "",
+  "methods": []
+ },
+ "parched": {
+  "details": "",
+  "methods": []
+ },
+ "bloodbat": {
+  "details": "",
+  "methods": []
+ },
+ "dustybit": {
+  "details": "",
+  "methods": []
+ },
+ "woodlouse": {
+  "details": "",
+  "methods": []
+ },
+ "ember": {
+  "details": "",
+  "methods": []
+ },
+ "cheeky tiki": {
+  "details": "",
+  "methods": []
+ },
+ "red panda": {
+  "details": "",
+  "methods": []
+ },
+ "sprawl": {
+  "details": "",
+  "methods": []
+ },
+ "sneaky tiki": {
+  "details": "",
+  "methods": []
+ },
+ "shrieky tiki": {
+  "details": "",
+  "methods": []
+ },
+ "woodpecker": {
+  "details": "",
+  "methods": []
+ },
+ "honeymite": {
+  "details": "",
+  "methods": []
+ },
+ "queen ant": {
+  "details": "",
+  "methods": []
+ },
+ "hawk": {
+  "details": "",
+  "methods": []
+ },
+ "june bug": {
+  "details": "",
+  "methods": []
+ },
+ "dung beetle": {
+  "details": "",
+  "methods": []
+ },
+ "rat": {
+  "details": "",
+  "methods": []
+ },
+ "keeled slug": {
+  "details": "",
+  "methods": []
+ },
+ "mite": {
+  "details": "",
+  "methods": []
+ },
+ "moth": {
+  "details": "",
+  "methods": []
+ },
+ "mosquito": {
+  "details": "",
+  "methods": []
+ },
+ "rabbit cat": {
+  "details": "",
+  "methods": []
+ },
+ "beetle": {
+  "details": "Плоский стат §eOverbloom§r: §a1§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "vulture": {
+  "details": "",
+  "methods": []
+ },
+ "lava leech": {
+  "details": "",
+  "methods": []
+ },
+ "wither spectre": {
+  "details": "Если за последние 5 секунд или более вы не получали урона, ваши затраты маны снижаются: §a+1%§r за уровень.",
+  "methods": [
+   {
+    "type": "chest",
+    "text": "Может быть получен в качестве награды за [§cBurning Kuudra§r](npc:Kuudra) и выше.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "hunting",
+    "text": "[§9Wither Specter§r](cmd:/bestiary Wither Specter) - моб, обитающий в [Stronghold](loc:stronghold) на [Crimson Isle](loc:crimson).",
+    "warp": "/warp crimson",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ },
+ "badger": {
+  "details": "",
+  "methods": []
+ },
+ "wild hog": {
+  "details": "",
+  "methods": []
+ },
+ "hewver": {
+  "details": "",
+  "methods": []
+ },
+ "wiki tiki": {
+  "details": "",
+  "methods": []
+ },
+ "hivethief": {
+  "details": "",
+  "methods": []
+ },
+ "maggot": {
+  "details": "",
+  "methods": []
+ },
+ "snoozle": {
+  "details": "",
+  "methods": []
+ },
+ "parakeet": {
+  "details": "",
+  "methods": []
+ },
+ "thunder": {
+  "details": "",
+  "methods": []
+ },
+ "rockmite": {
+  "details": "",
+  "methods": []
+ },
+ "anteater": {
+  "details": "",
+  "methods": []
+ },
+ "scrappy": {
+  "details": "",
+  "methods": []
+ },
+ "hideyho": {
+  "details": "",
+  "methods": []
+ },
+ "mantis shrimp": {
+  "details": "",
+  "methods": []
+ },
+ "chuckwalla": {
+  "details": "",
+  "methods": []
+ },
+ "hideonfloor": {
+  "details": "",
+  "methods": []
+ },
+ "gimmiegold": {
+  "details": "",
+  "methods": []
+ },
+ "billygoat": {
+  "details": "",
+  "methods": []
+ },
+ "hideonwall": {
+  "details": "",
+  "methods": []
+ },
+ "nozzlenose": {
+  "details": "",
+  "methods": []
+ },
+ "stoneworm": {
+  "details": "",
+  "methods": []
+ },
+ "fluffling": {
+  "details": "",
+  "methods": []
+ },
+ "stingray": {
+  "details": "",
+  "methods": []
+ },
+ "zombuddy": {
+  "details": "",
+  "methods": []
+ },
+ "puck": {
+  "details": "",
+  "methods": []
+ },
+ "troodon": {
+  "details": "",
+  "methods": []
+ },
+ "black widow": {
+  "details": "",
+  "methods": []
+ },
+ "pangolin": {
+  "details": "",
+  "methods": []
+ },
+ "giant water bug": {
+  "details": "",
+  "methods": []
+ },
+ "murkbat": {
+  "details": "",
+  "methods": []
+ },
+ "goldolot": {
+  "details": "",
+  "methods": []
+ },
+ "rabbit neighbor": {
+  "details": "",
+  "methods": []
+ },
+ "torrid": {
+  "details": "",
+  "methods": []
+ },
+ "drybark": {
+  "details": "",
+  "methods": []
+ },
+ "abyssal miner": {
+  "details": "",
+  "methods": []
+ },
+ "special zealot": {
+  "details": "",
+  "methods": []
+ },
+ "murderwing": {
+  "details": "",
+  "methods": []
+ },
+ "blue crab": {
+  "details": "",
+  "methods": []
+ },
+ "wolverine": {
+  "details": "",
+  "methods": []
+ },
+ "dive ghast": {
+  "details": "",
+  "methods": []
+ },
+ "silkbreeze": {
+  "details": "",
+  "methods": []
+ },
+ "gemzie": {
+  "details": "",
+  "methods": []
+ },
+ "rabbit godmother": {
+  "details": "",
+  "methods": []
+ },
+ "giant isopod": {
+  "details": "",
+  "methods": []
+ },
+ "queen bee": {
+  "details": "",
+  "methods": []
+ },
+ "bonzo": {
+  "details": "",
+  "methods": []
+ },
+ "beeheemoth": {
+  "details": "",
+  "methods": []
+ },
+ "mountain goat": {
+  "details": "",
+  "methods": []
+ },
+ "scatha": {
+  "details": "",
+  "methods": []
+ },
+ "nilbog": {
+  "details": "",
+  "methods": []
+ },
+ "end stone protector": {
+  "details": "МНОЖИТЕЛЬ: умножает, а не складывается.\n\nЭтот процент умножает сам стат целиком — вместе со всем, что тебе дают шмот, петы и рефоржи. На 10 уровне +1% значит x1.01 от твоего стата.\n\nТем и отличается от %-аттрибутов на урон: те досыпаются в общую кучу и тем слабее, чем ты жирнее. Этот работает от твоего стата, так что чем больше стат, тем больше прибавка.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "Выпадает в качестве награды при убийстве босса §cEndstone Protector§r в [Dragon's Nest](loc:dragons_nest).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "rabbit godfather": {
+  "details": "",
+  "methods": []
+ },
+ "doomspiral": {
+  "details": "",
+  "methods": []
+ },
+ "macaw": {
+  "details": "",
+  "methods": []
+ },
+ "queen snake": {
+  "details": "",
+  "methods": []
+ },
+ "ghost crab": {
+  "details": "",
+  "methods": []
+ },
+ "grizzly bear": {
+  "details": "",
+  "methods": []
+ },
+ "primordial": {
+  "details": "",
+  "methods": []
+ },
+ "rainbug": {
+  "details": "",
+  "methods": []
+ },
+ "paragon": {
+  "details": "",
+  "methods": []
+ },
+ "timestalk clone": {
+  "details": "",
+  "methods": []
+ },
+ "wumpa": {
+  "details": "",
+  "methods": []
+ },
+ "bruiser": {
+  "details": "Этот бонус §7аддитивный§r — его % падает в один общий пул урона со всем остальным (уровень боя, шмот, чары, другие шарды), а не отдельный множитель. Чем больше % урона у тебя уже есть, тем меньше даёт каждый следующий пункт.\n\nОтносится к категории §cRuler§r и усиливается аттрибутом [§5Echo of Ruler§r](shard:caiman), который, в свою очередь, бустится [§6Echo of Echoes§r](shard:tiamat).",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§cZealot Bruiser§r](cmd:/bestiary Zealot Bruiser) - моб, обитающий в локации [Bruiser's Hideout](loc:bruisers_hideout) на острове §dThe End§r.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "track": true,
+    "blackHole": true
+   }
+  ]
+ },
+ "cropeetle": {
+  "details": "Плоский стат §eOverbloom§r: §a1§r за уровень.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "endstone protector": {
+  "details": "МНОЖИТЕЛЬ: умножает, а не складывается.\n\nЭтот процент умножает сам стат целиком — вместе со всем, что тебе дают шмот, петы и рефоржи. На 10 уровне +1% значит x1.01 от твоего стата.\n\nТем и отличается от %-аттрибутов на урон: те досыпаются в общую кучу и тем слабее, чем ты жирнее. Этот работает от твоего стата, так что чем больше стат, тем больше прибавка.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "Выпадает в качестве награды при убийстве босса §cEndstone Protector§r в [Dragon's Nest](loc:dragons_nest).",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "pest": {
+  "details": "Плоский стат §eOverbloom§r: §a2§r за уровень.",
+  "methods": [
+   {
+    "type": "hunting",
+    "text": "[§aPest§r](cmd:/bestiary Pest) - вредители появляются при фарме культур в §aThe Garden§r. Убивайте их, чтобы получить шард.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "termite": {
+  "details": "Даёт плоский стат §6Farming Fortune§r, если на вашем плоту в данный момент находится вредитель: §a3§r Farming Fortune за уровень. Если вы находитесь на грядке без вредителей — аттрибут не работает.",
+  "methods": [
+   {
+    "type": "fusing",
+    "text": "",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   }
+  ]
+ },
+ "wither specter": {
+  "details": "Если за последние 5 секунд или более вы не получали урона, ваши затраты маны снижаются: §a+1%§r за уровень.",
+  "methods": [
+   {
+    "type": "chest",
+    "text": "Может быть получен в качестве награды за §cBurning Kuudra§r и выше.",
+    "warp": "",
+    "coords": "",
+    "images": [],
+    "video": ""
+   },
+   {
+    "type": "hunting",
+    "text": "[§9Wither Specter§r](cmd:/bestiary Wither Specter) - моб, обитающий в [Stronghold](loc:stronghold) на [Crimson Isle](loc:crimson).",
+    "warp": "/warp crimson",
+    "coords": "",
+    "images": [],
+    "video": "",
+    "blackHole": true
+   }
+  ]
+ }
+}

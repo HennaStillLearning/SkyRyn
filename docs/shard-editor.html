@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SkyRyn — Shard / Guide Editor (offline)</title>
+<style>
+  :root{
+    --bg:#141419;--panel:#1a1a24;--panel2:#20202c;--border:#2e2e3c;--border-strong:#3d3d52;
+    --accent:#5b8def;--accent-soft:#2a3f63;--text:#f2f3f7;--dim:#c8cad4;--faint:#9096a6;
+    --gold:#ffd24a;--green:#5fd68a;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{background:var(--bg);color:var(--text);font-family:"Segoe UI",system-ui,sans-serif;font-size:14px;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+  button{font-family:inherit;font-size:13px;color:var(--text);background:var(--panel2);border:1px solid var(--border-strong);border-radius:6px;padding:5px 9px;cursor:pointer}
+  button:hover{background:#28283a}
+  input,select{font-family:inherit;font-size:13px;color:var(--text);background:var(--panel2);border:1px solid var(--border);border-radius:6px;padding:5px 7px}
+  ::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-thumb{background:#33334a;border-radius:6px}
+
+  header{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--panel);border-bottom:1px solid var(--border);flex:0 0 auto}
+  header h1{font-size:15px;margin:0;font-weight:600}
+  header .sp{flex:1}
+  .tag{font-size:11px;color:var(--faint);border:1px solid var(--border);border-radius:20px;padding:2px 8px}
+
+  main{flex:1;display:flex;min-height:0}
+  /* список шардов */
+  .list{width:230px;flex:0 0 auto;background:var(--panel);border-right:1px solid var(--border);display:flex;flex-direction:column;min-height:0}
+  .list .top{padding:8px;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:6px}
+  .list input,.list select{width:100%}
+  .list .items{overflow:auto;flex:1}
+  .row{display:flex;align-items:center;gap:6px;padding:6px 8px;cursor:pointer;border-bottom:1px solid #202029}
+  .row:hover{background:#22222f}
+  .row.sel{background:var(--accent-soft)}
+  .row .nm{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px}
+  .row .rr{font-size:11px;color:var(--faint)}
+  .row .ch{color:var(--gold);font-size:11px}
+
+  /* редактор */
+  .edit{flex:1;min-width:0;display:flex;flex-direction:column;min-height:0}
+  .toolbar{flex:0 0 auto;background:var(--panel);border-bottom:1px solid var(--border);padding:7px 10px;display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+  .sw{width:22px;height:22px;border-radius:5px;border:1px solid #00000060;cursor:pointer;position:relative}
+  .sw:hover{outline:2px solid var(--accent)}
+  .tb-sep{width:1px;height:22px;background:var(--border);margin:0 4px}
+  .tb-lbl{font-size:11px;color:var(--faint);margin-right:2px}
+  .rolebtn{font-size:12px;padding:4px 8px}
+  .body{overflow:auto;flex:1;padding:14px 16px}
+
+  .head{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+  .head .name{font-size:19px;font-weight:600}
+  .head .meta{font-size:12px;color:var(--faint)}
+  .blocklbl{font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.5px;margin:16px 0 6px}
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .fieldwrap{display:flex;flex-direction:column;gap:3px}
+  .fieldwrap .fl{font-size:11px;color:var(--faint)}
+  .rt{min-height:38px;background:var(--panel2);border:1px solid var(--border);border-radius:6px;padding:7px 9px;
+      white-space:pre-wrap;word-break:break-word;line-height:1.5;font-size:13px;outline:none}
+  .rt:focus{border-color:var(--accent)}
+  .rt.ref{background:#181820;color:var(--dim);opacity:.9}
+  .lnk{text-decoration:underline dotted;cursor:help}
+
+  .method{border:1px solid var(--border);border-radius:8px;padding:10px;margin:10px 0;background:#181820}
+  .method .mtop{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:8px}
+  .method .mtop label{font-size:11px;color:var(--faint);display:flex;align-items:center;gap:4px}
+  .method .mtop input[type=text]{width:150px}
+  .method .del{margin-left:auto;background:#3a1f1f;border-color:#7a2f2f;color:#ffb0b0}
+  .track{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--gold)}
+
+  .raw{flex:0 0 auto;background:#101014;border-top:1px solid var(--border);padding:6px 10px;font-family:Consolas,monospace;font-size:12px;color:#9fd0a0;white-space:pre-wrap;word-break:break-word;max-height:96px;overflow:auto}
+  .raw .rl{color:var(--faint);font-family:"Segoe UI";margin-right:6px}
+
+  footer{flex:0 0 auto;padding:6px 12px;background:var(--panel);border-top:1px solid var(--border);color:var(--faint);font-size:12px;display:flex;gap:16px;align-items:center}
+  .saved{color:var(--green)}
+  .empty{color:var(--faint);text-align:center;margin-top:40px}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>SkyRyn · Shard / Guide Editor</h1>
+  <span class="tag">offline</span>
+  <div class="sp"></div>
+  <button id="exportBtn">Экспорт JSON</button>
+  <button id="importBtn">Импорт</button>
+  <input id="importFile" type="file" accept="application/json" style="display:none">
+  <button id="resetBtn" title="Сбросить все правки к оригиналу">Сброс</button>
+</header>
+
+<main>
+  <div class="list">
+    <div class="top">
+      <input id="search" placeholder="поиск по имени…">
+      <select id="srcFilter"></select>
+    </div>
+    <div class="items" id="items"></div>
+  </div>
+
+  <div class="edit">
+    <div class="toolbar" id="toolbar">
+      <span class="tb-lbl">Цвет:</span>
+      <span id="swatches" style="display:flex;gap:4px"></span>
+      <span class="tb-sep"></span>
+      <span class="tb-lbl">Вставить:</span>
+      <span id="roles" style="display:flex;gap:4px"></span>
+      <span class="tb-sep"></span>
+      <button id="clearFmt" title="Убрать цвет/подсказку с выделенного">Очистить</button>
+    </div>
+    <div class="body" id="body">
+      <div class="empty">Выбери шард слева.<br><br>Затем выдели слово в тексте и нажми цвет или «подсказку» на панели сверху.</div>
+    </div>
+    <div class="raw" id="raw"><span class="rl">разметка активного поля:</span><span id="rawText">—</span></div>
+  </div>
+</main>
+
+<footer>
+  <span id="status" class="saved">автосохранение включено</span>
+  <span id="hint">EN и RU правятся отдельно · структурные поля (тип/варп/коорды/отслеживание) — общие</span>
+</footer>
+
+<script src="shard-data.js"></script>
+<script>
+"use strict";
+const SEC="§";
+
+/* ---- палитра цветов (наши §-коды) ---- */
+const HEX={'0':'#000000','1':'#0000AA','2':'#00AA00','3':'#00AAAA','4':'#AA0000','5':'#AA00AA',
+  '6':'#FFAA00','7':'#AAAAAA','8':'#555555','9':'#5555FF','a':'#55FF55','b':'#55FFFF',
+  'c':'#FF5555','d':'#FF55FF','e':'#FFFF55','f':'#FFFFFF'};
+const SWATCHES=[
+  ['f','Common · белый'],['a','Uncommon · ярко-зелёный'],['9','Rare · синий'],
+  ['5','Epic · фиолетовый'],['6','Legendary · золото/оранж'],['d','Mythic · розовый'],
+  ['b','Голубой'],['3','Бирюзовый'],['2','Тёмно-зелёный'],['c','Ярко-красный'],
+  ['e','Жёлтый'],['7','Серый'],
+];
+const ROLES=[
+  ['tip','Подсказка','tip: текст (| — новые строки)'],
+  ['shard','Шард','ключ шарда, напр. naga'],
+  ['warp','Варп','/warp galatea'],
+  ['loc','Локация','ключ из locations.json'],
+  ['bz','Базар','item  или  item|строка|строка'],
+  ['cmd','Команда','/bestiary Mob'],
+];
+const ROLEHINT={}; ROLES.forEach(r=>ROLEHINT[r[0]]=r[2]);
+const METHOD_TYPES=['hunting','fusing','trap','chest','purchase','crafting','tuning'];
+
+/* ---- данные: оригинал + рабочая копия ---- */
+const ORIG=(window.SHARD_DATA&&window.SHARD_DATA.shards)||{};
+const KEY="skyryn.guide.v1";
+let DATA=loadData();
+function loadData(){
+  try{ const s=JSON.parse(localStorage.getItem(KEY)); if(s&&s.shards) return s.shards; }catch(e){}
+  return JSON.parse(JSON.stringify(ORIG));
+}
+let saveT=null;
+function autosave(){ status.textContent="…"; clearTimeout(saveT);
+  saveT=setTimeout(()=>{ try{ localStorage.setItem(KEY,JSON.stringify({shards:DATA})); status.textContent="сохранено"; status.className="saved"; }
+    catch(e){ status.textContent="localStorage полон — используй Экспорт"; status.className=""; } },350); }
+
+/* ---- разметка <-> HTML ---- */
+function escHtml(s){ return (s||"").replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])); }
+function escAttr(s){ return (s||"").replace(/"/g,"&quot;"); }
+
+function markupToHtml(str){
+  str=str||""; let html="",color=null,i=0;
+  while(i<str.length){
+    const ch=str[i];
+    if(ch===SEC){ const code=str[i+1]; i+=2; if(code==='r') color=null; else if(HEX[code]!==undefined) color=code; continue; }
+    if(ch==='['){
+      const m=str.slice(i).match(/^\[([\s\S]*?)\]\(([a-zA-Z]+):([\s\S]*?)\)/);
+      if(m){ html+=linkHtml(m[1],m[2],m[3]); i+=m[0].length; continue; }
+    }
+    let j=i,run="";
+    while(j<str.length && str[j]!==SEC && str[j]!=='['){ run+=str[j]; j++; }
+    if(j===i){ run=str[i]; j=i+1; }
+    html+=color==null?escHtml(run):`<span data-c="${color}" style="color:${HEX[color]}">${escHtml(run)}</span>`;
+    i=j;
+  }
+  return html;
+}
+function linkHtml(label,role,arg){
+  let lc=null,txt=label;
+  let m=txt.match(new RegExp('^'+SEC+'(.)([\\s\\S]*?)'+SEC+'r$'));
+  if(m&&HEX[m[1]]!==undefined){ lc=m[1]; txt=m[2]; }
+  else{ m=txt.match(new RegExp('^'+SEC+'(.)([\\s\\S]*)$')); if(m&&HEX[m[1]]!==undefined){ lc=m[1]; txt=m[2]; } }
+  txt=txt.split(SEC).map((p,k)=>k===0?p:p.slice(1)).join(""); // выкинуть остаточные коды
+  const style=lc?`color:${HEX[lc]}`:"";
+  return `<span class="lnk" data-role="${role}" data-arg="${escAttr(arg)}" ${lc?`data-c="${lc}"`:""} style="${style}" title="${escAttr(role+': '+arg)}">${escHtml(txt)}</span>`;
+}
+function htmlToMarkup(root){
+  let out="";
+  (function walk(node){
+    node.childNodes.forEach(n=>{
+      if(n.nodeType===3){ out+=n.nodeValue; }
+      else if(n.nodeName==='BR'){ out+="\n"; }
+      else if(n.nodeType===1){
+        const ds=n.dataset||{};
+        if(ds.role){ const lab=ds.c?(SEC+ds.c+n.textContent+SEC+'r'):n.textContent;
+          out+='['+lab+']('+ds.role+':'+(ds.arg||'')+')'; }
+        else if(ds.c){ out+=SEC+ds.c+n.textContent+SEC+'r'; }
+        else if(n.nodeName==='DIV'){ if(out&&!out.endsWith("\n")) out+="\n"; walk(n); }
+        else { walk(n); }
+      }
+    });
+  })(root);
+  return out.replace(/\n$/,"");
+}
+
+/* ---- активное поле и операции разметки ---- */
+let lastEditable=null;
+function rememberFocus(ed){ lastEditable=ed; updateRaw(); }
+function updateRaw(){ rawText.textContent = lastEditable ? (htmlToMarkup(lastEditable)||"(пусто)") : "—"; }
+
+function wrapRange(r,span){
+  try{ r.surroundContents(span); }
+  catch(e){ const f=r.extractContents(); span.appendChild(f); r.insertNode(span); }
+}
+function activeRange(){
+  const ed=lastEditable; if(!ed) return null; ed.focus();
+  const sel=getSelection(); if(!sel.rangeCount) return null;
+  const r=sel.getRangeAt(0);
+  if(r.collapsed || !ed.contains(r.commonAncestorContainer)) return null;
+  return r;
+}
+function applyColor(code){
+  const r=activeRange(); if(!r){ toast("Сначала выдели текст в поле"); return; }
+  const span=document.createElement('span'); span.dataset.c=code; span.style.color=HEX[code];
+  wrapRange(r,span);
+  span.querySelectorAll('span[data-c]').forEach(s=>{
+    if(s===span) return;
+    if(s.dataset.role){ s.dataset.c=code; s.style.color=HEX[code]; }
+    else { while(s.firstChild) s.parentNode.insertBefore(s.firstChild,s); s.remove(); }
+  });
+  getSelection().removeAllRanges(); commitField(lastEditable);
+}
+function applyRole(role){
+  const r=activeRange(); if(!r){ toast("Сначала выдели слово"); return; }
+  const arg=prompt(ROLEHINT[role], role==='tip'?"":r.toString().toLowerCase());
+  if(arg===null) return;
+  let lc=null; const probe=r.cloneContents().querySelector('span[data-c]'); if(probe) lc=probe.dataset.c;
+  const span=document.createElement('span'); span.className='lnk';
+  span.dataset.role=role; span.dataset.arg=arg; span.title=role+': '+arg;
+  if(lc){ span.dataset.c=lc; span.style.color=HEX[lc]; }
+  wrapRange(r,span);
+  span.querySelectorAll('span[data-c]').forEach(s=>{ if(s!==span){ while(s.firstChild) s.parentNode.insertBefore(s.firstChild,s); s.remove(); } });
+  getSelection().removeAllRanges(); commitField(lastEditable);
+}
+function clearFormat(){
+  const r=activeRange(); if(!r) return;
+  const txt=r.toString(); r.deleteContents(); r.insertNode(document.createTextNode(txt));
+  getSelection().removeAllRanges(); commitField(lastEditable);
+}
+
+/* ---- панель инструментов ---- */
+const swatches=document.getElementById('swatches');
+SWATCHES.forEach(([c,name])=>{ const b=document.createElement('div'); b.className='sw';
+  b.style.background=HEX[c]; b.title='§'+c+' · '+name;
+  b.addEventListener('mousedown',e=>e.preventDefault());
+  b.addEventListener('click',()=>applyColor(c)); swatches.appendChild(b); });
+const rolesEl=document.getElementById('roles');
+ROLES.forEach(([r,label])=>{ const b=document.createElement('button'); b.className='rolebtn'; b.textContent=label;
+  b.title=ROLEHINT[r]; b.addEventListener('mousedown',e=>e.preventDefault());
+  b.addEventListener('click',()=>applyRole(r)); rolesEl.appendChild(b); });
+document.getElementById('clearFmt').addEventListener('mousedown',e=>e.preventDefault());
+document.getElementById('clearFmt').addEventListener('click',clearFormat);
+
+/* ---- список шардов ---- */
+const items=document.getElementById('items'), searchEl=document.getElementById('search'), srcFilter=document.getElementById('srcFilter');
+let curKey=null;
+const SOURCES=[...new Set(Object.values(DATA).map(s=>s.source).filter(Boolean))].sort();
+srcFilter.innerHTML='<option value="">все скиллы</option>'+SOURCES.map(s=>`<option>${s}</option>`).join("");
+function changed(key){ return JSON.stringify(DATA[key])!==JSON.stringify(ORIG[key]); }
+function drawList(){
+  const q=searchEl.value.toLowerCase().trim(), sf=srcFilter.value;
+  const keys=Object.keys(DATA).filter(k=>{
+    const s=DATA[k];
+    if(sf && s.source!==sf) return false;
+    if(q && !(s.name||k).toLowerCase().includes(q) && !k.includes(q)) return false;
+    return true;
+  }).sort((a,b)=>(DATA[a].name||a).localeCompare(DATA[b].name||b));
+  items.innerHTML="";
+  keys.forEach(k=>{ const s=DATA[k]; const d=document.createElement('div');
+    d.className='row'+(k===curKey?' sel':'');
+    d.innerHTML=`<span class="nm">${escHtml(s.name||k)}</span>${changed(k)?'<span class="ch">●</span>':''}<span class="rr">${s.source||''}</span>`;
+    d.addEventListener('click',()=>selectShard(k)); items.appendChild(d); });
+}
+searchEl.addEventListener('input',drawList); srcFilter.addEventListener('change',drawList);
+
+/* ---- поле редактирования ---- */
+function makeField(getVal,setVal,opts){
+  opts=opts||{};
+  const wrap=document.createElement('div'); wrap.className='fieldwrap';
+  if(opts.label){ const l=document.createElement('div'); l.className='fl'; l.textContent=opts.label; wrap.appendChild(l); }
+  const ed=document.createElement('div'); ed.className='rt'+(opts.ref?' ref':'');
+  ed.contentEditable=opts.ref?"false":"true"; ed.spellcheck=false;
+  ed.innerHTML=markupToHtml(getVal());
+  ed._commit=()=>{ setVal(htmlToMarkup(ed)); };
+  if(!opts.ref){
+    ed.addEventListener('focus',()=>rememberFocus(ed));
+    ed.addEventListener('input',()=>{ commitField(ed); });
+    ed.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); insertText("\n"); } });
+    ed.addEventListener('paste',e=>{ e.preventDefault(); insertText((e.clipboardData||window.clipboardData).getData('text')); });
+  }
+  wrap.appendChild(ed); return wrap;
+}
+function insertText(t){ const sel=getSelection(); if(!sel.rangeCount) return; const r=sel.getRangeAt(0);
+  r.deleteContents(); const node=document.createTextNode(t); r.insertNode(node);
+  r.setStartAfter(node); r.collapse(true); sel.removeAllRanges(); sel.addRange(r); commitField(lastEditable); }
+let commitT=null;
+function commitField(ed){ if(!ed||!ed._commit) return; ed._commit(); updateRaw();
+  clearTimeout(commitT); commitT=setTimeout(()=>{ autosave(); drawListChangedDot(); },300); }
+function drawListChangedDot(){ // лёгкое обновление точки «изменено» без полной перерисовки
+  const rows=items.querySelectorAll('.row'); /* дешевле просто перерисовать список */ drawList(); }
+
+/* ---- сборка редактора шарда ---- */
+const body=document.getElementById('body');
+function selectShard(k){
+  if(lastEditable) commitField(lastEditable); // сохранить текущее поле ДО смены шарда
+  lastEditable=null;
+  curKey=k; drawList(); renderEditor();
+}
+function renderEditor(){
+  const s=DATA[curKey]; if(!s){ body.innerHTML='<div class="empty">Выбери шард слева.</div>'; return; }
+  body.innerHTML="";
+  const head=document.createElement('div'); head.className='head';
+  head.innerHTML=`<span class="name" style="color:${rarityHex(s.rarity)}">${escHtml(s.name||curKey)}</span>
+     <span class="meta">${s.rarity||''} · ${s.source||'—'}${s.family?(' · '+escHtml(s.family)):''} · ключ: ${curKey}</span>`;
+  body.appendChild(head);
+
+  // Аттрибут
+  body.appendChild(blockLabel('Аттрибут: '+(s.attrTitle||'—')));
+  const attrPair=document.createElement('div'); attrPair.className='pair';
+  attrPair.appendChild(makeField(()=>s.attrEn||"", v=>{s.attrEn=v;}, {label:'EN'}));
+  attrPair.appendChild(makeField(()=>s.attrRu||"", v=>{s.attrRu=v;}, {label:'RU'}));
+  body.appendChild(attrPair);
+
+  // Details
+  body.appendChild(blockLabel('Описание (details)'));
+  const dPair=document.createElement('div'); dPair.className='pair';
+  dPair.appendChild(makeField(()=>gEn().details||"", v=>{gEn().details=v;}, {label:'EN'}));
+  dPair.appendChild(makeField(()=>gRu().details||"", v=>{gRu().details=v;}, {label:'RU'}));
+  body.appendChild(dPair);
+
+  // Методы
+  body.appendChild(blockLabel('Способы добычи (methods)'));
+  const en=gEn(), ru=gRu();
+  (en.methods||[]).forEach((m,idx)=>body.appendChild(methodCard(idx)));
+  const add=document.createElement('button'); add.textContent='+ метод'; add.style.marginTop='8px';
+  add.addEventListener('click',()=>{ if(!gEn().methods) gEn().methods=[]; if(!gRu().methods) gRu().methods=[];
+    const nm={type:'hunting',text:'',warp:'',coords:'',images:[],video:'',track:false};
+    gEn().methods.push(Object.assign({},nm)); gRu().methods.push(Object.assign({},nm));
+    autosave(); renderEditor(); });
+  body.appendChild(add);
+}
+function gEn(){ const s=DATA[curKey]; if(typeof s.en!=='object'||Array.isArray(s.en)) s.en={details:"",methods:[]}; return s.en; }
+function gRu(){ const s=DATA[curKey]; if(typeof s.ru!=='object'||Array.isArray(s.ru)) s.ru={details:"",methods:[]}; return s.ru; }
+function ensureRuMethod(i){ const ru=gRu(); if(!ru.methods) ru.methods=[]; while(ru.methods.length<=i) ru.methods.push({type:'hunting',text:'',warp:'',coords:''}); return ru.methods[i]; }
+
+function methodCard(idx){
+  const em=gEn().methods[idx], rm=ensureRuMethod(idx);
+  const card=document.createElement('div'); card.className='method';
+  const top=document.createElement('div'); top.className='mtop';
+  // тип
+  const tl=document.createElement('label'); tl.textContent='тип';
+  const tsel=document.createElement('select'); METHOD_TYPES.forEach(t=>{const o=document.createElement('option');o.textContent=t;o.selected=(em.type===t);tsel.appendChild(o);});
+  tsel.addEventListener('change',()=>{ em.type=tsel.value; rm.type=tsel.value; autosave(); }); tl.appendChild(tsel);
+  // варп
+  const wl=document.createElement('label'); wl.textContent='варп';
+  const wi=document.createElement('input'); wi.type='text'; wi.value=em.warp||""; wi.placeholder='/warp galatea';
+  wi.addEventListener('input',()=>{ em.warp=wi.value; rm.warp=wi.value; autosave(); }); wl.appendChild(wi);
+  // коорды
+  const cl=document.createElement('label'); cl.textContent='коорды';
+  const ci=document.createElement('input'); ci.type='text'; ci.value=em.coords||""; ci.placeholder='x y z';
+  ci.addEventListener('input',()=>{ em.coords=ci.value; rm.coords=ci.value; autosave(); }); cl.appendChild(ci);
+  // отслеживание
+  const tk=document.createElement('label'); tk.className='track';
+  const tkc=document.createElement('input'); tkc.type='checkbox'; tkc.checked=!!em.track;
+  tkc.addEventListener('change',()=>{ em.track=tkc.checked; rm.track=tkc.checked; autosave(); });
+  tk.appendChild(tkc); tk.appendChild(document.createTextNode('⌖ отслеживать'));
+  // удалить
+  const del=document.createElement('button'); del.className='del'; del.textContent='удалить';
+  del.addEventListener('click',()=>{ if(!confirm('Удалить этот метод?'))return;
+    gEn().methods.splice(idx,1); if(gRu().methods) gRu().methods.splice(idx,1); autosave(); renderEditor(); });
+  top.append(tl,wl,cl,tk,del); card.appendChild(top);
+  // тексты EN/RU
+  const pair=document.createElement('div'); pair.className='pair';
+  pair.appendChild(makeField(()=>em.text||"", v=>{em.text=v;}, {label:'EN текст'}));
+  pair.appendChild(makeField(()=>rm.text||"", v=>{rm.text=v;}, {label:'RU текст'}));
+  card.appendChild(pair);
+  return card;
+}
+function blockLabel(t){ const d=document.createElement('div'); d.className='blocklbl'; d.textContent=t; return d; }
+function rarityHex(r){ return ({common:'#f2f3f7',uncommon:'#55FF55',rare:'#5555FF',epic:'#FF55FF',legendary:'#FFAA00',mythic:'#FF55FF'})[r]||'#f2f3f7'; }
+
+/* ---- экспорт / импорт / сброс ---- */
+document.getElementById('exportBtn').addEventListener('click',()=>{
+  const blob=new Blob([JSON.stringify({shards:DATA},null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='skyryn-guide-edits.json'; a.click(); URL.revokeObjectURL(a.href);
+});
+document.getElementById('importBtn').addEventListener('click',()=>importFile.click());
+document.getElementById('importFile').addEventListener('change',e=>{ const f=e.target.files[0]; if(!f)return;
+  const rd=new FileReader(); rd.onload=()=>{ try{ const s=JSON.parse(rd.result);
+    if(s&&s.shards){ DATA=s.shards; autosave(); drawList(); if(curKey&&DATA[curKey]) renderEditor(); else body.innerHTML='<div class="empty">Импортировано. Выбери шард.</div>'; }
+    else alert('Не похоже на файл редактора.'); }catch(err){ alert('Ошибка JSON: '+err.message);} };
+  rd.readAsText(f); e.target.value=""; });
+document.getElementById('resetBtn').addEventListener('click',()=>{ if(!confirm('Сбросить ВСЕ правки к оригиналу?'))return;
+  DATA=JSON.parse(JSON.stringify(ORIG)); autosave(); drawList(); renderEditor(); });
+
+/* ---- мелочи ---- */
+const status=document.getElementById('status'), rawText=document.getElementById('rawText');
+let toastT=null;
+function toast(t){ status.textContent=t; status.className=""; clearTimeout(toastT);
+  toastT=setTimeout(()=>{ status.textContent='автосохранение включено'; status.className='saved'; },1600); }
+
+/* старт */
+if(!window.SHARD_DATA){ body.innerHTML='<div class="empty">Не найден shard-data.js рядом с этим файлом.</div>'; }
+else { drawList(); }
+</script>
+</body>
+</html>
