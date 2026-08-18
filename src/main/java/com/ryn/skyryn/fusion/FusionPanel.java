@@ -11,10 +11,8 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import org.lwjgl.glfw.GLFW;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import com.ryn.skyryn.config.ConfigManager;
 import com.ryn.skyryn.config.RynConfig;
 import com.ryn.skyryn.data.ShardDb;
@@ -59,8 +57,6 @@ public class FusionPanel {
 	private static String fortuneInput = "";
 	private static int activeField = 0;
 	private static int lastStateVersion = -1;
-
-	private static final Set<String> purchased = new HashSet<>();
 
 	private static final List<ClickZone> clickZones = new ArrayList<>();
 	private static boolean wasMouseDown = false;
@@ -197,7 +193,7 @@ public class FusionPanel {
 	}
 
 	private static String stepInputs(FusionCalculator.Step s) {
-		return String.join(" + ", stepInputParts(s));
+		return String.join(" » ", stepInputParts(s));
 	}
 
 	private static java.util.List<ShardDb.Recipe> uniqueRecipes(String shard) {
@@ -248,7 +244,7 @@ public class FusionPanel {
 		int shown = 0;
 		for (ShardDb.Recipe r : rs) {
 			if (shown >= FALLBACK_CAP) break;
-			String line = "• " + ShardDb.displayName(r.a) + "  +  " + ShardDb.displayName(r.b);
+			String line = "• " + ShardDb.displayName(r.firstClick()) + "  »  " + ShardDb.displayName(r.secondClick());
 			ctx.text(tr, fit(tr, line, rightX - textX - 6), textX + 4, y, TEXT, true);
 			y += 10;
 			shown++;
@@ -287,6 +283,7 @@ public class FusionPanel {
 			else h += 11 + 11 + 11 + 12 + 11 + 11;
 		}
 		h += SETTINGS_H;
+		if (RynConfig.ironman) h += 14;
 		if (RynConfig.fusionTrackerEnabled) h += TRACKER_H;
 		h += 8;
 		return h;
@@ -382,7 +379,7 @@ public class FusionPanel {
 		shardInput = "";
 		amountInput = "";
 		activeField = 0;
-		purchased.clear();
+		ShardStock.clear();
 	}
 
 	private static void applyFortune() {
@@ -419,7 +416,6 @@ public class FusionPanel {
 		if (ShardDb.hasRecipe(shard) && amount > 0) {
 			FusionState.set(shard, amount);
 			lastStateVersion = FusionState.version;
-			purchased.clear();
 		}
 	}
 
@@ -732,7 +728,8 @@ public class FusionPanel {
 
 		for (Map.Entry<String, Integer> e : res.shoppingList.entrySet()) {
 			String shardKey = e.getKey();
-			boolean bought = purchased.contains(shardKey.toLowerCase());
+			int have = RynConfig.flag("calc.stock", true) ? ShardStock.owned(shardKey) : 0;
+			boolean bought = have >= e.getValue();
 			boolean hover = inBox(mx, my, textX, y - 1, rightX, y + BUY_ROW_H - 2);
 
 			if (hover && !bought) roundRect(ctx, textX - 3, y - 2, rightX, y + BUY_ROW_H - 3, SURFACE_HI);
@@ -749,9 +746,10 @@ public class FusionPanel {
 			}
 			ctx.fill(textX, y, textX + 2, y + 8, bought ? TEXT_FAINT : liqColor);
 
-			final int qty = e.getValue();
+			final int need = e.getValue();
+			final int qty = Math.max(0, need - have);
 			final String dispName = ShardDb.displayName(shardKey);
-			String label = (bought ? "✔ " : "") + qty + "x " + dispName;
+			String label = (bought ? "✔ " : "") + (bought ? need : qty) + "x " + dispName;
 			double unit = FusionCalculator.unitBuyPrice(shardKey);
 			int labelW = (iron || unit == Double.MAX_VALUE)
 					? (rightX - textX - 6) : (rightX - textX - 6) - (tr.width(fmt(unit * qty)) + 6);
@@ -759,7 +757,9 @@ public class FusionPanel {
 
 			if (!iron && unit != Double.MAX_VALUE) {
 				textRight(ctx, tr, fmt(unit * qty), rightX, y, bought ? TEXT_FAINT : TEXT_DIM);
-				ctx.text(tr, fmt(unit) + Lang.tr("/pc", "/шт"), textX + 6, y + 9, TEXT_FAINT, true);
+				String second = fmt(unit) + Lang.tr("/pc", "/шт");
+				if (have > 0 && !bought) second += Lang.tr("  ·  have " + have, "  ·  есть " + have);
+				ctx.text(tr, second, textX + 6, y + 9, TEXT_FAINT, true);
 			}
 
 			final String bz = ShardDb.bazaarName(shardKey);
@@ -770,7 +770,6 @@ public class FusionPanel {
 				} else {
 					BazaarHint.remember(dispName, qty);
 					openBazaar(bz);
-					purchased.add(keyLower);
 				}
 			}));
 			y += BUY_ROW_H;
@@ -882,7 +881,8 @@ public class FusionPanel {
 
 	private static void renderSettings(GuiGraphicsExtractor ctx, Font tr, int textX, int rightX,
 									   int panelH, double mx, double my) {
-		int y = panelH - (RynConfig.fusionTrackerEnabled ? TRACKER_H : 0) - SETTINGS_H;
+		int settingsH = SETTINGS_H + (RynConfig.ironman ? 14 : 0);
+		int y = panelH - (RynConfig.fusionTrackerEnabled ? TRACKER_H : 0) - settingsH;
 		int x = textX;
 
 		if (!RynConfig.ironman) {
@@ -900,19 +900,19 @@ public class FusionPanel {
 			x += mW + 6;
 		}
 
-		if (RynConfig.ironman) {
-			ctx.text(tr, "fortune", x, y + 2, TEXT_FAINT, true);
-			int fBoxX = x + tr.width("fortune") + 3;
-			drawInputBox(ctx, tr, fBoxX, y, 30, fortuneInput, "0", activeField == 4, () -> activeField = 4);
-			x = fBoxX + 30 + 6;
-		}
-
 		ctx.text(tr, "crocodile", x, y + 2, TEXT_FAINT, true);
 		int crocBoxX = x + tr.width("crocodile") + 3;
 		drawInputBox(ctx, tr, crocBoxX, y, 22, crocInput, "0", activeField == 3, () -> activeField = 3);
 
 		String prof = RynConfig.ironman ? "ironman" : "normal";
 		ctx.text(tr, prof, rightX - tr.width(prof), y + 2, RynConfig.ironman ? WARN : TEXT_FAINT, true);
+
+		if (RynConfig.ironman) {
+			int fy = y + 14;
+			ctx.text(tr, "fortune", textX, fy + 2, TEXT_FAINT, true);
+			int fBoxX = textX + tr.width("fortune") + 3;
+			drawInputBox(ctx, tr, fBoxX, fy, 30, fortuneInput, "0", activeField == 4, () -> activeField = 4);
+		}
 	}
 
 	private static void renderTracker(GuiGraphicsExtractor ctx, Font tr, int textX, int rightX,

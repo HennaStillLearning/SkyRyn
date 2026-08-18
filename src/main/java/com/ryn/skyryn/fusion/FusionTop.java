@@ -38,6 +38,8 @@ public class FusionTop {
 			this.warning = warning;
 		}
 
+		public double farmHours;
+
 		public double costPer1kXp() {
 			return batchXp > 0 ? -batchNet / (batchXp / 1000.0) : Double.MAX_VALUE;
 		}
@@ -47,6 +49,7 @@ public class FusionTop {
 		PER_DAY("profit/day", "профит/день", false),
 		PER_UNIT("profit/pc", "профит/шт", false),
 		DEMAND("demand", "спрос", false),
+		FARM_FAST("fastest farm", "быстрее фарм", false),
 		XP_CHEAP("cheapest XP", "дешевле XP", true),
 		XP_MOST("most XP", "больше всего XP", true);
 
@@ -59,6 +62,25 @@ public class FusionTop {
 		}
 
 		public String label() { return Lang.tr(labelEn, labelRu); }
+	}
+
+	private static List<Entry> buildByFarmTime() {
+		List<Entry> out = new ArrayList<>();
+		if (!ShardDb.isLoaded()) return out;
+		for (String shard : ShardDb.allCraftable()) {
+			FusionPlanner.Plan plan = FusionPlanner.plan(shard, RynConfig.batchOf(shard), true);
+			if (plan == null || plan.hasUnfarmable) continue;
+			double hours = plan.total;
+			if (!Double.isFinite(hours) || hours <= 0 || hours == Double.MAX_VALUE) continue;
+
+			Entry e = new Entry(shard, 0, 0, 0, BazaarPrices.Warning.NONE);
+			e.farmHours = hours;
+			ShardDb.Shard sh = ShardDb.shard(shard);
+			e.reptile = sh != null && sh.reptile;
+			out.add(e);
+		}
+		out.sort(Comparator.comparingDouble((Entry e) -> e.farmHours));
+		return out;
 	}
 
 	private static void fillBatch(Entry e, boolean instaSell) {
@@ -94,6 +116,8 @@ public class FusionTop {
 	}
 
 	public static List<Entry> build(Sort sort, boolean profitableOnly, boolean hideWarned, boolean instaSell) {
+		if (sort == Sort.FARM_FAST) return buildByFarmTime();
+
 		List<Entry> out = new ArrayList<>();
 		if (!BazaarPrices.isLoaded() || !ShardDb.isLoaded()) return out;
 

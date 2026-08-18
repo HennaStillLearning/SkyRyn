@@ -78,6 +78,7 @@ public class SkyRynClient implements ClientModInitializer {
 		HudClicks.register();
 		HuntingFortune.register();
 		HuntingBoxReader.register();
+		com.ryn.skyryn.fusion.ShardStock.register();
 		AttributeMenuReader.register();
 		BestiaryReader.register();
 		BazaarHint.register();
@@ -158,8 +159,15 @@ public class SkyRynClient implements ClientModInitializer {
 					.then(ClientCommands.literal("gui").executes(SkyRynClient::openSettings))
 					.then(ClientCommands.literal("settings").executes(SkyRynClient::openSettings))
 					.then(ClientCommands.literal("top").executes(ctx -> open(new FusionTopScreen())))
-					.then(ClientCommands.literal("shards").executes(ctx -> open(new ShardListScreen())))
+					.then(ClientCommands.literal("shards")
+							.executes(ctx -> open(new ShardListScreen()))
+							.then(ClientCommands.argument("shard", StringArgumentType.greedyString())
+									.executes(ctx -> openShardPage(ctx.getSource(),
+											StringArgumentType.getString(ctx, "shard")))))
 					.then(ClientCommands.literal("hud").executes(ctx -> open(new HudEditScreen())))
+					.then(ClientCommands.argument("query", StringArgumentType.greedyString())
+							.executes(ctx -> open(com.ryn.skyryn.screen.RynSettingsScreen.searching(
+									null, StringArgumentType.getString(ctx, "query")))))
 					.then(ClientCommands.literal("setfortune")
 							.then(ClientCommands.argument("value", IntegerArgumentType.integer(0, 10000))
 									.executes(ctx -> {
@@ -198,6 +206,21 @@ public class SkyRynClient implements ClientModInitializer {
 		Minecraft client = Minecraft.getInstance();
 		client.schedule(() -> client.setScreen(screen));
 		return 1;
+	}
+
+	private static int openShardPage(FabricClientCommandSource src, String name) {
+		String q = name.trim().toLowerCase();
+		String key = ShardDb.keyByName(q);
+		if (key == null) {
+			for (String k : ShardDb.allShards())
+				if (k.startsWith(q) || ShardDb.displayName(k).toLowerCase().startsWith(q)) { key = k; break; }
+		}
+		if (key == null) {
+			src.sendFeedback(Component.literal(PREFIX + Lang.tr("No such shard: ", "Нет такого шарда: ") + name)
+					.withStyle(ChatFormatting.RED));
+			return 0;
+		}
+		return open(new com.ryn.skyryn.screen.ShardPageScreen(key, null));
 	}
 
 	private static int openSettings(com.mojang.brigadier.context.CommandContext<FabricClientCommandSource> ctx) {

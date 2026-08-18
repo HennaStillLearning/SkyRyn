@@ -6,6 +6,8 @@
 |---|---|
 | `/sr` | main menu |
 | `/sr shards` | shard list and guide |
+| `/sr shards <name>` | the page of that shard |
+| `/sr <word>` | settings, already searching for that word |
 | `/sr top` | fusion rating |
 | `/sr hud` | HUD editing, drag the overlays where you want them |
 | `/sr calculator` | calculator settings |
@@ -54,6 +56,7 @@ whole session.
 | `#expall` | `#ext` | hunting exp for all time |
 | `#critterplaytime` | `#cpt` | time in safari, session |
 | `#cptall` | | time in safari for all time |
+| `#food` | | birdfeeder food in your inventory |
 | `#perks` | | your safari perks (open the perks shop once so the mod can read them) |
 | `#stats` | | everything about the current run |
 | `#help` | | this list, in chat |

@@ -10,7 +10,7 @@ import com.ryn.skyryn.config.Lang;
 import com.ryn.skyryn.config.RynConfig;
 
 public class BazaarHint {
-	private static final long TTL_MS = 10 * 60 * 1000;
+	private static final long TTL_MS = 3 * 60 * 1000;
 
 	private static String pendingShard = null;
 	private static int pendingAmount = 0;
@@ -38,6 +38,12 @@ public class BazaarHint {
 		return RynConfig.bazaarHintEnabled && RynConfig.calculatorEnabled && hasPending();
 	}
 
+	public static void forget() {
+		pendingShard = null;
+		pendingAmount = 0;
+		pendingAt = 0;
+	}
+
 	public static void register() {
 		ScreenEvents.AFTER_INIT.register((client, screen, w, h) -> {
 			if (!(screen instanceof AbstractSignEditScreen)) return;
@@ -46,6 +52,14 @@ public class BazaarHint {
 				if (!active()) return;
 				render(ctx, scr);
 			});
+
+			ScreenEvents.remove(screen).register(scr -> forget());
+		});
+
+		net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents.GAME.register((message, overlay) -> {
+			if (overlay || !hasPending()) return;
+			String s = message.getString().replaceAll("§.", "").toLowerCase();
+			if (s.contains("bought") && s.contains("for")) forget();
 		});
 	}
 

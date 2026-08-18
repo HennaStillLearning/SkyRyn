@@ -173,8 +173,8 @@ public class FusionCalculator {
 		Step step = steps.computeIfAbsent(shard, Step::new);
 		step.fusions += fusions;
 		step.outputAmount += (int) Math.floor(fusions * qty);
-		step.inputs.merge(r.a, needA, Integer::sum);
-		step.inputs.merge(r.b, needB, Integer::sum);
+		step.inputs.merge(r.firstClick(), r.firstClick().equals(r.a) ? needA : needB, Integer::sum);
+		step.inputs.merge(r.secondClick(), r.secondClick().equals(r.a) ? needA : needB, Integer::sum);
 		if (r.a.equals(r.b)) step.selfFuse = true;
 	}
 

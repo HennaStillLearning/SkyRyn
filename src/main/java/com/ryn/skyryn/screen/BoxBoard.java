@@ -453,7 +453,7 @@ public class BoxBoard {
 		StringBuilder sb = new StringBuilder();
 		boolean first = true;
 		for (Map.Entry<String, Integer> in : st.inputs.entrySet()) {
-			if (!first) sb.append(" + ");
+			if (!first) sb.append(" » ");
 			sb.append(in.getValue()).append("× ").append(ShardDb.displayName(in.getKey()));
 			first = false;
 		}

@@ -253,7 +253,7 @@ public class RynConfig {
 		lmWumpa = lmDoom = lmGate = lmBirdfeeder = false;
 		bestiaryHints = seaGuideHints = bazaarHintEnabled = false;
 		highlightMobs.clear();
-		for (String k : new String[]{ "hive.timer", "critter.plaque", "sparkling.hl",
+		for (String k : new String[]{ "hive.timer", "critter.plaque", "sparkling.hl", "peek.recipes",
 				"sparkling.ann", "bells.show", "tiki.on", "tiki.show", "tiki.hint",
 				"torrhus.beeheemoth", "tr.sparkling" })
 			flags.put(k, false);

@@ -49,7 +49,8 @@ public class FusionTopScreen extends Screen {
 	private boolean xpTab = false;
 	private boolean xpInstaSell = true;
 	private int xpModeX = 0, xpModeW = 0;
-	private FusionTop.Sort sort = FusionTop.Sort.PER_DAY;
+	private FusionTop.Sort sort = com.ryn.skyryn.config.RynConfig.ironman
+			? FusionTop.Sort.FARM_FAST : FusionTop.Sort.PER_DAY;
 	private boolean profitableOnly = true;
 	private boolean hideWarned = false;
 	private boolean showHelp = false;
@@ -118,19 +119,22 @@ public class FusionTopScreen extends Screen {
 		ctx.text(this.font, Lang.tr("FUSION TOP", "ТОП ФЬЮЗОВ"), x, 18, xpTab ? TEXT_FAINT : TEXT, true);
 		if (!xpTab) ctx.fill(x, 28, x + t1w, 29, ACCENT);
 
-		int t2x = x + t1w + 22;
-		String xpTabLabel = Lang.tr("XP TOP", "XP ТОП");
-		int t2w = this.font.width(xpTabLabel);
-		ctx.text(this.font, xpTabLabel, t2x, 18, xpTab ? TEXT : TEXT_FAINT, true);
-		if (xpTab) ctx.fill(t2x, 28, t2x + t2w, 29, ACCENT);
+		if (!iron()) {
+			int t2x = x + t1w + 22;
+			String xpTabLabel = Lang.tr("XP TOP", "XP ТОП");
+			int t2w = this.font.width(xpTabLabel);
+			ctx.text(this.font, xpTabLabel, t2x, 18, xpTab ? TEXT : TEXT_FAINT, true);
+			if (xpTab) ctx.fill(t2x, 28, t2x + t2w, 29, ACCENT);
 
-		String age = Lang.tr("prices: ", "цены: ") + BazaarPrices.ageText();
-		ctx.text(this.font, age, right - this.font.width(age), 18, TEXT_FAINT, true);
+			String age = Lang.tr("prices: ", "цены: ") + BazaarPrices.ageText();
+			ctx.text(this.font, age, right - this.font.width(age), 18, TEXT_FAINT, true);
+		}
 
 		int y = 34;
 		int bx = x;
 		for (FusionTop.Sort s : FusionTop.Sort.values()) {
-			if (s.xp != xpTab) continue;
+			if (s.xp != xpTab || !sortFits(s)) continue;
+			if (iron()) continue;
 			int w = this.font.width(s.label()) + 12;
 			boolean active = s == sort;
 			boolean hover = in(mouseX, mouseY, bx, y, bx + w, y + 14);
@@ -152,8 +156,8 @@ public class FusionTopScreen extends Screen {
 		String f1 = (profitableOnly ? "☑" : "☐") + Lang.tr(" positive only", " только плюсовые");
 		String f2 = (hideWarned ? "☑" : "☐") + Lang.tr(" hide questionable", " скрыть спорные");
 		int f2w = this.font.width(f2), f1w = this.font.width(f1);
-		ctx.text(this.font, f2, right - f2w, y + 3, hideWarned ? TEXT : TEXT_FAINT, true);
-		if (!xpTab) {
+		if (!iron()) ctx.text(this.font, f2, right - f2w, y + 3, hideWarned ? TEXT : TEXT_FAINT, true);
+		if (!xpTab && !iron()) {
 			ctx.text(this.font, f1, right - f2w - f1w - 12, y + 3, profitableOnly ? TEXT : TEXT_FAINT, true);
 		}
 
@@ -172,12 +176,13 @@ public class FusionTopScreen extends Screen {
 			ctx.fill(cx, 54, cx + 1, 62, ACCENT);
 		}
 
-		String wl = "hunting wisdom";
+		String wl = iron() ? "hunter fortune" : "hunting wisdom";
 		int wlw = this.font.width(wl);
 		int wfx = right - 46;
 		ctx.text(this.font, wl, wfx - wlw - 6, 54, TEXT_FAINT, true);
 		String wv = editingWisdom ? (wisdomBuffer.isEmpty() ? "_" : wisdomBuffer + "_")
-				: trimNum(RynConfig.huntingWisdom) + "%";
+				: (iron() ? String.valueOf((int) RynConfig.hunterFortune)
+						  : trimNum(RynConfig.huntingWisdom) + "%");
 		boolean wHover = in(mouseX, mouseY, wfx, 52, wfx + 44, 64);
 		ctx.fill(wfx, 52, wfx + 44, 64, editingWisdom ? ACCENT_SOFT : (wHover ? CARD_HOVER : CARD));
 		ctx.text(this.font, wv, wfx + 4, 54, editingWisdom ? TEXT : TEXT_DIM, true);
@@ -201,10 +206,14 @@ public class FusionTopScreen extends Screen {
 			rightText(ctx, Lang.tr("invest", "вложить"), right - C_INVEST, hy, TEXT_FAINT);
 			rightText(ctx, Lang.tr("total", "итог"), right - C_DAY, hy, TEXT_FAINT);
 		} else {
-			rightText(ctx, Lang.tr("profit/day", "профит/д"), right - C_UNIT, hy, TEXT_FAINT);
-			rightText(ctx, Lang.tr("sold/d", "прод/д"), right - C_DEMAND, hy, TEXT_FAINT);
-			rightText(ctx, Lang.tr("invest", "вложить"), right - C_INVEST, hy, TEXT_FAINT);
-			rightText(ctx, Lang.tr("return", "вернётся"), right - C_DAY, hy, TEXT_FAINT);
+			if (iron()) {
+				rightText(ctx, Lang.tr("farm time", "время фарма"), right - C_UNIT, hy, TEXT_FAINT);
+			} else {
+				rightText(ctx, Lang.tr("profit/day", "профит/д"), right - C_UNIT, hy, TEXT_FAINT);
+				rightText(ctx, Lang.tr("sold/d", "прод/д"), right - C_DEMAND, hy, TEXT_FAINT);
+				rightText(ctx, Lang.tr("invest", "вложить"), right - C_INVEST, hy, TEXT_FAINT);
+				rightText(ctx, Lang.tr("return", "вернётся"), right - C_DAY, hy, TEXT_FAINT);
+			}
 		}
 		ctx.fill(x, listTop() - 2, right, listTop() - 1, BORDER);
 
@@ -271,9 +280,13 @@ public class FusionTopScreen extends Screen {
 				rightText(ctx, fmt(e.batchXp), right - C_DEMAND, ty, TEXT);
 				rightText(ctx, fmt(e.batchCost), right - C_INVEST, ty, TEXT_DIM);
 			} else {
-				rightText(ctx, fmt(e.profitPerDay), right - C_UNIT, ty, e.profitPerDay >= 0 ? GREEN : RED);
-				rightText(ctx, fmtInt(e.demandPerDay), right - C_DEMAND, ty, TEXT_DIM);
-				rightText(ctx, invest, right - C_INVEST, ty, TEXT_DIM);
+				if (iron()) {
+					rightText(ctx, fmtHours(e.farmHours), right - C_UNIT, ty, GREEN);
+				} else {
+					rightText(ctx, fmt(e.profitPerDay), right - C_UNIT, ty, e.profitPerDay >= 0 ? GREEN : RED);
+					rightText(ctx, fmtInt(e.demandPerDay), right - C_DEMAND, ty, TEXT_DIM);
+					rightText(ctx, invest, right - C_INVEST, ty, TEXT_DIM);
+				}
 			}
 
 			int bxx = right - C_BATCH;
@@ -284,7 +297,7 @@ public class FusionTopScreen extends Screen {
 			if (xpTab) {
 				rightText(ctx, (e.batchNet >= 0 ? "+" : "") + fmt(e.batchNet), right - C_DAY, ty,
 						e.batchNet >= 0 ? GREEN : RED);
-			} else {
+			} else if (!iron()) {
 				rightText(ctx, fmt(e.unitRevenue * effBatch), right - C_DAY, ty,
 						e.unitProfit >= 0 ? GREEN : RED);
 			}
@@ -500,7 +513,9 @@ public class FusionTopScreen extends Screen {
 	private void commitWisdom() {
 		try {
 			float v = Float.parseFloat(wisdomBuffer);
-			if (v >= 0 && v <= 10000) RynConfig.huntingWisdom = v;
+			if (v >= 0 && v <= 10000) {
+				if (iron()) RynConfig.hunterFortune = v; else RynConfig.huntingWisdom = v;
+			}
 		} catch (Exception ignored) { }
 		ConfigManager.save();
 		editingWisdom = false;
@@ -564,7 +579,7 @@ public class FusionTopScreen extends Screen {
 
 		int bx = x;
 		for (FusionTop.Sort s : FusionTop.Sort.values()) {
-			if (s.xp != xpTab) continue;
+			if (s.xp != xpTab || !sortFits(s)) continue;
 			int w = this.font.width(s.label()) + 12;
 			if (in(mouseX, mouseY, bx, 34, bx + w, 48)) { sort = s; rebuild(); return true; }
 			bx += w + 4;
@@ -627,6 +642,19 @@ public class FusionTopScreen extends Screen {
 
 	private void rightText(GuiGraphicsExtractor ctx, String s, int rightX, int y, int color) {
 		ctx.text(this.font, s, rightX - this.font.width(s), y, color, true);
+	}
+
+	private static boolean iron() { return com.ryn.skyryn.config.RynConfig.ironman; }
+
+	private static boolean sortFits(FusionTop.Sort s) {
+		boolean iron = com.ryn.skyryn.config.RynConfig.ironman;
+		if (s == FusionTop.Sort.FARM_FAST) return iron;
+		return s.xp || !iron;
+	}
+
+	private static String fmtHours(double hours) {
+		if (hours < 1) return Math.max(1, Math.round(hours * 60)) + Lang.tr(" min", " мин");
+		return String.format("%.1f", hours) + Lang.tr(" h", " ч");
 	}
 
 	private static String fmt(double v) {

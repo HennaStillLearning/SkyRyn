@@ -629,6 +629,7 @@ public class SafariTracker {
 			{ "#expall #ext",                "Hunting exp for all time",          "Опыт охоты за всё время" },
 			{ "#critterplaytime #cpt",       "Time in safari, session",           "Время в сафари за сессию" },
 			{ "#cptall",                     "Time in safari for all time",       "Время в сафари за всё время" },
+			{ "#food",                       "Birdfeeder food in your inventory",  "Корм для Birdfeeder в инвентаре" },
 			{ "#perks",                      "Your safari perks — open the perks shop once so the mod can read them",
 					"Твои перки сафари — открой магазин перков, чтобы мод их прочитал" },
 			{ "#stats",                      "Everything about the current run",  "Всё о текущем заходе" },
@@ -717,6 +718,11 @@ public class SafariTracker {
 						+ " | " + Lang.tr("Total Profit: ", "Профит всего: ") + (v < 0 ? PRICES : fmt(v));
 			}
 			case "#cptall": return Lang.tr("Total playtime: ", "Всего в сафари: ") + fmtDur(RynConfig.lifeTimeMs);
+
+			case "#food": {
+				String f = foodText();
+				return Lang.tr("Food: ", "Корм: ") + (f.isEmpty() ? Lang.tr("none", "нет") : f);
+			}
 			case "#critterplaytime": return Lang.tr("Playtime: ", "Время сессии: ") + fmtDur(liveTimeMs());
 
 			case "#profitr": {
@@ -879,7 +885,18 @@ public class SafariTracker {
 			"yogi berry", "bag of seeds", "wriggleworm", "icebreaker",
 			"purple gem", "lime gem", "orange gem", "soothing incense", "shining coin");
 
+	private static final java.util.List<String> FOOD_ITEMS =
+			java.util.List.of("yogi berry", "bag of seeds", "wriggleworm");
+
+	private static String foodText() {
+		return itemsText(FOOD_ITEMS);
+	}
+
 	private static String questItemsText() {
+		return itemsText(QUEST_ITEMS);
+	}
+
+	private static String itemsText(java.util.List<String> wanted) {
 		Minecraft mc = Minecraft.getInstance();
 		java.util.LinkedHashMap<String, Integer> found = new java.util.LinkedHashMap<>();
 		if (mc.player != null) {
@@ -887,9 +904,8 @@ public class SafariTracker {
 			for (int i = 0; i < inv.getContainerSize(); i++) {
 				ItemStack st = inv.getItem(i);
 				if (st == null || st.isEmpty()) continue;
-				String n = st.getHoverName().getString();
-				String low = n.toLowerCase();
-				for (String q : QUEST_ITEMS) if (low.contains(q)) { found.merge(cap(q), st.getCount(), Integer::sum); break; }
+				String low = st.getHoverName().getString().toLowerCase();
+				for (String q : wanted) if (low.contains(q)) { found.merge(cap(q), st.getCount(), Integer::sum); break; }
 			}
 		}
 		if (found.isEmpty()) return "";

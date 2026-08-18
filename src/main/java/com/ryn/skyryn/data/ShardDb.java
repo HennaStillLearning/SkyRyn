@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,9 @@ public class ShardDb {
 		public final String a;
 		public final String b;
 		public final int qty;
+
+		public String firstClick() { return b; }
+		public String secondClick() { return a; }
 		public Recipe(String output, String a, String b, int qty) {
 			this.output = output;
 			this.a = a;
@@ -195,6 +199,22 @@ public class ShardDb {
 	public static List<Recipe> recipesFor(String key) {
 		if (key == null) return Collections.emptyList();
 		return RECIPES.getOrDefault(key.toLowerCase(), Collections.emptyList());
+	}
+
+	private static Map<String, List<Recipe>> USED_IN = null;
+
+	public static List<Recipe> usedIn(String key) {
+		if (key == null) return Collections.emptyList();
+		if (USED_IN == null) {
+			Map<String, List<Recipe>> idx = new HashMap<>();
+			for (List<Recipe> list : RECIPES.values())
+				for (Recipe r : list) {
+					idx.computeIfAbsent(r.a, k -> new ArrayList<>()).add(r);
+					if (!r.b.equals(r.a)) idx.computeIfAbsent(r.b, k -> new ArrayList<>()).add(r);
+				}
+			USED_IN = idx;
+		}
+		return USED_IN.getOrDefault(key.toLowerCase(), Collections.emptyList());
 	}
 
 	public static Set<String> allShards() { return SHARDS.keySet(); }

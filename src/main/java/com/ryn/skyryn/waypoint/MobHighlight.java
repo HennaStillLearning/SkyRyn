@@ -361,6 +361,7 @@ public class MobHighlight {
 		java.util.Map<Long, Integer> perBlock = new java.util.HashMap<>();
 		for (Entity ent : mc.level.entitiesForRendering()) {
 			if (!(ent instanceof net.minecraft.world.entity.Display.ItemDisplay)) continue;
+			if (isCapsule(ent)) continue;
 			if (!isFloorDrop(mc.level, ent)) continue;
 			Vec3 c = ent.position();
 			if (c.distanceTo(cam) > MAX_DIST) continue;
@@ -379,6 +380,17 @@ public class MobHighlight {
 					(fc >> 16) & 0xFF, (fc >> 8) & 0xFF, fc & 0xFF, 110);
 		}
 		buf.endBatch();
+	}
+
+	private static boolean isCapsule(Entity ent) {
+		if (!(ent instanceof net.minecraft.world.entity.Display.ItemDisplay d)) return false;
+		try {
+			net.minecraft.world.item.ItemStack st = d.getSlot(0).get();
+			if (st == null || st.isEmpty()) return false;
+			return st.getHoverName().getString().toLowerCase().contains("capsule");
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	private static boolean isFloorDrop(Level level, Entity ent) {

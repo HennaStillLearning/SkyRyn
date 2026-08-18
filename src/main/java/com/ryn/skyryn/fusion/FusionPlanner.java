@@ -257,8 +257,8 @@ public class FusionPlanner {
 		Step st = steps.computeIfAbsent(shard, Step::new);
 		st.fusions += fusions;
 		st.outputAmount += (int) Math.floor(fusions * q);
-		st.inputs.merge(r.a, perA, Integer::sum);
-		st.inputs.merge(r.b, perB, Integer::sum);
+		st.inputs.merge(r.firstClick(), r.firstClick().equals(r.a) ? perA : perB, Integer::sum);
+		st.inputs.merge(r.secondClick(), r.secondClick().equals(r.a) ? perA : perB, Integer::sum);
 		if (r.a.equals(r.b)) st.selfFuse = true;
 	}
 

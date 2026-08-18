@@ -79,6 +79,12 @@ public class RynSettingsScreen extends Screen {
 		this.openAt = category == null ? "" : category.trim().toLowerCase();
 	}
 
+	public static RynSettingsScreen searching(Screen parent, String query) {
+		RynSettingsScreen s = new RynSettingsScreen(parent, "");
+		s.search = query == null ? "" : query.trim();
+		return s;
+	}
+
 	public static final String[] CATEGORY_COMMANDS = {
 			"fusion", "calculator", "hunting", "warps", "highlight", "foraging", "interface", "keys" };
 
@@ -133,6 +139,10 @@ public class RynSettingsScreen extends Screen {
 						() -> RynConfig.boxBoardEnabled, v -> RynConfig.boxBoardEnabled = v),
 				toggle(Lang.tr("Mark the needed shards", "Подсвечивать нужные шарды"), "",
 						() -> RynConfig.highlightFuseInputs, v -> RynConfig.highlightFuseInputs = v),
+				toggle(Lang.tr("Recipes on Ctrl and Shift", "Рецепты по Ctrl и Shift"),
+						Lang.tr("Point at a shard in the box: Ctrl shows what you can fuse from it, Shift shows what you can fuse it from — counted by what your box actually holds.",
+								"Наведись на шард в боксе: Ctrl покажет, что из него можно собрать, Shift — из чего собрать его самого. Считается по тому, что реально лежит в боксе."),
+						() -> RynConfig.flag("peek.recipes", true), v -> RynConfig.setFlag("peek.recipes", v)),
 				toggle(Lang.tr("Fusion tracker", "Трекер фьюзов"),
 						Lang.tr("Counts how many fusions, shards and coins you made this session.",
 								"Считает, сколько фьюзов, шардов и монет ты сделал за сессию."),
@@ -145,6 +155,10 @@ public class RynSettingsScreen extends Screen {
 								"Твой уровень Bazaar Flipper. От него зависит налог при продаже."),
 						0, RynConfig.BAZAAR_FLIPPER_MAX, 1, false,
 						() -> RynConfig.bazaarFlipperLevel, v -> RynConfig.bazaarFlipperLevel = (int) v),
+				toggle(Lang.tr("Count what you already have", "Учитывать, что уже есть"),
+						Lang.tr("The shopping list subtracts the shards already sitting in your Hunting Box and the ones you just bought, so it shows what is left to buy. The box is read page by page, so a shard on page two counts once you open that page.",
+								"Список покупок вычитает шарды, которые уже лежат в Hunting Box, и те, что ты только что купил, и показывает, сколько осталось докупить. Бокс читается постранично: шард со второй страницы посчитается, когда ты её откроешь."),
+						() -> RynConfig.flag("calc.stock", true), v -> RynConfig.setFlag("calc.stock", v)),
 				toggle(Lang.tr("Amount hint on the sign", "Подсказка на табличке"),
 						Lang.tr("When you type an amount for a bazaar order, shows the number you need above the sign.",
 								"Когда вводишь количество при заказе на базаре, показывает нужное число над табличкой."),
