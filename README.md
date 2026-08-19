@@ -48,10 +48,8 @@ account data.
 Special thanks to the author of [SkyShards](https://github.com/Campionnn/SkyShards)
 for the fusion recipe data.
 
-Garden and mining tools are sent as plain paper now, so with the pack off there is
-nothing left to recognise them by. The table of how those items used to look comes
-from a historical snapshot of [NotEnoughUpdates-REPO](https://github.com/NotEnoughUpdates/NotEnoughUpdates-REPO)
-(MIT) collected in [PackDisabler](https://github.com/Noamm9/PackDisabler) (CC0);
-`tools/gen-item-fallback.py` regenerates it. No pack assets are shipped with the mod.
+Item look data comes from [NotEnoughUpdates-REPO](https://github.com/NotEnoughUpdates/NotEnoughUpdates-REPO)
+(MIT) and [PackDisabler](https://github.com/Noamm9/PackDisabler) (CC0). No resource
+pack assets are shipped with the mod.
 
 Licence: GPL-3.0-or-later, see [LICENSE](LICENSE).

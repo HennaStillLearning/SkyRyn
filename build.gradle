@@ -10,16 +10,6 @@ base {
 	archivesName = project.archives_base_name
 }
 
-// Сборка для себя или для игроков.
-//
-// Служебные команды (/srspot, /srpath, /srmob, /srlook) включались флагом debug, а он
-// правится руками в конфиге — то есть их мог открыть себе любой игрок. Теперь их держит
-// ещё и константа Dev.ON: у неё две версии исходника, и релизная равна false. Условие
-// с константой компилятор сворачивает, поэтому в релизном байткоде не остаётся даже
-// вызова — а раз вызовов нет, сами классы можно убрать из архива.
-//
-//   gradlew build              — сборка для себя, команды на месте
-//   gradlew build -Prelease    — сборка для игроков, команд нет
 def isRelease = project.hasProperty('release')
 
 sourceSets {
@@ -37,9 +27,6 @@ def devOnlyClasses = [
 		'com/ryn/skyryn/dev/LookProbe*.class',
 ]
 
-// Чистим все архивы разом — и jar, и sources: иначе вырезанное из одного лежало бы
-// рядом в другом. sourcesJar появляется ниже, по withSourcesJar(), поэтому берём
-// задачи по типу, а не по имени.
 tasks.withType(Jar).configureEach {
 	if (isRelease) {
 		exclude(devOnlyClasses)
