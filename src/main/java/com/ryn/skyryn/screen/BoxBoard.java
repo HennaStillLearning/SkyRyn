@@ -505,8 +505,14 @@ public class BoxBoard {
 	}
 
 	private static String fmtTime(double hours) {
-		if (hours < 1) return Math.max(1, Math.round(hours * 60)) + Lang.tr(" min", " мин");
-		return String.format("%.1f", hours) + Lang.tr(" h", " ч");
+		double min = hours * 60;
+		if (min < 1) return Math.max(1, Math.round(min * 60)) + Lang.tr(" s", " с");
+		if (min < 10) return String.format("%.1f", min) + Lang.tr(" min", " мин");
+		if (min < 60) return Math.round(min) + Lang.tr(" min", " мин");
+		long h = (long) hours;
+		long m = Math.round(min - h * 60);
+		if (m == 60) { h++; m = 0; }
+		return h + Lang.tr(" h", " ч") + (m > 0 ? " " + m + Lang.tr(" min", " мин") : "");
 	}
 
 	private static String fmtMoney(double v) {

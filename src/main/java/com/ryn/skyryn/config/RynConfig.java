@@ -27,7 +27,7 @@ public class RynConfig {
 	public static boolean calculatorEnabled = true;
 	public static boolean boxBoardEnabled = true;
 	public static boolean highlightFuseInputs = true;
-	public static final int PACK_HYBRID = 1, PACK_OFF = 2;
+	public static final int PACK_NORMAL = 0, PACK_HYBRID = 1, PACK_OFF = 2;
 	public static int packMode = PACK_HYBRID;
 	public static int boxGuideX = -1;
 	public static int boxGuideY = -1;

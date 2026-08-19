@@ -1,5 +1,27 @@
 # Changelog
 
+## 1.1.0
+
+**Server texture pack**
+- Third mode, Normal: the pack is left alone and loads exactly as the server sent
+  it. Turning the feature off no longer means turning off the mod.
+- Garden tools, mining gear and fishing nets get their old look back instead of a
+  stack of paper. Hypixel now sends them as paper and draws them with the pack, so
+  the mod restores the item they used to be — a head with its skin, a prismarine
+  shard for drills, a cobweb for nets.
+- Items whose old look is unknown keep the server texture, as before.
+
+**Calculator**
+- Buy-offer mode no longer treats dead buy orders as a real price. When the order
+  side sits far below the offers, nobody fills it, and the calculator used to build
+  paths through such shards as if they were free.
+- Prices under 10 coins are no longer rounded down to "0/pc".
+
+**Highlight**
+- Names only: the marker above each mob was noise. Names are drawn for mobs you
+  cannot recognise by sight.
+- Pangolin is highlighted in both states, rolled up in its shell included.
+
 ## 1.0.0
 
 First release. Minecraft 26.1.2, Fabric.

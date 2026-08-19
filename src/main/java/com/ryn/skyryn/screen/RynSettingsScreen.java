@@ -140,8 +140,8 @@ public class RynSettingsScreen extends Screen {
 				toggle(Lang.tr("Mark the needed shards", "Подсвечивать нужные шарды"), "",
 						() -> RynConfig.highlightFuseInputs, v -> RynConfig.highlightFuseInputs = v),
 				toggle(Lang.tr("Recipes on Ctrl and Shift", "Рецепты по Ctrl и Shift"),
-						Lang.tr("Point at a shard in the box: Ctrl shows what you can fuse from it, Shift shows what you can fuse it from — counted by what your box actually holds.",
-								"Наведись на шард в боксе: Ctrl покажет, что из него можно собрать, Shift — из чего собрать его самого. Считается по тому, что реально лежит в боксе."),
+						Lang.tr("Point at a shard in the box and hold Ctrl to see what you can fuse from it, or Shift to see what you can fuse it from. Only what your shards are actually enough for.",
+								"Наведи на шард в боксе и держи Ctrl — увидишь, что из него можно сфьюзить, Shift — из чего сфьюзить его. Только то, на что твоих шардов реально хватает."),
 						() -> RynConfig.flag("peek.recipes", true), v -> RynConfig.setFlag("peek.recipes", v)),
 				toggle(Lang.tr("Fusion tracker", "Трекер фьюзов"),
 						Lang.tr("Counts how many fusions, shards and coins you made this session.",
@@ -156,8 +156,8 @@ public class RynSettingsScreen extends Screen {
 						0, RynConfig.BAZAAR_FLIPPER_MAX, 1, false,
 						() -> RynConfig.bazaarFlipperLevel, v -> RynConfig.bazaarFlipperLevel = (int) v),
 				toggle(Lang.tr("Count what you already have", "Учитывать, что уже есть"),
-						Lang.tr("The shopping list subtracts the shards already sitting in your Hunting Box and the ones you just bought, so it shows what is left to buy. The box is read page by page, so a shard on page two counts once you open that page.",
-								"Список покупок вычитает шарды, которые уже лежат в Hunting Box, и те, что ты только что купил, и показывает, сколько осталось докупить. Бокс читается постранично: шард со второй страницы посчитается, когда ты её откроешь."),
+						Lang.tr("The shopping list shows what is left to buy, not the full amount: shards already in your box and ones you just bought are subtracted. Open a page of the box for its shards to count.",
+								"Список покупок показывает, сколько осталось докупить, а не всё количество: то, что уже в боксе и что ты только что купил, вычитается. Открой страницу бокса, чтобы её шарды посчитались."),
 						() -> RynConfig.flag("calc.stock", true), v -> RynConfig.setFlag("calc.stock", v)),
 				toggle(Lang.tr("Amount hint on the sign", "Подсказка на табличке"),
 						Lang.tr("When you type an amount for a bazaar order, shows the number you need above the sign.",
@@ -228,9 +228,14 @@ public class RynSettingsScreen extends Screen {
 				Lang.tr("Traces an outline around the mobs you pick below, so you can spot them in the leaves and in the dark. Only mobs you can actually see: a mob behind a wall is not shown.",
 						"Обводит контуром выбранных ниже мобов, чтобы их было видно в листве и в темноте. Только тех, кого реально видно: моба за стеной не показывает."),
 				() -> RynConfig.mobHighlightEnabled, v -> RynConfig.mobHighlightEnabled = v));
+		highlight.add(slider(Lang.tr("Highlight range, blocks", "Дальность подсветки, блоков"),
+				Lang.tr("How far away mobs still get highlighted. Very distant ones the server doesn't send at all, so nothing helps there.",
+						"На каком расстоянии мобы ещё подсвечиваются. Совсем далёких сервер не присылает, там уже ничего не поможет."),
+				32, 160, 8, false,
+				() -> RynConfig.getInt("hl.dist", 96), v -> RynConfig.setInt("hl.dist", (int) v)));
 		highlight.add(cycle(Lang.tr("Mobs drawn by an armor stand", "Мобы-стойки"),
-				Lang.tr("Some mobs are an item on an invisible armor stand, not a creature. The outline hugs the mob but the game draws the stand itself along with it; the box is coarser but shows nothing extra.",
-						"Часть мобов — это предмет на невидимой стойке, а не существо. Контур ложится по мобу, но игра обводит вместе с ним и саму стойку; бокс грубее, зато лишнего не показывает."),
+				Lang.tr("Some mobs are just a picture on an invisible stand. The outline traces the stand along with them; the box is a plain square around them.",
+						"Некоторые мобы — это картинка на невидимой подставке. Контур обводит их вместе с ней, бокс — просто квадрат вокруг."),
 				new String[]{ Lang.tr("Box", "Бокс"), Lang.tr("Outline", "Контур") },
 				() -> RynConfig.getInt("hl.stand", 0), i -> RynConfig.setInt("hl.stand", i)));
 		highlight.add(new Header(Lang.tr("Mobs by place", "Мобы по местам"), ""));
@@ -266,8 +271,8 @@ public class RynSettingsScreen extends Screen {
 								"Отсчитывает время до криттера на каждом дереве, которое ты помазал мёдом, и предупреждает за пять секунд."),
 						() -> RynConfig.critterTimer, v -> RynConfig.critterTimer = v, Announce.CRITTER),
 				cycle(Lang.tr("Tree markers", "Метки деревьев"),
-						Lang.tr("Marks honeycomb trees in Torrhus Canyon and on Galatea. Either always, or only while you hold a pot of honeycomb.",
-								"Отмечает honeycomb-деревья в Torrhus Canyon и на Galatea. Либо всегда, либо только пока держишь горшок с мёдом."),
+						Lang.tr("Marks honeycomb trees in Torrhus Canyon and on Galatea: always, or only while you hold a pot of honeycomb.",
+								"Показывает honeycomb-деревья в Torrhus Canyon и на Galatea: всегда или только пока держишь горшок с мёдом."),
 						new String[]{ Lang.tr("Off", "Выкл"), Lang.tr("Pot in hand", "Горшок в руке"),
 								Lang.tr("Show always", "Показывать всегда") },
 						() -> RynConfig.getInt("trees.mode", 0), i -> RynConfig.setInt("trees.mode", i)),
@@ -497,13 +502,23 @@ public class RynSettingsScreen extends Screen {
 						() -> RynConfig.isRu() ? 1 : 0, i -> { RynConfig.lang = i == 1 ? "ru" : "en"; ShardInfo.load(); rebuild = true; }),
 				cycle(Lang.tr("Server texture pack", "Серверный ресурспак"),
 						Lang.tr("Off — turns off custom item textures completely, including the server textures laid over vanilla items such as paper. Instead of the familiar Sublime Milk and the other items released in the Torrhus Canyon update and later, you will see paper.\n"
-										+ "Hybrid — turns off custom item textures, but keeps the server textures laid over them.",
+										+ "Hybrid — turns off custom item textures, but keeps the server textures laid over them.\n"
+										+ "Normal — leaves the pack alone: it loads exactly as the server sent it. Textures come back on your next join.",
 								"Off — полностью отключает кастомные текстуры предметов, но так же отключает и серверные текстуры кастомных предметов, наложенных на ванильные предметы, например на бумагу. Вместо привычной текстуры Sublime Milk и других предметов, вышедших в обновлении Torrhus Canyon и позже, вы будете видеть бумагу.\n"
-										+ "Hybrid — отключает кастомные текстуры предметов, но оставляет наложенные на них серверные текстуры."),
-						new String[]{ "Off", "Hybrid" },
-						() -> RynConfig.packMode == RynConfig.PACK_OFF ? 0 : 1,
+										+ "Hybrid — отключает кастомные текстуры предметов, но оставляет наложенные на них серверные текстуры.\n"
+										+ "Normal — не трогать: пак работает так, как его прислал сервер. Текстуры вернутся со следующим перезаходом."),
+						new String[]{ "Off", "Hybrid", "Normal" },
+						() -> switch (RynConfig.packMode) {
+							case RynConfig.PACK_OFF -> 0;
+							case RynConfig.PACK_NORMAL -> 2;
+							default -> 1;
+						},
 						i -> {
-							RynConfig.packMode = i == 0 ? RynConfig.PACK_OFF : RynConfig.PACK_HYBRID;
+							RynConfig.packMode = switch (i) {
+								case 0 -> RynConfig.PACK_OFF;
+								case 2 -> RynConfig.PACK_NORMAL;
+								default -> RynConfig.PACK_HYBRID;
+							};
 							if (i == 0) com.ryn.skyryn.config.ServerPack.dropNow();
 						})));
 

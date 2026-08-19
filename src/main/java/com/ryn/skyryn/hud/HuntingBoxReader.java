@@ -20,18 +20,26 @@ public class HuntingBoxReader {
 			if (mc.hasControlDown() || mc.hasShiftDown()
 					|| !(mc.screen instanceof AbstractContainerScreen<?>)) return;
 			String t = mc.screen.getTitle() == null ? "" : mc.screen.getTitle().getString();
-			if (!(t.contains("Hunting Box") || t.contains("Fusion Box") || t.contains("Shard Fusion"))) return;
-			if (matchShard(clean(stack.getHoverName().getString())) == null) return;
-			lines.add(net.minecraft.network.chat.Component.literal(
-					"§8" + Lang.tr("Ctrl — fuses into · Shift — made from",
+			if (!isBox(t) && !isAttributeMenu(t)) return;
+			if (shardOfStack(stack) == null) return;
+			lines.add(net.minecraft.network.chat.Component.literal(isAttributeMenu(t)
+					? "§8" + Lang.tr("Shift — made from your box", "Shift — из чего собрать в боксе")
+					: "§8" + Lang.tr("Ctrl — fuses into · Shift — made from",
 					"Ctrl — во что идёт · Shift — из чего собрать")));
 		});
 
 		ScreenEvents.AFTER_INIT.register((client, screen, w, h) -> {
 			if (!(screen instanceof AbstractContainerScreen<?> cs)) return;
 			String title = screen.getTitle().getString();
-			if (title == null || !(title.contains("Hunting Box") || title.contains("Fusion Box")
-					|| title.contains("Shard Fusion"))) return;
+			if (title == null) return;
+			if (isAttributeMenu(title)) {
+				ScreenEvents.afterExtract(screen).register(
+						(scr, ctx, mx, my, delta) -> recipePeek(ctx, cs, mx, my));
+				net.fabricmc.fabric.api.client.screen.v1.ScreenMouseEvents.allowMouseScroll(screen)
+						.register((scr, mxs, mys, hor, ver) -> !peekScroll(ver));
+				return;
+			}
+			if (!isBox(title)) return;
 
 			ScreenEvents.afterExtract(screen).register((scr, ctx, mx, my, delta) -> {
 				captureIcons(cs);
@@ -100,6 +108,34 @@ public class HuntingBoxReader {
 	private static final int PEEK_TITLE = 0xFFF2F3F7, PEEK_DIM = 0xFF9A9CAB, PEEK_ACCENT = 0xFF5B8DEF;
 	private static final int PEEK_MAX = 6;
 
+	private static boolean isBox(String title) {
+		return title.contains("Hunting Box") || title.contains("Fusion Box")
+				|| title.contains("Shard Fusion");
+	}
+
+	private static boolean isAttributeMenu(String title) { return title.contains("Attribute Menu"); }
+
+	private static final java.util.regex.Pattern ATTR_SOURCE =
+			java.util.regex.Pattern.compile("Source:\\s*(.+?)\\s+Shard\\s*\\(([A-Za-z]\\d+)\\)");
+
+	private static String shardOfStack(net.minecraft.world.item.ItemStack stack) {
+		String byName = matchShard(clean(stack.getHoverName().getString()));
+		if (byName != null) return byName;
+		var lore = stack.get(net.minecraft.core.component.DataComponents.LORE);
+		if (lore == null) return null;
+		for (net.minecraft.network.chat.Component line : lore.lines()) {
+			java.util.regex.Matcher m = ATTR_SOURCE.matcher(clean(line.getString()));
+			if (!m.find()) continue;
+			String key = ShardDb.byId(m.group(2));
+			if (key == null) {
+				String name = m.group(1).trim().toLowerCase();
+				if (ShardDb.shard(name) != null) key = name;
+			}
+			return key;
+		}
+		return null;
+	}
+
 	private static void recipePeek(GuiGraphicsExtractor ctx, AbstractContainerScreen<?> screen, int mx, int my) {
 		if (!RynConfig.flag("peek.recipes", true)) return;
 		if (!(screen instanceof ContainerScreenAccessor acc)) return;
@@ -109,7 +145,9 @@ public class HuntingBoxReader {
 		if (!key.equals(peekKey)) { peekKey = key; peekScroll = 0; }
 
 		var mc = net.minecraft.client.Minecraft.getInstance();
-		boolean ctrl = mc.hasControlDown(), shift = mc.hasShiftDown();
+		String title = screen.getTitle() == null ? "" : screen.getTitle().getString();
+		boolean attr = isAttributeMenu(title);
+		boolean ctrl = mc.hasControlDown() && !attr, shift = mc.hasShiftDown();
 		if (!ctrl && !shift) return;
 
 		java.util.List<String> rows = ctrl ? fusableRows(key) : makeableRows(key);
@@ -122,6 +160,9 @@ public class HuntingBoxReader {
 			lines.add("§8" + (ctrl
 					? Lang.tr("nothing to fuse from your box", "из бокса собрать нечего")
 					: Lang.tr("not enough shards in the box for it", "в боксе не хватает шардов на него")));
+			if (com.ryn.skyryn.fusion.ShardStock.freshPages().isEmpty())
+				lines.add("§8" + Lang.tr("open the Hunting Box first — the mod has not seen your shards yet",
+						"открой Hunting Box — мод ещё не видел твой запас"));
 		} else {
 			peekScroll = Math.max(0, Math.min(peekScroll, Math.max(0, rows.size() - PEEK_MAX)));
 			int to = Math.min(rows.size(), peekScroll + PEEK_MAX);
@@ -212,7 +253,7 @@ public class HuntingBoxReader {
 			if (!slot.hasItem()) continue;
 			int sx = left + slot.x, sy = top + slot.y;
 			if (mx < sx || mx >= sx + 16 || my < sy || my >= sy + 16) continue;
-			return matchShard(clean(slot.getItem().getHoverName().getString()));
+			return shardOfStack(slot.getItem());
 		}
 		return null;
 	}

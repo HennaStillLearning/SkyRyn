@@ -173,6 +173,67 @@ public class SkyBlockCheck {
 		try { return Integer.parseInt(m.group(1)); } catch (NumberFormatException e) { return -1; }
 	}
 
+	private static final String[] IRONMAN_MARKS = { "♻", "♲" };
+	private static long ironCheckedAt = 0;
+
+	private static java.util.List<String> profileLines() {
+		java.util.List<String> out = new java.util.ArrayList<>();
+		Minecraft mc = Minecraft.getInstance();
+		if (mc.player == null) return out;
+		if (mc.getConnection() != null) {
+			var info = mc.getConnection().getPlayerInfo(mc.player.getUUID());
+			if (info != null && info.getTabListDisplayName() != null)
+				out.add(info.getTabListDisplayName().getString());
+		}
+		if (mc.level != null) {
+			var team = mc.level.getScoreboard().getPlayersTeam(mc.player.getScoreboardName());
+			if (team != null)
+				out.add(team.getPlayerPrefix().getString() + team.getPlayerSuffix().getString());
+			Objective obj = mc.level.getScoreboard().getDisplayObjective(DisplaySlot.SIDEBAR);
+			if (obj != null) out.add(obj.getDisplayName().getString());
+		}
+		out.addAll(sidebarLines());
+		return out;
+	}
+
+	public static void detectIronman() {
+		long now = System.currentTimeMillis();
+		if (now - ironCheckedAt < 5000) return;
+		ironCheckedAt = now;
+		Minecraft mc = Minecraft.getInstance();
+		if (mc.player == null || !onSkyBlock()) return;
+
+		java.util.List<String> lines = profileLines();
+		if (lines.isEmpty()) return;
+		boolean iron = false;
+		for (String line : lines) {
+			String s = line.replaceAll("§.", "");
+			for (String mark : IRONMAN_MARKS) if (s.contains(mark)) iron = true;
+			if (s.toLowerCase().contains("ironman")) iron = true;
+		}
+		if (iron == com.ryn.skyryn.config.RynConfig.ironman) return;
+		if (!iron && lines.size() < 2) return;
+		com.ryn.skyryn.config.RynConfig.ironman = iron;
+		com.ryn.skyryn.config.ConfigManager.save();
+		com.ryn.skyryn.config.SkyLog.d("Профиль определён сам: ironman=" + iron
+				+ " | " + ironDump());
+	}
+
+	public static String ironDump() {
+		StringBuilder out = new StringBuilder();
+		for (String line : profileLines()) {
+			String s = line.replaceAll("§.", "");
+			out.append(" [").append(s);
+			StringBuilder codes = new StringBuilder();
+			s.codePoints().filter(c -> c > 0x7F).distinct()
+					.forEach(c -> codes.append(codes.isEmpty() ? "" : ",").append("U+")
+							.append(Integer.toHexString(c).toUpperCase()));
+			if (!codes.isEmpty()) out.append(" (").append(codes).append(")");
+			out.append("]");
+		}
+		return out.isEmpty() ? "(строк профиля нет)" : out.toString();
+	}
+
 	public static String currentIsland() {
 		String area = currentArea().toLowerCase();
 		return area.isBlank() ? "" : AREA_ISLAND.getOrDefault(area, "");

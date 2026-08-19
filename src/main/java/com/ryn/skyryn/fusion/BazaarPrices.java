@@ -73,6 +73,17 @@ public class BazaarPrices {
 			return highestBuyOrder > 0 ? lowestOffer / highestBuyOrder : 0;
 		}
 
+		public double buyCost() {
+			if (RynConfig.useInstaBuy || sellOffer <= 0) return instaBuy;
+			if (instaBuy > 0 && instaBuy / sellOffer > ABSURD_SPREAD) return instaBuy;
+			return sellOffer;
+		}
+
+		public boolean deadBuyOrder() {
+			return !RynConfig.useInstaBuy && instaBuy > 0
+					&& (sellOffer <= 0 || instaBuy / sellOffer > ABSURD_SPREAD);
+		}
+
 		public Warning warning() {
 			if (sellOfferCount == 0) return Warning.NO_OFFERS;
 			double sp = spread();

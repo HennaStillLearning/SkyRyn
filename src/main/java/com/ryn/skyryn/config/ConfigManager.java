@@ -65,7 +65,8 @@ public class ConfigManager {
 			if (root.has("blockServerPack"))
 				RynConfig.packMode = root.get("blockServerPack").getAsBoolean() ? RynConfig.PACK_OFF : RynConfig.PACK_HYBRID;
 			if (root.has("packMode")) RynConfig.packMode = root.get("packMode").getAsInt();
-			if (RynConfig.packMode != RynConfig.PACK_OFF) RynConfig.packMode = RynConfig.PACK_HYBRID;
+			if (RynConfig.packMode < RynConfig.PACK_NORMAL || RynConfig.packMode > RynConfig.PACK_OFF)
+				RynConfig.packMode = RynConfig.PACK_HYBRID;
 			if (root.has("boxGuideX")) RynConfig.boxGuideX = root.get("boxGuideX").getAsInt();
 			if (root.has("boxGuideY")) RynConfig.boxGuideY = root.get("boxGuideY").getAsInt();
 			if (root.has("boxGuideSlot")) RynConfig.boxGuideSlot = root.get("boxGuideSlot").getAsInt();

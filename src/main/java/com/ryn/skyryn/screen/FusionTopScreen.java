@@ -188,7 +188,9 @@ public class FusionTopScreen extends Screen {
 		ctx.text(this.font, wv, wfx + 4, 54, editingWisdom ? TEXT : TEXT_DIM, true);
 
 		if (showHelp) {
-			if (xpTab) drawXpHelp(ctx, x, 70); else drawHelp(ctx, x, 70);
+			if (iron()) drawIronHelp(ctx, x, 70);
+			else if (xpTab) drawXpHelp(ctx, x, 70);
+			else drawHelp(ctx, x, 70);
 			return;
 		}
 
@@ -386,6 +388,33 @@ public class FusionTopScreen extends Screen {
 			};
 			ctx.text(this.font, l[0], x, y, c, true);
 			y += 10;
+		}
+	}
+
+	private void drawIronHelp(GuiGraphicsExtractor ctx, int x, int y) {
+		String[][] lines = {
+				{Lang.tr("On Ironman the only currency is time.", "В ironman единственная валюта — время."), "h"},
+				{"", ""},
+				{Lang.tr("The bazaar is closed to you, so a shard costs exactly as long as it takes", "Базар тебе закрыт, поэтому шард стоит ровно столько, сколько его добывать"), ""},
+				{Lang.tr("to get. The list is sorted by that: the fastest are on top.", "или собирать. По этому список и отсортирован: быстрые сверху."), ""},
+				{"", ""},
+				{Lang.tr("farm time", "время фарма") + Lang.tr("  — how long the whole batch takes: farming the missing inputs", "  — сколько займёт вся партия: добыть недостающие входы"), "a"},
+				{Lang.tr("             plus every fusion on the way. Click «per N» to change the batch.", "             и сделать все фьюзы по пути. Клик по «за N» меняет партию."), ""},
+				{"", ""},
+				{Lang.tr("Speed depends on your Hunter Fortune and attribute levels — set the fortune", "Скорость зависит от Hunter Fortune и уровней аттрибутов — фортуна задаётся"), ""},
+				{Lang.tr("in the field on the right. Raise it, and the whole list gets faster.", "полем справа. Поднимешь её — весь список станет быстрее."), ""},
+				{"", ""},
+				{Lang.tr("Shards you can farm directly sit at the top for a reason: fusing them", "Шарды, которые добываются напрямую, стоят наверху не случайно: фьюзить их"), ""},
+				{Lang.tr("would take longer than just going and getting them.", "дольше, чем просто пойти и нафармить."), ""},
+				{"", ""},
+				{Lang.tr("Shards whose inputs come from bosses or dungeons are not listed at all:", "Шарды, входы которых падают с боссов или в данже, в списке не показаны:"), ""},
+				{Lang.tr("their farming speed is unknown, and a guess would only mislead.", "их скорость добычи неизвестна, а выдумывать её — врать."), ""},
+		};
+		int ly = y;
+		for (String[] l : lines) {
+			int color = switch (l[1]) { case "h" -> TEXT; case "a" -> ACCENT; default -> TEXT_DIM; };
+			ctx.text(this.font, l[0], x, ly, color, true);
+			ly += l[0].isEmpty() ? 6 : 11;
 		}
 	}
 
@@ -653,8 +682,14 @@ public class FusionTopScreen extends Screen {
 	}
 
 	private static String fmtHours(double hours) {
-		if (hours < 1) return Math.max(1, Math.round(hours * 60)) + Lang.tr(" min", " мин");
-		return String.format("%.1f", hours) + Lang.tr(" h", " ч");
+		double min = hours * 60;
+		if (min < 1) return Math.max(1, Math.round(min * 60)) + Lang.tr(" s", " с");
+		if (min < 10) return String.format("%.1f", min) + Lang.tr(" min", " мин");
+		if (min < 60) return Math.round(min) + Lang.tr(" min", " мин");
+		long h = (long) hours;
+		long m = Math.round(min - h * 60);
+		if (m == 60) { h++; m = 0; }
+		return h + Lang.tr(" h", " ч") + (m > 0 ? " " + m + Lang.tr(" min", " мин") : "");
 	}
 
 	private static String fmt(double v) {

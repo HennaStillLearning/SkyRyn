@@ -43,6 +43,7 @@ import com.ryn.skyryn.screen.ShardListScreen;
 import com.ryn.skyryn.waypoint.Keybinds;
 import com.ryn.skyryn.waypoint.SkyBlockCheck;
 import com.ryn.skyryn.waypoint.PathRecorder;
+import com.ryn.skyryn.dev.Dev;
 import com.ryn.skyryn.waypoint.SpotRecorder;
 import com.ryn.skyryn.waypoint.Waypoints;
 
@@ -56,6 +57,7 @@ public class SkyRynClient implements ClientModInitializer {
 		SeaGuideDb.loadBundle();
 		SkyBlockCheck.loadAreas();
 		ConfigManager.load();
+		com.ryn.skyryn.data.VanillaLook.load();
 		com.ryn.skyryn.data.ShardIcons.load();
 		ClientLifecycleEvents.CLIENT_STOPPING.register(client -> {
 			ConfigManager.save();
@@ -69,9 +71,10 @@ public class SkyRynClient implements ClientModInitializer {
 		FusionTracker.register();
 		HuntingHud.register();
 		Waypoints.register();
-		if (RynConfig.flag("debug", false)) {
+		if (Dev.ON && RynConfig.flag("debug", false)) {
 			SpotRecorder.register();
 			PathRecorder.register();
+			com.ryn.skyryn.dev.LookProbe.register();
 		}
 		com.ryn.skyryn.waypoint.SafariBiomes.register();
 		com.ryn.skyryn.data.SafariPerks.register();
@@ -84,9 +87,15 @@ public class SkyRynClient implements ClientModInitializer {
 		BazaarHint.register();
 		Keybinds.register();
 		net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.END_CLIENT_TICK
-				.register(com.ryn.skyryn.waypoint.MobHighlight::tick);
+				.register(mc -> {
+					com.ryn.skyryn.waypoint.MobHighlight.tick(mc);
+					com.ryn.skyryn.waypoint.SkyBlockCheck.detectIronman();
+				});
+		net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry.addLast(
+				net.minecraft.resources.Identifier.fromNamespaceAndPath("skyryn", "mob-labels"),
+				(ctx, tick) -> com.ryn.skyryn.waypoint.MobHighlight.drawLabels(ctx));
 		com.ryn.skyryn.hud.TikiHelper.register();
-		if (RynConfig.flag("debug", false)) com.ryn.skyryn.waypoint.MobScanner.register();
+		if (Dev.ON && RynConfig.flag("debug", false)) com.ryn.skyryn.waypoint.MobScanner.register();
 		com.ryn.skyryn.hud.ForagingAlerts.register();
 		com.ryn.skyryn.hud.CritterTimer.register();
 		com.ryn.skyryn.hud.SafariTracker.register();
@@ -103,7 +112,13 @@ public class SkyRynClient implements ClientModInitializer {
 			for (String c : com.ryn.skyryn.screen.RynSettingsScreen.CATEGORY_COMMANDS)
 				sr.then(ClientCommands.literal(c).executes(
 						ctx -> open(new com.ryn.skyryn.screen.RynSettingsScreen(null, c))));
-			if (RynConfig.flag("debug", false)) sr
+			if (Dev.ON && RynConfig.flag("debug", false)) sr
+					.then(ClientCommands.literal("iron").executes(ctx -> {
+						ctx.getSource().sendFeedback(Component.literal("SkyRyn: ironman="
+								+ RynConfig.ironman + com.ryn.skyryn.waypoint.SkyBlockCheck.ironDump())
+								.withStyle(ChatFormatting.YELLOW));
+						return 1;
+					}))
 					.then(ClientCommands.literal("reload").executes(ctx -> {
 						ShardInfo.load();
 						LocationDb.load();
@@ -249,6 +264,7 @@ public class SkyRynClient implements ClientModInitializer {
 		boolean on = !RynConfig.hasHighlightMob(d.key());
 		RynConfig.setHighlightMob(d.key(), on);
 		if (on) RynConfig.mobHighlightEnabled = true;
+		com.ryn.skyryn.waypoint.MobHighlight.clearCaches();
 		com.ryn.skyryn.config.ConfigManager.save();
 		src.sendFeedback(Component.literal(PREFIX + d.label() + " §7— "
 				+ (on ? Lang.tr("§ahighlight ON", "§aподсветка ВКЛ") : Lang.tr("§chighlight OFF", "§cподсветка ВЫКЛ"))));

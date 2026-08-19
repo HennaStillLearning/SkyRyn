@@ -1,6 +1,7 @@
 package com.ryn.skyryn.mixin;
 
 import com.ryn.skyryn.config.RynConfig;
+import com.ryn.skyryn.data.VanillaLook;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.item.MissingItemModel;
@@ -28,18 +29,28 @@ public abstract class MissingItemModelMixin {
 	private void skyryn$vanillaFallback(ItemStackRenderState state, ItemStack stack, ItemDisplayContext ctx,
 										Level level, ItemOwner owner, int seed, CallbackInfo ci) {
 		int mode = RynConfig.packMode;
+		if (mode == RynConfig.PACK_NORMAL) return;
 		Identifier id = stack.get(DataComponents.ITEM_MODEL);
 		if (id == null) return;
 		Identifier vanilla = BuiltInRegistries.ITEM.getKey(stack.getItem());
 		if (vanilla.equals(id)) return;
 
+		VanillaLook.Look look = VanillaLook.of(stack);
+		if (look != null && look.model().equals(id)) return;
+
 		boolean replace = mode == RynConfig.PACK_OFF
 				? this.modelManager.getItemModel(id) instanceof MissingItemModel
-				: stack.getItem() != Items.PAPER;
+				: stack.getItem() != Items.PAPER || look != null;
 		if (!replace) return;
 
 		ItemStack copy = stack.copy();
-		copy.set(DataComponents.ITEM_MODEL, vanilla);
+		if (look != null) {
+			copy.set(DataComponents.ITEM_MODEL, look.model());
+			var prof = VanillaLook.profile(stack, look);
+			if (prof != null) copy.set(DataComponents.PROFILE, prof);
+		} else {
+			copy.set(DataComponents.ITEM_MODEL, vanilla);
+		}
 		((ItemModelResolver) (Object) this).appendItemLayers(state, copy, ctx, level, owner, seed);
 		ci.cancel();
 	}

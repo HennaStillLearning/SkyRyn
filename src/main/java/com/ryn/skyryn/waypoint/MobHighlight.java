@@ -32,10 +32,20 @@ public class MobHighlight {
 		List<MobDef> m = new java.util.ArrayList<>();
 		m.add(new MobDef("hideonsun", "§eHideonsun§r", 0xFFFFD24A, "torrhus",
 				e -> e instanceof net.minecraft.world.entity.monster.Shulker, TORRHUS));
-		for (String k : new String[]{ "beeheemoth", "blue jay", "bunbun", "drybark", "dustybit", "ember",
+		for (String k : new String[]{ "beeheemoth", "bunbun", "drybark", "ember",
 				"firefox", "goldolot", "grizzly", "groundhog", "hivethief", "honeybuzz", "mountain goat",
-				"pangolin", "parched", "pollendart", "puck", "sepialot", "solar", "timil", "water snake" })
+				"parched", "pollendart", "puck", "sepialot", "solar", "water snake" })
 			m.add(crit(k, 0xFFE0C060, TORRHUS));
+
+		m.add(new MobDef("pangolin", "§6Pangolin§r", 0xFFE0A040, "torrhus",
+				e -> e instanceof net.minecraft.world.entity.animal.armadillo.Armadillo, TORRHUS));
+
+		m.add(new MobDef("dustybit", "§eDustybit§r", 0xFFE0C060, "torrhus",
+				e -> e instanceof net.minecraft.world.entity.animal.frog.Frog, TORRHUS));
+		m.add(new MobDef("blue jay", "§bBlue Jay§r", 0xFF6AB0FF, "torrhus",
+				e -> e instanceof net.minecraft.world.entity.animal.parrot.Parrot, TORRHUS));
+		m.add(new MobDef("timil", "§dTimil§r", 0xFFE07AD0, "torrhus",
+				e -> e instanceof net.minecraft.world.entity.animal.fish.TropicalFish, TORRHUS));
 		m.add(new MobDef("hunter", "§eHunter NPC§r", 0xFFFFD24A, "",
 				e -> e instanceof net.minecraft.world.entity.player.Player
 						&& e.getName().getString().toLowerCase().startsWith("hunter "), SAFARI_NPC));
@@ -153,7 +163,7 @@ public class MobHighlight {
 		return null;
 	}
 
-	private static final float MAX_DIST = 80f;
+	private static float maxDist() { return RynConfig.getInt("hl.dist", 96); }
 
 	public static boolean enabled() {
 		return RynConfig.mobHighlightEnabled && (!RynConfig.highlightMobs.isEmpty() || !RynConfig.customMobs.isEmpty());
@@ -215,10 +225,26 @@ public class MobHighlight {
 		if (d != null) STICKY.put(ent.getId(), new Cached(now, d));
 		else {
 			Cached s = STICKY.get(ent.getId());
-			if (s != null && now - s.at() < STICKY_MS) d = s.def();
+			if (s != null && now - s.at() < STICKY_MS && stillEnabled(s.def())) d = s.def();
+			else if (s != null && !stillEnabled(s.def())) STICKY.remove(ent.getId());
 		}
 		CACHE.put(ent.getId(), new Cached(now, d));
 		return d;
+	}
+
+	private static boolean stillEnabled(MobDef d) {
+		if (d == null) return false;
+		if (d.key().equals("sparkling")) return RynConfig.flag("sparkling.hl", true);
+		return RynConfig.hasHighlightMob(d.key()) || RynConfig.customMobs.stream()
+				.anyMatch(c -> c.key().equalsIgnoreCase(d.key()) && RynConfig.hasHighlightMob(c.key()));
+	}
+
+	public static void clearCaches() {
+		CACHE.clear();
+		OUTLINE.clear();
+		STICKY.clear();
+		SIGHT.clear();
+		markerBody.clear();
 	}
 
 	public static MobDef outlineDef(Entity ent) {
@@ -320,10 +346,52 @@ public class MobHighlight {
 		Sight s = SIGHT.get(ent.getId());
 		if (s != null && now - s.at() < 200) return s.ok();
 		Vec3 eye = mc.gameRenderer.getMainCamera().position();
-		boolean ok = ent.position().distanceToSqr(eye) <= MAX_DIST * MAX_DIST && visible(mc.level, eye, ent);
+		boolean ok = ent.position().distanceToSqr(eye) <= maxDist() * maxDist() && visible(mc.level, eye, ent);
 		if (SIGHT.size() > 512) SIGHT.clear();
 		SIGHT.put(ent.getId(), new Sight(now, ok));
 		return ok;
+	}
+
+	private static final java.util.Set<String> NAMED = java.util.Set.of("pangolin", "dustybit", "blue jay");
+
+	private static void collectLabels(Vec3 cam, Minecraft mc) {
+		labels.clear();
+		captureFrame(cam);
+		for (Entity ent : mc.level.entitiesForRendering()) {
+			MobDef d = outlineDef(ent);
+			if (d == null || !NAMED.contains(d.key()) || !inSight(ent)) continue;
+			AABB bb = ent.getBoundingBox();
+			labels.add(new Label(bb.getCenter().x, bb.maxY + 0.6, bb.getCenter().z, d.label()));
+		}
+	}
+
+	private record Label(double x, double y, double z, String text) { }
+	private static final java.util.List<Label> labels = new java.util.ArrayList<>();
+	private static final org.joml.Matrix4f VP = new org.joml.Matrix4f();
+	private static Vec3 labelCam = Vec3.ZERO;
+	private static boolean haveFrame = false;
+
+	public static void captureFrame(Vec3 cam) {
+		Minecraft.getInstance().gameRenderer.getMainCamera().getViewRotationProjectionMatrix(VP);
+		labelCam = cam;
+		haveFrame = true;
+	}
+
+	public static void drawLabels(net.minecraft.client.gui.GuiGraphicsExtractor ctx) {
+		if (!haveFrame || labels.isEmpty()) return;
+		Minecraft mc = Minecraft.getInstance();
+		if (mc.player == null || mc.options.hideGui || mc.screen != null) return;
+		var font = mc.font;
+		int sw = mc.getWindow().getGuiScaledWidth(), sh = mc.getWindow().getGuiScaledHeight();
+		for (Label l : labels) {
+			var clip = VP.transform(new org.joml.Vector4f(
+					(float) (l.x() - labelCam.x), (float) (l.y() - labelCam.y), (float) (l.z() - labelCam.z), 1f));
+			if (clip.w <= 0.05f) continue;
+			float nx = clip.x / clip.w, ny = clip.y / clip.w;
+			if (nx < -1.1f || nx > 1.1f || ny < -1.1f || ny > 1.1f) continue;
+			int px = Math.round((nx * 0.5f + 0.5f) * sw), py = Math.round((1f - (ny * 0.5f + 0.5f)) * sh);
+			ctx.text(font, l.text(), px - font.width(l.text()) / 2, py, 0xFFFFFFFF, true);
+		}
 	}
 
 	public static void renderWorld(PoseStack ps, MultiBufferSource.BufferSource buf, Vec3 cam) {
@@ -337,7 +405,7 @@ public class MobHighlight {
 			for (Entity ent : mc.level.entitiesForRendering()) {
 				MobDef d = outlineDef(ent);
 				if (d == null || !boxed(ent, d)) continue;
-				if (ent.position().distanceToSqr(cam) > MAX_DIST * MAX_DIST || !inSight(ent)) continue;
+				if (ent.position().distanceToSqr(cam) > maxDist() * maxDist() || !inSight(ent)) continue;
 				AABB bb = ent.getBoundingBox();
 				double cx = bb.getCenter().x, cz = bb.getCenter().z;
 				double top = bb.maxY + 0.1;
@@ -353,6 +421,8 @@ public class MobHighlight {
 			if (any) buf.endBatch();
 		}
 
+		collectLabels(cam, mc);
+
 		if (!RynConfig.floorDropHighlight) return;
 
 		VertexConsumer vc = buf.getBuffer(RenderTypes.debugQuads());
@@ -364,7 +434,7 @@ public class MobHighlight {
 			if (isCapsule(ent)) continue;
 			if (!isFloorDrop(mc.level, ent)) continue;
 			Vec3 c = ent.position();
-			if (c.distanceTo(cam) > MAX_DIST) continue;
+			if (c.distanceTo(cam) > maxDist()) continue;
 			perBlock.merge(net.minecraft.core.BlockPos.asLong(
 					(int) Math.floor(c.x), (int) Math.floor(c.y - 0.1), (int) Math.floor(c.z)), 1, Integer::sum);
 		}

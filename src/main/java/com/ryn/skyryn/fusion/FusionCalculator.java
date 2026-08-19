@@ -88,7 +88,7 @@ public class FusionCalculator {
 		if (id == null) return Double.MAX_VALUE;
 		BazaarPrices.Price p = BazaarPrices.get(id);
 		if (p == null) return Double.MAX_VALUE;
-		double price = RynConfig.useInstaBuy ? p.instaBuy : p.sellOffer;
+		double price = p.buyCost();
 		return price > 0 ? price : Double.MAX_VALUE;
 	}
 
